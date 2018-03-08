@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Profile</ui:define>
+    <ui:define name="viewname">Basic information</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:tabMenu  activeIndex="2">
+                <p:menuitem value="#{msg['page.profile.email_phone']}" outcome="email-phone.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.payout_info']}" outcome="payout-info.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.basic_info']}" outcome="basic.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.your_photo']}" outcome="media.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.your_id']}" outcome="id.html">
+                </p:menuitem>      
+            </p:tabMenu>
+            <p:progressBar value="60" labelTemplate="" displayOnly="true" style="height:10px"/>
+            <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <div class="ui-g">
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.basic_info.full_name']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText value="#{userSessionBean.user.fullname}"/>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.basic_info.sex']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:selectOneMenu value="#{userSessionBean.user.gender}">
+                                        <f:selectItem itemLabel="#{msg['page.profile.basic_info.gender.male']}" itemValue="male"/>                                       
+                                        <f:selectItem itemLabel="#{msg['page.profile.basic_info.gender.female']}" itemValue="femail"/>
+                                        <f:selectItem itemLabel="#{msg['page.profile.basic_info.gender.other']}" itemValue="other"/>
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.basic_info.birthday']}"/>
+                                </div>      
+                                <div class="ui-g-8">
+                                    <p:outputPanel>
+                                        <p:selectOneMenu value="#{userSessionBean.user.birthday_month}" required="true" filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.select_month']}" noSelectionOption="true"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.jan']}" itemValue="01"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.feb']}" itemValue="02"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.mar']}" itemValue="03"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.apr']}" itemValue="04"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.may']}" itemValue="05"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.jun']}" itemValue="06"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.jul']}" itemValue="07"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.aug']}" itemValue="08"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.sep']}" itemValue="09"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.oct']}" itemValue="10"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.nov']}" itemValue="11"/>
+                                            <f:selectItem itemLabel="#{msg['page.profile.basic_info.dec']}" itemValue="12"/>
+                                        </p:selectOneMenu>
+                                        <p:selectOneMenu value="#{userSessionBean.user.birthday_date}" required="true" filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemLabel="#{page.profile.basic_info.select_day}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{userSessionBean.user.listDateBirday}"/>
+                                        </p:selectOneMenu>
+                                        <p:selectOneMenu value="#{userSessionBean.user.birthday_year}" required="true" filter="true" filterMatchMode="contains">
+                                            <f:selectItem itemLabel="#{page.profile.basic_info.select_year}" noSelectionOption="true"/>
+                                            <f:selectItems value="#{userSessionBean.user.listYearBirday}"/>
+                                        </p:selectOneMenu>
+                                    </p:outputPanel>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.basic_info.language']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:selectOneMenu value="#{userSessionBean.user.language_code}" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{userSessionBean.user.list_language}" var="l" itemLabel="#{l.country_name}" itemValue="#{l.language_code}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.basic_info.currency']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:selectOneMenu value="#{userSessionBean.user.currency}">
+                                        <f:selectItems value="#{userSessionBean.user.list_currency}" var="c" itemLabel="#{c.code_a3}" itemValue="#{c.currency}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.basic_info.address']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText value="#{userSessionBean.user.address}" style="width:90%"/>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.basic_info.description']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputTextarea value="#{userSessionBean.user.describe}" style="width:90%"/>
+                                </div>
+                            </div>                            
+                        </p:panel>
+                        <br/>
+                        <div style="float: left;">
+                            <p:button value="#{msg['general.back']}" outcome="payout-info.html"  icon="fa fa-long-arrow-left"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['general.next']}" action="#{userSessionBean.updateBasicProfile}"  styleClass="pink-btn"/> 
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <i class="fa fa-lightbulb-o fa-2x"/>
+                            <p>#{msg['page.profile.basic_info.help']}</p>
+                        </p:panel>
+                    </div>
+                </div>    
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

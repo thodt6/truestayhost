@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView"  listener="#{userSessionBean.verifyAccessPage}"/>
+        <f:event type="preRenderView"  listener="#{tBL_HOS_REQ_TO_BOOKLazyService.loadObjects}"/>
+    </f:metadata>    
+    <ui:define name="title">Reservations</ui:define>
+    <ui:define name="viewname">Reservations</ui:define>
+
+    <ui:define name="head">        
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                updateActiveMenu();
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <div class="ui-g dashboard">          
+            <div class="ui-g-12 ui-md-12">
+                <h:form>
+                    <p:remoteCommand name="rc" update="menuform:menu" />
+                    <p:panel>
+                        <p:calendar placeholder="#{msg['page.reservation.begin_date']}" value="#{tBL_HOS_REQ_TO_BOOKLazyService.beginDate}">
+                        </p:calendar>
+                        <p:spacer width="10"/>
+                        <p:calendar placeholder="#{msg['page.reservation.end_date']}" value="#{tBL_HOS_REQ_TO_BOOKLazyService.endDate}">                                
+                        </p:calendar>
+                        <p:spacer width="10"/>
+                        <p:selectOneButton value="#{tBL_HOS_REQ_TO_BOOKLazyService.booking_state}">
+                            <f:selectItem itemLabel="#{msg['page.reservation.status.C']}" itemValue="C"/>
+                            <f:selectItem itemLabel="#{msg['page.reservation.status.D']}" itemValue="D"/>
+                            <f:selectItem itemLabel="#{msg['page.reservation.status.H']}" itemValue="H"/>
+                            <f:selectItem itemLabel="#{msg['page.reservation.status.R']}" itemValue="R"/>
+                            <p:ajax event="change" listener="#{tBL_HOS_REQ_TO_BOOKLazyService.loadObjects}" update="id_table1"/>
+                        </p:selectOneButton>
+                        <br/><br/>
+                        <p:dataTable   id="id_table1" value="#{tBL_HOS_REQ_TO_BOOKLazyService.lazyModel}" lazy="true" paginator="true" reflow="true" 
+                                       sortBy="DATETIME" sortMode="descending"  paginatorPosition="bottom" var="obj" rowKey="#{obj.ID}"  rows="20">
+                            <p:column headerText="#{msg['page.dashboard.homestay']}">
+                                <h:outputText style=" font-weight: bolder" value="#{obj.homestay.title}"/>
+                                <br/>
+                                <p:graphicImage value="#{obj.homestay.coverImage}" width="90%"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.bookeduser']}">
+                                <h:outputText id="id_user" value="#{obj.requestUser.FULLNAME}"/>
+                                <p:overlayPanel showCloseIcon="true" style="width:400px"  for="id_user">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{obj.requestUser.FULLNAME}"/>
+                                        </f:facet>
+                                        <h:outputText value="Picture" />
+                                        <h:graphicImage value="#{obj.requestUser.FB_AVATAR}" height="100"/>
+
+                                        <h:outputText value="Email" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.EMAIL}" />
+
+                                        <h:outputText value="Mobile" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.PHONE_NUM}" />
+                                    </h:panelGrid>
+                                </p:overlayPanel>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkin']}">
+                                <h:outputText value="#{obj.checkInDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkout']}">
+                                <h:outputText value="#{obj.checkOutDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.totalamount']}">
+                                <h:outputText value="#{obj.TOTAL_AMOUNT} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.service_fee']}">
+                                <h:outputText value="#{obj.SERVICE_FEES} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>                    
+                </h:form>
+            </div>           
+        </div>
+    </ui:define>
+
+</ui:composition>

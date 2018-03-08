@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Profile Photo</ui:define>
+    <ui:define name="viewname">Profile Photo</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:panel header="Profile photo">
+                <div class="ui-g">
+                    <div class="ui-g-4">
+                        <p:graphicImage height="100"/>                        
+                    </div>
+                    <div class="ui-g-8">
+                        <p>
+                            Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Be sure to use a photo that clearly shows your face and doesn’t include any personal or sensitive info you’d rather not have hosts or guests see.
+                        </p>
+                        <br/>
+                        <div class="ui-g-4">
+                            <p:photoCam autoStart="false" widgetVar="pc" />
+                            <p:commandButton value="Capture"/>
+                        </div>
+                        <div class="ui-g-4">
+                            <p:fileUpload/>
+                        </div>
+                    </div>
+                </div>
+            </p:panel> 
+        </h:form>
+    </ui:define>
+
+</ui:composition>

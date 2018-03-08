@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing7.initService}"/>   
+    </f:metadata>
+
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Become a host</ui:define>    
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12">                    
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="Step 3: Finishing your listing" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton action="#{listingService.listing7.saveAndExist}" value="#{msg['page.become_a_host.save_and_exit']}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing7.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card">
+                        <h1>Contact Info?</h1>
+                        <div class="ui-grid ui-grid-responsive">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    Phone Number
+                                </div>
+                                <div class="ui-grid-col-6">
+                                    <p:inputMask style="height: 30px;width: 100%"  mask="(+99)?999999999999" maxlength="12" placeholder="(+84)901231213"  value="#{userSessionBean.user.phone_num}"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    Email
+                                </div>
+                                <div class="ui-grid-col-6">
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.email}" placeholder="email">
+                                        <f:validateRegex
+                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                    </p:inputText>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    Bank Account
+                                </div>
+                                <div class="ui-grid-col-6">
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.pay_acct}" placeholder="Bank account"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    Account name
+                                </div>
+                                <div class="ui-grid-col-6">
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.acct_name}" placeholder="Account name"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    Bank name
+                                </div>
+                                <div class="ui-grid-col-6">
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.bank_name}" placeholder="Bank name"/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    Agent name
+                                </div>
+                                <div class="ui-grid-col-6">
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.agent_name}" placeholder="Agent"/>
+                                </div>
+                            </div>                                                      
+                        </div>
+                        <br/>
+                        <p:separator/>
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="msg['general.back']" action="#{listingService.listing7.backPage}"  icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="Finish" action="#{listingService.listing7.nextPage}"   styleClass="pink-btn"/> 
+                            </div>
+                        </p:outputPanel>
+                        <br/><br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>Entire place Guests will rent the entire place. Includes in-law units. Private room Guests share some spaces but they’ll have their own private room for sleeping.Shared room Guests don’t have a room to themselves.</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

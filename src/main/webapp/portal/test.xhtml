@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#00acac', '#3e96e7'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">    
+        <h:form>     
+            <p:tabMenu activeIndex="0">
+                <p:menuitem value="Bảng thông tin" icon="fa fa-table"/> 
+                <p:menuitem value="Lịch" icon="fa fa-calendar"/> 
+                <p:menuitem value="Đặt phòng" icon="fa fa-edit"/> 
+                <p:menuitem value="Căn hộ của bạn" icon="fa fa-building"/> 
+                <p:menuitem value="Tin nhắn" icon="fa fa-comment"/> 
+                <p:menuitem value="Thanh toán" icon="fa fa-money-bill-alt"/> 
+            </p:tabMenu>
+            <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:button value="Thêm căn hộ mới"/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

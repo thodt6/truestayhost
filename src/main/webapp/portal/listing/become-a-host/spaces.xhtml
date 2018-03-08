@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>  
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing4.initService}"/>
+    </f:metadata>
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Your spaces</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="ui-g">            
+                <div class="ui-g-12">
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step2.spaces']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton action="#{listingService.listing4.saveAndExist}" value="#{msg['page.become_a_host.save_and_exit']}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing4.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card card-w-title">
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.spaces.title1']}</h1>
+                        <p:selectManyMenu value="#{listingService.homestay.spaceuse_ids}" id="grid" showCheckbox="true" style="width:100%;">
+                            <f:selectItems value="#{listingService.listing4.spaceUsesService.spaceuses}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
+                        </p:selectManyMenu>                    
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="#{msg['general.back']}" icon="fa fa-long-arrow-left" action="#{listingService.listing4.backPage}"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="#{msg['general.next']}" styleClass="pink-btn" style="margin-bottom:10px;" action="#{listingService.listing4.nextPage}"/>
+                            </div>
+                        </p:outputPanel> 
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step2.spaces.help']}</p>
+                    </div>
+                </div>
+
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

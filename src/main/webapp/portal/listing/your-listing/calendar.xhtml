@@ -1,0 +1,155 @@
+    <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:viewParam id="id" name="id" value="#{listingService.homestayid}"/>          
+        <f:event type="preRenderView" listener="#{listingService.initCalendar}"/>
+    </f:metadata>
+    <ui:define name="head">
+        <h:outputStylesheet library="fullcalendar" name="fullcalendar.min.css"/>  
+        <h:outputStylesheet library="fullcalendar-scheduler" name="scheduler.min.css"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />        
+        <h:outputScript library="fullcalendar/lib" name="moment.min.js" target="head"/>
+        <h:outputScript library="fullcalendar" name="fullcalendar.min.js" target="head"/>
+        <h:outputScript library="fullcalendar-scheduler" name="scheduler.min.js" target="head"/>
+        <script type="text/javascript">
+            var lastEvent;
+            function updateCalendar() {
+                $('#mycalendar').fullCalendar('refetchEvents');
+            }
+            function clearTempEvent() {
+                if (lastEvent) {
+                    $("#mycalendar").fullCalendar('removeEventSource', lastEvent);
+                    $('#calendar').fullCalendar('today');
+                }
+            }
+            function calendarFunction() {
+                $('#mycalendar').fullCalendar({
+                    // put your options and callbacks here
+                    defaultDate: moment('#{listingService.listing14.calendarService.beginDateInStr}'),
+                    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+                    defaultView: 'month',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: ''
+                    },
+                    selectable: true,
+                    selectHelper: true,
+                    height: 'auto',
+                    eventConstraint: {
+                        start: moment().format('YYYY-MM-DD'),
+                        end: '2100-01-01' // hard coded goodness unfortunately
+                    },
+                    select: function (start, end) {
+                        var check = $.fullCalendar.formatDate(start, 'YYYY-MM-DD');
+                        var today = $.fullCalendar.formatDate(moment(), 'YYYY-MM-DD');
+                        console.log(today);
+                        if (check >= today) {
+                            if (lastEvent) {
+                                $("#mycalendar").fullCalendar('removeEventSource', lastEvent);
+                            }
+                            eventSource = [{
+                                    start: start,
+                                    end: end,
+                                    rendering: 'background',
+                                    backgroundColor: '#E8F5F7',
+                                    color: '#E8F5F7',
+                                    block: true}];
+                            $("#mycalendar").fullCalendar('addEventSource', eventSource);
+                            lastEvent = eventSource;
+                            dateRange([{name: 'begin_date', value: $.fullCalendar.formatDate(start, 'YYYY-MM-DD')}, {name: 'end_date', value: $.fullCalendar.formatDate(end, "YYYY-MM-DD")}]);
+                        } else {
+                            $('#mycalendar').fullCalendar('unselect');
+                        }
+                    },
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: #{listingService.listing14.calendarService.eventString}
+                });
+            }
+            $(document).ready(function () {
+                calendarFunction();
+            });
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+            td.fc-day.fc-past {
+                background-color: #EEEEEE;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="title">Calendar</ui:define>
+    <ui:define name="viewname">#{listingService.homestay.title}-Calendar</ui:define>    
+    <ui:define name="content">
+        <h:form id="frmObject">
+            <p:growl id="id_growl"/>       
+            <p:remoteCommand name="dateRange" rendered="#{listingService.listing14 != null and !listingService.listing14.homestay.isNewHomeStay}" update="id_growl,id_panel" actionListener="#{listingService.listing14.calendarService.updateStartEndDate}"/>
+            <p:panel >                  
+                <p:selectOneMenu rendered="#{listingService.listing14 != null and !listingService.listing14.homestay.isNewHomeStay}" var="t" value="#{listingService.homestayid}" filter="true" filterMatchMode="contains" onchange="submit();">
+                    <f:selectItems value="#{userSessionBean.homestay_list.activeObjects}" var="home" itemLabel="#{home.title}" itemValue="#{home.homestay_id}"/>
+                    <p:ajax event="change" listener="#{listingService.initCalendar}"/>
+                </p:selectOneMenu>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <h1>
+                                #{msg['page.calendar.update']}
+                                <div style="float:right">    
+                                    <p:button styleClass="pink-btn" value="#{msg['general.clear']}" onclick="clearTempEvent(); return false;"/>
+                                    <p:commandButton styleClass="pink-btn" value="#{msg['page.calendar.block_all']}" action="#{listingService.listing14.calendarService.blockAll}" ajax="false" rendered="#{listingService.listing14 != null}"/>
+                                    <p:commandButton styleClass="pink-btn" value="#{msg['page.calendar.unblock_all']}" action="#{listingService.listing14.calendarService.unBlockAll}" ajax="false"  rendered="#{listingService.listing14 != null}"/>
+                                </div>
+                            </h1>                           
+                            <p:outputPanel id="id_calendar">
+                                <div id='mycalendar'/>
+                            </p:outputPanel>
+                        </p:panel>
+                        <p:panel rendered="#{listingService.listing14==null || (listingService.listing14 !=null and listingService.listing14.homestay.isNewHomeStay)}">
+                            <h1>
+                               #{msg['page.calendar.do_not_have_listing1']} <a href="/truestayhost/portal/listing/become-a-host/index.html?id=new-homestay"> #{msg['page.calendar.do_not_have_listing2']} </a> #{msg['page.calendar.do_not_have_listing3']}                        
+                            </h1>                           
+                        </p:panel>
+                        <br/>
+                        <div style="float: right;">
+                            <p:button styleClass="pink-btn" value="#{msg['page.calendar.go_to_listing']}" outcome="/portal/listing/your-listing/index.html"/>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">                       
+                        <p:panel id="id_panel" rendered="#{listingService.listing14 != null and !listingService.listing14.homestay.isNewHomeStay}">
+                            <h1>#{msg['page.calendar.select_date_range']}</h1>
+                            <p:outputPanel >
+                                <p:calendar value="#{listingService.listing14.calendarService.beginDate}" mindate="now +1">
+                                    <p:ajax event="dateSelect" listener="#{listingService.listing14.calendarService.onSelectBeginDate}" update="id_panel" />
+                                </p:calendar>
+                                <p:spacer width="10"/>
+                                <p:calendar   value="#{listingService.listing14.calendarService.endDate}" mindate="#{listingService.listing14.calendarService.endDate}">
+                                    <p:ajax event="dateSelect" update="id_panel" />
+                                </p:calendar>   
+                                <br/><br/>                                
+                                <p:selectOneRadio   value="#{listingService.listing14.calendarService.state}">
+                                    <f:selectItem itemLabel="#{msg['page.calendar.block']}" itemValue="B"/>
+                                    <f:selectItem itemLabel="#{msg['page.calendar.unblock']}" itemValue="U"/>      
+                                </p:selectOneRadio>
+                                <p:separator/>
+                                <p:commandButton  styleClass="pink-btn" ajax="false" value="#{msg['general.update']}" action="#{listingService.listing14.calendarService.updateCalendar}"/> 
+                            </p:outputPanel>
+                        </p:panel>
+<!--                        <p:panel rendered="#{listingService.listing14==null || (listingService.listing14 !=null and listingService.listing14.homestay.isNewHomeStay)}">
+                            <i class="fa fa-lightbulb-o fa-2x"/>
+                            <p>Entire place Guests will rent the entire place. Includes in-law units. Private room Guests share some spaces but they’ll have their own private room for sleeping.Shared room Guests don’t have a room to themselves.</p>                       
+                        </p:panel>-->
+                    </div>
+                </div>
+            </p:panel>                  
+        </h:form>
+    </ui:define>
+
+</ui:composition>

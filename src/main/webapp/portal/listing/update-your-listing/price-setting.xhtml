@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing15.initService}"/>   
+    </f:metadata>
+    <ui:define name="title">Update your listing</ui:define>
+    <ui:define name="viewname">Update your price</ui:define>    
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>            
+            <p:tabMenu  activeIndex="12">
+                <p:menuitem value="#{msg['page.your_listing.property']}" outcome="room.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Accomodation']}" outcome="bedroom.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Location']}" outcome="location.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Amenities']}" outcome="amenities.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Your_Spaces']}" outcome="spaces.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Photos']}" outcome="photos.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Description']}" outcome="description.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.House_rule']}" outcome="house-rule.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Guest_requirements']}" outcome="guest-requirements.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.How_to_book']}" outcome="howto-book.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Datetime_setting']}" outcome="stay-setting.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Calendar']}" outcome="calendar.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Price_setting']}" outcome="price-setting.html">
+                </p:menuitem>
+            </p:tabMenu>
+            <p:progressBar value="100"  style="height:10px" labelTemplate="" displayOnly="true"/>
+            <p:panel>                                               
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <h1>#{msg['page.become_a_host.step4.price_setting.title1']}</h1>                      
+                            <div class="ui-grid ui-grid-responsive">
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2" align="left">
+                                        <h:outputText value="#{msg['page.become_a_host.step4.price_setting.currency']}" style=" font-size: 15px"/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:selectOneMenu value="#{listingService.homestay.currency}">
+                                            <f:selectItems value="#{userSessionBean.user.list_currency}" var="c" itemLabel="#{c.code_a3}" itemValue="#{c.currency}"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2" align="left">
+                                        <h:outputText value="#{msg['page.become_a_host.step4.price_setting.base_price']}" style=" font-size: 15px"/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:inputNumber placeholder="#{msg['page.become_a_host.step4.price_setting.base_price']}" value="#{listingService.homestay.was_price}" required="true" requiredMessage="Base price is not null"/>                                    
+                                    </div>
+                                </div>
+                                <h:panelGroup layout="block" class="ui-grid-row" rendered="#{listingService.homestay.is_lastminute}">
+                                    <div class="ui-grid-col-2" align="left">
+                                        <h:outputText value="#{msg['page.become_a_host.step4.price_setting.last_minute_price']}" style=" font-size: 15px"/>
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <p:inputNumber minValue="1" placeholder="#{msg['page.become_a_host.step4.price_setting.last_minute_price']}" value="#{listingService.homestay.lastminute_price}" required="true" requiredMessage="Last minute price is not empty"/>                                    
+                                    </div>
+                                </h:panelGroup>
+
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2" align="left">
+                                        <h:outputText value="#{msg['page.become_a_host.step4.price_setting.discount']}" style=" font-size: 15px"/>   
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <h:panelGrid columns="1" style="margin-bottom: 10px">
+                                            <h:outputText id="output1" value="#{msg['page.become_a_host.step4.price_setting.weekly_discount']} #{listingService.homestay.weekly_discount} % #{msg['page.become_a_host.step4.price_setting.weekly_discount.1']}" />
+                                            <h:inputHidden id="txt1" value="#{listingService.homestay.weekly_discount}" />
+                                            <p:slider  minValue="0" for="txt1" display="output1" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.weekly_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.weekly_discount.1']}" />
+                                            <h:outputText id="output2" rendered="#{listingService.homestay.is_longturn}" value="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} #{listingService.homestay.longturn_discount} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount']}" />
+                                            <h:inputHidden id="txt2" value="#{listingService.homestay.longturn_discount}" />
+                                            <p:slider minValue="1" for="txt2" display="output2" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount.1']}" />
+                                        </h:panelGrid>                                  
+                                    </div>
+                                </div>
+                                <p:separator/>
+                                <div class="ui-grid-row">
+                                    <div class="ui-grid-col-2" align="left">
+                                        <h:outputText value="#{msg['page.become_a_host.step4.price_setting.extra_charge']}" style=" font-size: 15px"/>      
+                                    </div>
+                                    <div class="ui-grid-col-6">
+                                        <div class="ui-g-12 ui-g-nopad">
+                                            <ui:repeat value="#{listingService.homestay.list_extra_charges}" var="extra">
+                                                <div class="ui-g-12 ui-md-6">
+                                                    <h:outputText value="#{extra.name}"/>
+                                                </div>
+                                                <div class="ui-g-12 ui-md-6">
+                                                    <p:inputNumber value="#{extra.amount}"/>  
+                                                </div>                                              
+                                            </ui:repeat>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                        </p:panel>
+                        <br/>
+                        <div style="float: left;">
+                            <p:button value="#{msg['page.your_listing.Go_to_your_listing']}" outcome="/portal/listing/your-listing/index.html"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['general.update']}" action="#{listingService.listing15.doUpdate}" update="id_growl" styleClass="pink-btn"/>                                 
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <div class="card">
+                                <i class="fa fa-lightbulb-o fa-2x"/>
+                                <p>#{msg['page.become_a_host.step4.price_setting.help']}</p>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>                  
+        </h:form>
+    </ui:define>
+
+</ui:composition>

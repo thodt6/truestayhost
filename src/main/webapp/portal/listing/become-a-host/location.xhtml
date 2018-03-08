@@ -1,0 +1,151 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing2.initService}"/>   
+    </f:metadata>
+
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Your location</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function geocode() {
+                PF('geoMap').geocode(document.getElementById('id_address').value);
+            }
+        </script> 
+        <script type="text/javascript">
+            var currentMarker = null;
+
+            function handlePointClick(event) {
+                if (currentMarker === null) {
+                    document.getElementById('lat').value = event.latLng.lat();
+                    document.getElementById('lng').value = event.latLng.lng();
+
+                    currentMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+                    });
+
+                    PF('geoMap').addOverlay(currentMarker);
+
+                    PF('dlg').show();
+                }
+            }
+
+            function markerAddComplete() {
+                var title = document.getElementById('title');
+                currentMarker.setTitle(title.value);
+                title.value = "";
+
+                currentMarker = null;
+                PF('dlg').hide();
+                return false;
+            }
+
+            function cancel() {
+                PF('dlg').hide();
+                currentMarker.setMap(null);
+                currentMarker = null;
+
+                return false;
+            }
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="frmObject" prependId="false">
+            <p:growl id="id_growl"/>   
+            <div class="ui-g">            
+                <div class="ui-g-12">
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step1.location']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['page.become_a_host.save_and_exit']}" action="#{listingService.listing2.saveAndExist}" update="id_growl" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing2.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card card-w-title">
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step1.location.title1']}</h1>
+                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank lesspad">
+                            <h:outputText value="#{msg['page.become_a_host.step1.location.address']}" style="font-size: 20px"/>
+                            <p:selectOneMenu filter="true" filterMatchMode="contains"  required="true"  value="#{listingService.listing2.provinceService.provinceid}">
+                                <f:selectItem itemLabel="#{msg['page.become_a_host.step1.location.select_province']}" itemValue=""/>
+                                <f:selectItems value="#{listingService.listing2.provinceService.provinces}" var="p" itemLabel="#{p.name}" itemValue="#{p.id}"/>
+                                <p:ajax event="change"  listener="#{listingService.listing2.provinceService.loadDistricts}" update=":frmObject:id_districts,:frmObject:id_info">
+                                </p:ajax>                           
+                            </p:selectOneMenu>
+                            <p:selectOneMenu filter="true" filterMatchMode="contains" onchange="geocode()"  required="true" id="id_districts" value="#{listingService.listing2.provinceService.districid}">
+                                <f:selectItem itemLabel="#{msg['page.become_a_host.step1.location.select_district']}" itemValue=""  noSelectionOption="true"/>
+                                <f:selectItems value="#{listingService.listing2.provinceService.districts}" var="d" itemLabel="#{d.name}" itemValue="#{d.id}"/>
+                                <p:ajax event="change" listener="#{listingService.listing2.provinceService.loadWards}" update=":frmObject:id_wards,:frmObject:id_info"/> 
+                            </p:selectOneMenu>
+                            <p:selectOneMenu  filter="true" filterMatchMode="contains" onchange="geocode()" required="true"  id="id_wards" value="#{listingService.listing2.provinceService.wardid}">
+                                <f:selectItem itemLabel="#{msg['page.become_a_host.step1.location.select_ward']}" itemValue=""  noSelectionOption="true"/>
+                                <f:selectItems value="#{listingService.listing2.provinceService.wards}" var="w" itemLabel="#{w.name}" itemValue="#{w.id}"/>
+                                <p:ajax event="change" update=":frmObject:id_info"/> 
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                        <br/>
+                        <h:outputText value="#{msg['page.become_a_host.step1.location.exact_location']}" style="font-size: 15px"/>
+                        <br/>
+                        <p:panelGrid id="id_info" columns="5" layout="grid" style="width:90%" styleClass="ui-panelgrid-blank lesspad">
+                            <p:inputText size="25"  value="#{listingService.listing2.provinceService.textSearch}" placeholder="#{msg['page.become_a_host.step1.location.address_to_search']}" id="id_address" onchange="geocode()"/>
+                            <p:commandButton icon="ui-icon-search" onclick="geocode()" type="button"/>  
+                            <p:inputText  id="id_address_full" value="#{listingService.homestay.address_full}" placeholder="#{msg['page.become_a_host.step1.location.address_description']}"/>
+                            <p:inputText size="10" id="id_lat" readonly="true" value="#{listingService.homestay.latitude}" placeholder="#{msg['page.become_a_host.step1.location.latitute']}"/>
+                            <p:inputText size="10" id="id_long" readonly="true" value="#{listingService.homestay.longitude}" placeholder="#{msg['page.become_a_host.step1.location.longtitute']}"/>                            
+                        </p:panelGrid>                    
+                        <p:gmap id="geoGmap" widgetVar="geoMap" onPointClick="handlePointClick(event);"  center="#{listingService.listing2.provinceService.centerGeoMap}" zoom="10" model="#{listingService.listing2.provinceService.geoModel}" type="ROADMAP" style="width:100%;height:350px">
+                            <p:ajax event="geocode" listener="#{listingService.listing2.provinceService.onGeocode}" update="@this, id_growl"/>
+                            <p:ajax event="overlaySelect" listener="#{listingService.listing2.provinceService.onMarkerSelect}" update=":frmObject:id_address_full,:frmObject:id_long,:frmObject:id_lat"/>
+                        </p:gmap>
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton  action="#{listingService.listing2.backPage}" value="#{msg['general.back']}" icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton action="#{listingService.listing2.nextPage}" value="#{msg['general.next']}" styleClass="pink-btn" style="margin-bottom:10px;"/>
+                            </div>
+                        </p:outputPanel> 
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step1.location.help']}</p>
+                    </div>
+                </div>
+
+            </div>
+        </h:form>
+        <p:dialog widgetVar="dlg" showEffect="fade" closable="true"  onHide="return cancel()">
+            <h:form prependId="false">
+                <h:panelGrid columns="2">
+                    <h:outputLabel for="title" value="#{msg['page.become_a_host.step1.location.title']}:" />
+                    <p:inputText id="title" value="#{listingService.listing2.provinceService.title}" />
+
+                    <f:facet name="footer">
+                        <p:commandButton value="#{msg['general.add']}" actionListener="#{listingService.listing2.provinceService.addMarker}" update=":frmObject:id_address_full,:frmObject:id_long,:frmObject:id_lat" oncomplete="markerAddComplete()" />
+                        <p:commandButton value="#{msg['general.cancel']}" onclick="return cancel()" />
+                    </f:facet>
+                </h:panelGrid>
+                <h:inputText id="lat" value="#{listingService.listing2.provinceService.lat}" />
+                <h:inputText id="lng" value="#{listingService.listing2.provinceService.lng}" />
+            </h:form>
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>

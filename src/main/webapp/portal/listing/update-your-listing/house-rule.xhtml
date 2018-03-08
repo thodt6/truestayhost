@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing9.initService}"/>   
+    </f:metadata>
+
+    <ui:define name="title">Update your listing</ui:define>
+    <ui:define name="viewname">Update your house rule</ui:define>    
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>            
+            <p:tabMenu  activeIndex="7">
+                <p:menuitem value="#{msg['page.your_listing.property']}" outcome="room.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Accomodation']}" outcome="bedroom.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Location']}" outcome="location.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Amenities']}" outcome="amenities.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Your_Spaces']}" outcome="spaces.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Photos']}" outcome="photos.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Description']}" outcome="description.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.House_rule']}" outcome="house-rule.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Guest_requirements']}" outcome="guest-requirements.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.How_to_book']}" outcome="howto-book.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Datetime_setting']}" outcome="stay-setting.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Calendar']}" outcome="calendar.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Price_setting']}" outcome="price-setting.html">
+                </p:menuitem>
+            </p:tabMenu>
+            <p:progressBar value="#{listingService.listing9.percentComplete}"  style="height:10px" labelTemplate="" displayOnly="true"/>
+            <p:panel>                                               
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <h1>#{msg['page.become_a_host.step2.house_rule.title1']}</h1>
+                            <ui:repeat  value="#{listingService.listing9.houseRuleService.house_rules}" var="rule">
+                                <p:panelGrid columns="2" layout="grid" style="width:80%" styleClass="ui-panelgrid-blank lesspad">
+                                    <h:outputText style=" font-size: 15px" value="#{rule.name}"/>
+                                    <p:inputSwitch value="#{rule.selected}"/>
+                                </p:panelGrid>
+                            </ui:repeat>
+                            <h:outputText style=" font-size: 15px;font-weight: bolder" value="#{msg['page.become_a_host.step2.house_rule.title2']}"/>
+                            <br/>
+                            <br/>
+                            <p:selectManyMenu value="#{listingService.homestay.homestay_knowabout_ids}"  showCheckbox="true" style="width:100%;">
+                                <f:selectItems value="#{listingService.listing9.houseRuleService.know_abouts}" var="k" itemLabel="#{k.name}" itemValue="#{k.id}"/>
+                            </p:selectManyMenu>
+                            <br/>
+                        </p:panel>
+                        <br/>
+                        <div style="float: left;">
+                            <p:button value="#{msg['page.your_listing.Go_to_your_listing']}" outcome="/portal/listing/your-listing/index.html"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['general.update']}" action="#{listingService.listing9.doUpdate}" update="id_growl" styleClass="pink-btn"/>                                 
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <div class="card">
+                                <i class="fa fa-lightbulb-o fa-2x"/>
+                                <p>#{msg['page.become_a_host.step2.house_rule.help']}</p>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>                  
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <h:body>
+        <p:panel id="id_panel" header="Select date range">
+            <p:calendar value="#{listingService.calenderService.beginDate}">
+                <p:ajax event="dateSelect" update="id_panel" />
+            </p:calendar>
+            <p:calendar value="#{newlistingServicelenderService.endDate}" mindate="#{newlistingServicelenderService.beginDate}">
+                <p:ajax event="dateSelect" listener="#{calendarView.onDateSelect}" update="id_panel" />
+            </p:calendar>
+            <p:selectOneButton value="#{newListinlistingServiceService.state}">
+                <f:selectItem itemLabel="Block" itemValue="B"/>
+                <f:selectItem itemLabel="Un block" itemValue="U"/>
+            </p:selectOneButton>
+            <p:commandButton value="#{msg['general.update']}" action="#{newListingSelistingServicevice.updateCalendar()}" update="id_panel"/>
+        </p:panel>
+    </h:body>
+
+</html>

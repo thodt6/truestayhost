@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{userSessionBean.homestay_list.loadObjects}"/>   
+    </f:metadata>
+    <ui:define name="title">Your-Listing</ui:define>
+    <ui:define name="viewname">Your-Listing</ui:define>
+    <ui:define name="head">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                updateActiveMenu();
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        
+        <h:form>
+            <p:remoteCommand name="rc" update="menuform:menu" />
+            <p:growl id="id_growl"/>
+            <div class="ui-g">     
+                <h:panelGroup rendered="#{userSessionBean.homestay_list.objects==null}" layout="block" class="ui-g-12 ui-md-12">                 
+                    <p:panel>
+                        <h1>
+                            #{msg['page.calendar.do_not_have_listing1']} <a href="/truestayhost/portal/listing/become-a-host/index.html?id=new-homestay"> #{msg['page.calendar.do_not_have_listing2']} </a> #{msg['page.calendar.do_not_have_listing3']}                        
+                        </h1> 
+                    </p:panel>
+                </h:panelGroup>
+                <ui:repeat  value="#{userSessionBean.homestay_list.objects}" var="home">
+                    <h:panelGroup rendered="#{home.state=='P'}" layout="block" class="ui-g-12 ui-md-6">
+                        <p:panel header="#{msg['homestay.state.pending']}" style="height:100%" closable="true">
+                            <div class="ui-g">
+                                
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:graphicImage value="#{home.coverImage}" style="width:90%">
+                                    </p:graphicImage>
+                                </div>
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:progressBar value="#{home.percent}" style="height:5px"/>
+                                    <h:outputText style=" color: #009688 " value="#{msg['page.homestaylist.done1']} #{home.percent} % #{msg['page.homestaylist.done2']}"/>
+                                    <br/>                                    
+                                    <br/>
+                                    <h:outputText style=" font-size: 20px; font-weight:  bolder" value="#{home.title}"/>
+                                    <br/>
+                                    <h:outputText style=" color:  #a8acb1" value="#{msg['page.homestaylist.lastupdate']} #{home.lastupdate}"/>
+                                    <br/>
+                                    <br/>
+                                    <h:outputText rendered="#{home.percent==100 and !userSessionBean.user.verified}" style=" font-size: 12px; color: red; font-weight:  bolder" value="Your listing is completed but your hourse is not published because you are not verified.Please contact TrueStay support for help"/>
+                                    <p:separator/>
+                                    <br/>
+                                    <p:outputPanel>
+                                        <p:button styleClass="pink-btn" rendered="#{home.percent!=100}" outcome="/portal/listing/become-a-host/index.html?id=#{home.homestay_id}&amp;step=#{home.step_num}" value="#{msg['page.homestaylist.finish_listing']}"/>
+                                        <p:button styleClass="pink-btn" rendered="#{home.percent==100}" outcome="/portal/listing/update-your-listing/index.html?id=#{home.homestay_id}&amp;step=#{home.step_num}" value="#{msg['page.homestaylist.update_listing']}"/>
+                                        <p:commandButton styleClass="pink-btn" rendered="#{home.percent==100}" value="#{msg['page.become_a_host.step4.tax.publish']}" action="#{home.publishHomeStay}"/>
+                                        <p:spacer width="5"/>
+                                        <p:button styleClass="black-btn" value="#{msg['page.homestaylist.preview']}"/>
+                                    </p:outputPanel>
+                                </div>
+                            </div>
+                        </p:panel>  
+                    </h:panelGroup>
+                    <h:panelGroup layout="block" rendered="#{home.state=='A'}" class="ui-g-12 ui-md-6">
+                        <p:panel header="#{msg['homestay.state.listed']}" style="height:100%" closable="true">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:graphicImage value="#{home.coverImage}" style="width:90%">
+                                    </p:graphicImage>
+                                </div>
+                                <div class="ui-g-12 ui-md-8">
+                                    <h:outputText style=" font-size: 20px; font-weight:  bolder" value="#{home.title}"/>
+                                    <br/>
+                                    <br/>
+                                    <h:outputText style=" color:#a8acb1" value="#{home.address}"/>
+                                    <br/>
+                                    <h:outputText style=" color:  #a8acb1" value="#{msg['page.homestaylist.lastupdate']} #{home.lastupdate}"/>
+                                    <br/>
+                                    <br/>
+                                    <p:separator/>
+                                    <br/>
+                                    <p:outputPanel>                                        
+                                        <p:button styleClass="pink-btn" outcome="/portal/listing/update-your-listing/index.html?id=#{home.homestay_id}" value="#{msg['page.homestaylist.manage_listing']}"/>
+                                        <p:spacer width="5"/>
+                                        <p:button styleClass="black-btn" value="#{msg['page.homestaylist.calendar']}" outcome="/portal/listing/your-listing/calendar.html?id=#{home.homestay_id}"/>
+                                        <p:spacer width="5"/>
+                                        <p:button styleClass="black-btn" value="#{msg['page.homestaylist.preview']}"/>
+                                    </p:outputPanel>
+                                </div>
+                            </div>
+                        </p:panel>    
+                    </h:panelGroup>    
+                </ui:repeat>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

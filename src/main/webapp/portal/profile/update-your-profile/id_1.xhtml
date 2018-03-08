@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Profile</ui:define>
+    <ui:define name="viewname">Provide your Identification</ui:define>
+    <ui:define name="head">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:tabMenu  activeIndex="4">
+                <p:menuitem value="Email and Phone" outcome="email-phone.html">
+                </p:menuitem>
+                <p:menuitem value="Payout-info" outcome="payout-info.html">
+                </p:menuitem>
+                <p:menuitem value="Basic information" outcome="basic.html">
+                </p:menuitem>
+                <p:menuitem value="Media" outcome="media.html">
+                </p:menuitem>
+                <p:menuitem value="Your Identification" outcome="id.html">
+                </p:menuitem>                
+            </p:tabMenu>
+            <p:progressBar value="100" labelTemplate="" displayOnly="true" style="height:10px"/>
+            <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:wizard showStepStatus="true" id="id_winzard">
+                            <p:tab title="Type of ID">
+                                <p:panel>
+                                    <h2>Issue country</h2>
+                                    <p:selectOneMenu>                                    
+                                        <f:selectItem itemLabel="Vietnam" itemValue="vn"/>
+                                    </p:selectOneMenu>
+                                    <h2>Type of ID</h2>               
+                                    <p:selectOneRadio value="#{userSessionBean.user.card_type_id}">
+                                        <f:selectItems value="#{userSessionBean.listVerifyIdCard}" var="idcard" itemLabel="#{idcard.name}" itemValue="#{idcard.id}"/>
+                                    </p:selectOneRadio>
+                                    <h2>ID Number</h2>      
+                                    <p:inputText required="true" value="#{userSessionBean.user.id_card}"/>
+                                </p:panel>
+                            </p:tab>
+                            <p:tab id="id_tab3" title="Photo page">
+                                <p:panel id="id_photo">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12 ui-lg-4">
+                                            <h:outputText value="Photo1"/>
+                                            <br/>
+                                            <h:graphicImage  id="id_photo1" width="200" value="#{userSessionBean.user.fullURL_Photo1}"/>
+                                            <p:separator/>
+                                            <h:outputText   value="Photo2"/>
+                                            <br/>
+                                            <h:graphicImage  id="id_photo2" width="200" value="#{userSessionBean.user.fullURL_Photo2}"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-lg-8">
+                                            <p:outputPanel rendered="#{userSessionBean.uploadMethod eq '1'}">
+                                                <p:fileUpload fileUploadListener="#{userSessionBean.handleUploadIDCard}" mode="advanced"  dragDropSupport="true" multiple="true"
+                                                              uploadLabel="Upload 2 picture of your ID"  fileLimit="2"
+                                                              update="id_photo1,id_photo2" sizeLimit="100000000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                            </p:outputPanel>
+                                        </div>
+                                    </div>                                     
+                                </p:panel>
+                            </p:tab>
+                            <p:tab id="id_tab4" title="Summary">
+                                <p:panel>
+                                    <div class="ui-g">
+                                        <div class="ui-g-4">
+                                            <h:outputText value="Type of ID"/>
+                                        </div>
+                                        <div class="ui-g-8">
+                                            <p:selectOneRadio value="#{userSessionBean.user.card_type_id}">
+                                                <f:selectItems value="#{userSessionBean.listVerifyIdCard}" var="idcard" itemLabel="#{idcard.name}" itemValue="#{idcard.id}"/>
+                                            </p:selectOneRadio>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <h:outputText value="ID Number"/>
+                                        </div>
+                                        <div class="ui-g-8">
+                                            <p:inputText required="true" value="#{userSessionBean.user.id_card}"/>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <h:outputText value="Issue country"/>
+                                        </div>
+                                        <div class="ui-g-8">
+                                            <p:selectOneMenu>                                    
+                                                <f:selectItem itemLabel="Vietnam" itemValue="vn"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <h:outputText value="ID Photo"/>
+                                        </div> 
+                                        <div class="ui-g-8">
+                                            <p:graphicImage  cache="false" height="200" rendered="#{not empty userSessionBean.user.photo_1}" value="#{userSessionBean.user.fullURL_Photo1}"/>
+                                            <p:separator/>
+                                            <p:graphicImage  cache="false" height="200"  rendered="#{not empty userSessionBean.user.photo_2}" value="#{userSessionBean.user.fullURL_Photo2}"/>
+                                        </div>
+                                    </div>
+                                    <f:facet name="footer">
+                                        <p:commandButton value="Update ID card" action="#{userSessionBean.updateIDCard}"  styleClass="pink-btn"/> 
+                                    </f:facet>
+                                </p:panel>
+                            </p:tab>
+                        </p:wizard>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <i class="fa fa-lightbulb-o fa-2x"/>
+                            <p>Entire place Guests will rent the entire place. Includes in-law units. Private room Guests share some spaces but they’ll have their own private room for sleeping.Shared room Guests don’t have a room to themselves.</p>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>           
+        </h:form>
+    </ui:define>
+
+</ui:composition>

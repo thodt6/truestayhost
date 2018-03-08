@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Help center</ui:define>
+    <ui:define name="viewname">Help center</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12 ui-md-12">                    
+                    <p:panel>
+                        <h2 style="margin-top:0">Help topic</h2>
+                        <p:accordionPanel>
+                            <p:tab title="How to login">
+                                <h:outputLink>
+                                    How to login by facebook?
+                                </h:outputLink>
+                                <br/><br/>
+                                <h:outputLink>
+                                    How to login by truestay?
+                                </h:outputLink>
+                                <br/><br/>
+                                <h:outputLink>
+                                    How to register?
+                                </h:outputLink>
+                            </p:tab>
+                        </p:accordionPanel>
+                        <p:accordionPanel>
+                            <p:tab title="How to book">
+                                <h:outputLink>
+                                    What is the instant book?
+                                </h:outputLink>
+                                <br/><br/>
+                                <h:outputLink>
+                                    What is the inquire book?
+                                </h:outputLink>
+                                <br/><br/>
+                                <h:outputLink>
+                                    How to pay?
+                                </h:outputLink>
+                            </p:tab>
+                        </p:accordionPanel>
+                        <p:accordionPanel>
+                            <p:tab title="How to cancel">
+
+                            </p:tab>
+                        </p:accordionPanel>
+                        <p:accordionPanel>
+                            <p:tab title="How to get money">
+
+                            </p:tab>
+                        </p:accordionPanel>
+                    </p:panel>
+                </div>                
+            </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

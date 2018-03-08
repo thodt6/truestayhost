@@ -1,0 +1,140 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing12.initService}"/>   
+    </f:metadata>
+
+    <ui:define name="title">Update your listing</ui:define>
+    <ui:define name="viewname">Update your setting</ui:define>    
+    <ui:define name="content">
+        <h:form id="frmObject">
+            <p:growl id="id_growl"/>            
+            <p:tabMenu  activeIndex="10">
+                <p:menuitem value="#{msg['page.your_listing.property']}" outcome="room.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Accomodation']}" outcome="bedroom.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Location']}" outcome="location.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Amenities']}" outcome="amenities.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Your_Spaces']}" outcome="spaces.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Photos']}" outcome="photos.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Description']}" outcome="description.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.House_rule']}" outcome="house-rule.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Guest_requirements']}" outcome="guest-requirements.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.How_to_book']}" outcome="howto-book.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Datetime_setting']}" outcome="stay-setting.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Calendar']}" outcome="calendar.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Price_setting']}" outcome="price-setting.html">
+                </p:menuitem>
+            </p:tabMenu>
+            <p:progressBar value="#{listingService.listing12.percentComplete}"  style="height:10px" labelTemplate="" displayOnly="true"/>
+            <p:panel>                                               
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <h1>#{msg['page.become_a_host.step4.stay_setting.title1']}</h1>
+                            <h:outputText style=" font-size: 15px" value="#{msg['page.become_a_host.step4.stay_setting.title2']}"/><br/>
+                            <p:selectOneMenu value="#{listingService.homestay.before_time}" >
+                                <f:selectItem  itemLabel="1 #{msg['page.become_a_host.step4.stay_setting.day']}" itemValue="1"/>
+                                <f:selectItem  itemLabel="2 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="2"/>
+                                <f:selectItem  itemLabel="3 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="3"/>
+                                <f:selectItem  itemLabel="4 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="4"/>
+                                <f:selectItem  itemLabel="5 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="5"/>
+                                <f:selectItem  itemLabel="6 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="6"/>
+                                <f:selectItem  itemLabel="7 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="7"/>
+                                <f:selectItem  itemLabel="8 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="8"/>
+                                <f:selectItem  itemLabel="9 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="9"/>
+                                <f:selectItem  itemLabel="10 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="10"/>
+                                <f:selectItem  itemLabel="11 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="11"/>
+                                <f:selectItem  itemLabel="12 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="12"/>
+                                <f:selectItem  itemLabel="13 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="13"/>
+                                <f:selectItem  itemLabel="14 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="14"/>
+                                <f:selectItem  itemLabel="15 #{msg['page.become_a_host.step4.stay_setting.days']}" itemValue="15"/>
+                            </p:selectOneMenu>
+                            <br/><br/>
+                            <h:outputText style=" font-size: 15px" value="#{msg['page.become_a_host.step4.stay_setting.title3']}"/><br/>
+                            <p:selectOneMenu  value="#{listingService.homestay.far_time}">
+                                <f:selectItem  itemLabel="1 #{msg['page.become_a_host.step4.stay_setting.month']}" itemValue="1"/>
+                                <f:selectItem  itemLabel="2 #{msg['page.become_a_host.step4.stay_setting.months']}" itemValue="2"/>
+                                <f:selectItem  itemLabel="3 #{msg['page.become_a_host.step4.stay_setting.months']}" itemValue="3"/>
+                                <f:selectItem  itemLabel="4 #{msg['page.become_a_host.step4.stay_setting.months']}" itemValue="4"/>
+                                <f:selectItem  itemLabel="5 #{msg['page.become_a_host.step4.stay_setting.months']}" itemValue="5"/>
+                                <f:selectItem  itemLabel="6 #{msg['page.become_a_host.step4.stay_setting.months']}" itemValue="6"/>
+                            </p:selectOneMenu>
+                            <br/><br/>
+                            <h:outputText style=" font-size: 15px" value="#{msg['page.become_a_host.step4.stay_setting.title4']}"/><br/>
+                            <h:panelGrid columns="2">
+                                <h:outputText value="#{msg['page.become_a_host.step4.stay_setting.title5']}"/>
+                                <p:outputPanel>
+                                    <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.discreaseStayMin}" update="id_stay_min"/>
+                                    <p:inputText style="width: 50px" readonly="true"   id="id_stay_min"  value="#{listingService.homestay.stay_min}" required="true"/>
+                                    <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseStayMin}" update="id_stay_min"/>                                    
+                                </p:outputPanel>                                   
+                                <h:outputText value="#{msg['page.become_a_host.step4.stay_setting.title6']}"/>
+                                <p:outputPanel>                                    
+                                    <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.discreaseStayMaxWeek}" update="id_stay_max"/>
+                                    <p:inputText style="width: 50px" readonly="true"   id="id_stay_max"  value="#{listingService.homestay.stay_max_week}" required="true"/>
+                                    <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseStayMaxWeek}" update="id_stay_max"/>                                    
+                                </p:outputPanel>
+                            </h:panelGrid>                      
+                            <br/>
+                            <p:separator/>
+                            <h:panelGrid columns="2">
+                                <h:outputText style=" font-size: 15px" value="#{msg['page.become_a_host.step4.stay_setting.title7']}"/>
+                                <h:outputText style=" font-size: 15px" value="#{msg['page.become_a_host.step4.stay_setting.title8']}"/>
+                                <p:calendar value="#{listingService.homestay.checkin}" pattern="HH:mm" timeOnly="true"/>                            
+                                <p:calendar value="#{listingService.homestay.checkout}" pattern="HH:mm" timeOnly="true"/>    
+                            </h:panelGrid>
+                            <br/>
+                            <h:panelGrid columns="2">
+                                <h:outputText id="id_longturn" style=" font-size: 15px" value="#{msg['page.become_a_host.step4.stay_setting.title9']}"/>
+                                <p:outputPanel>
+                                    <p:tooltip for="id_lastmin" value="#{msg['page.become_a_host.step4.stay_setting.title9.1']}"/>
+                                    <p:selectBooleanCheckbox value="#{listingService.homestay.is_lastminute}"/>  
+                                </p:outputPanel>
+                                <h:outputText id="id_lastmin" style=" font-size: 15px" value="#{msg['page.become_a_host.step4.stay_setting.title10']}"/>
+                                <p:outputPanel>
+                                    <p:tooltip for="id_longturn" value="#{msg['page.become_a_host.step4.stay_setting.title10.1']}"/>
+                                    <p:selectBooleanCheckbox value="#{listingService.homestay.is_longturn}"/>   
+                                </p:outputPanel>
+                            </h:panelGrid>           
+                            <br/>
+                        </p:panel>
+                        <br/>
+                        <div style="float: left;">
+                            <p:button value="#{msg['page.your_listing.Go_to_your_listing']}" outcome="/portal/listing/your-listing/index.html"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['general.update']}" action="#{listingService.listing12.doUpdate}" update="id_growl" styleClass="pink-btn"/>                                 
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <div class="card">
+                                <i class="fa fa-lightbulb-o fa-2x"/>
+                                <p>#{msg['page.become_a_host.step4.stay_setting.help']}</p>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>                  
+        </h:form>
+    </ui:define>
+
+</ui:composition>

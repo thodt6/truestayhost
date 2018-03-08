@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing3.initService}"/>   
+    </f:metadata>
+
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Your amenities</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <div class="ui-g">            
+                <div class="ui-g-12">
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step2.amenities']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['page.become_a_host.save_and_exit']}" action="#{listingService.listing3.saveAndExist}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing3.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card card-w-title">
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.amenities.title1']}</h1>
+                        <p:selectManyMenu value="#{listingService.homestay.amenity_ids}" id="grid" showCheckbox="true" style="width:100%;">
+                            <f:selectItems value="#{listingService.listing3.amenityService.offer_amenities}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
+                        </p:selectManyMenu>
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.amenities.title2']}</h1>
+                        <p:selectManyMenu value="#{listingService.homestay.safety_amenity_ids}" id="grid1" showCheckbox="true" style="width:100%;">
+                            <f:selectItems value="#{listingService.listing3.amenityService.safety_amenities}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
+                        </p:selectManyMenu>
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="#{msg['general.back']}" action="#{listingService.listing3.backPage}" icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton action="#{listingService.listing3.nextPage}" value="#{msg['general.next']}" styleClass="pink-btn" style="margin-bottom:10px;"/>
+                            </div>
+                        </p:outputPanel> 
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step2.amenities.help']}</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

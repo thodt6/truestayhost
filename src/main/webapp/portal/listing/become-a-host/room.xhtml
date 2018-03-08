@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView"  listener="#{listingService.listing0.initService}"/>
+    </f:metadata>
+
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Define your property</ui:define>    
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12">
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step1.room']}" style="font-size:20px;font-weight: bolder"/>
+                        </div>
+                        
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['page.become_a_host.save_and_exit']}" action="#{listingService.listing0.saveAndExist}" update="id_growl" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing0.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>              
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card">
+                        <h1>#{msg['page.become_a_host.step1.room.title1']}</h1>
+                        <h:panelGrid columns="1">                        
+                            <p:selectOneMenu required="true" value="#{listingService.homestay.propertytypeid}">
+                                <f:selectItem itemLabel="#{msg['page.become_a_host.step1.room.select_one']}" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{listingService.listing0.propertyService.objects}" var="p" itemLabel="#{p.name}" itemValue="#{p.id}"/> 
+                            </p:selectOneMenu>
+                            <br/>
+                            <h:outputText value="#{msg['page.become_a_host.step1.room.title2']}" style="font-size: 15px"/>
+                            <br/>
+                            <p:selectOneMenu label="" required="true" value="#{listingService.homestay.roomtypeid}">
+                                <f:selectItem itemLabel="#{msg['page.become_a_host.step1.room.select_one']}" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{listingService.listing0.roomTypeService.objects}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}"/> 
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <br/>
+                        <p:separator/>
+                        <br/>
+                        <div align="right">
+                            <p:commandButton action="#{listingService.listing0.nextPage}" update="id_growl"  styleClass="pink-btn" value="#{msg['general.next']}"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p><h:outputText value="#{msg['page.become_a_host.step1.room.help']}" escape="false"/></p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing6.initService}"/>   
+    </f:metadata>
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Description</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="ui-g">            
+                <div class="ui-g-12">
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step2.description']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton action="#{listingService.listing6.saveAndExist}" value="#{msg['page.become_a_host.save_and_exit']}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing6.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card card-w-title">
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.description.title1']}</h1>
+                        <p:inputText required="true" value="#{listingService.homestay.title}" style="width: 80%"/>
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.description.title2']}</h1>
+                        <p:inputTextarea required="true" value="#{listingService.homestay.description}" style="width: 80%" rows="8"/>          
+                        <br/>
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.description.title3']}</h1>
+                        <p:selectManyMenu id="grid" showCheckbox="true" value="#{listingService.homestay.great_for_ids}" style="width:81%;">
+                            <f:selectItems value="#{listingService.listing6.greatForService.objects}" var="g" itemLabel="#{g.name}" itemValue="#{g.id}"/>               
+                        </p:selectManyMenu>
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="#{msg['general.back']}" action="#{listingService.listing6.backPage}" icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="#{msg['general.next']}" action="#{listingService.listing6.nextPage}" styleClass="pink-btn"/>
+                            </div>
+                        </p:outputPanel> 
+                        <br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step2.description.help']}</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

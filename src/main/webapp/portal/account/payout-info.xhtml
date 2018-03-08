@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Payment</ui:define>
+    <ui:define name="viewname">Pay-out information</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    #{msg['page.profile.payout_info.bank_account']}  
+                                </div>
+                                <div class="ui-grid-col-6">                                    
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.pay_acct}" placeholder="#{msg['page.profile.payout_info.bank_account']} "/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    #{msg['page.profile.payout_info.account_name']} 
+                                </div>
+                                <div class="ui-grid-col-6">                                    
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.acct_name}" placeholder="#{msg['page.profile.payout_info.account_name']} "/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    #{msg['page.profile.payout_info.bank_name']} 
+                                </div>
+                                <div class="ui-grid-col-6">                                    
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.bank_name}" placeholder="#{msg['page.profile.payout_info.bank_name']} "/>
+                                </div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2" align="center">
+                                    #{msg['page.profile.payout_info.branch']} 
+                                </div>
+                                <div class="ui-grid-col-6">                                    
+                                    <p:inputText style="height: 30px;width: 100%" value="#{userSessionBean.user.agent_name}" placeholder="#{msg['page.profile.payout_info.branch']} "/>
+                                </div>
+                            </div>  
+                        </p:panel>
+                        <br/>
+                        <div style="float: left;">
+                            <p:commandButton value="#{msg['general.update']}" action="#{userSessionBean.updateProfile}"  styleClass="pink-btn"/> 
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <i class="fa fa-lightbulb-o fa-2x"/>
+                            <p>#{msg['page.profile.payout_info.help']} </p>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>           
+        </h:form>
+    </ui:define>
+
+</ui:composition>

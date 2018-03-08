@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Profile</ui:define>
+    <ui:define name="viewname">Provide your Identification</ui:define>
+    <ui:define name="head">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:tabMenu  activeIndex="4">
+                <p:menuitem value="#{msg['page.profile.email_phone']}" outcome="email-phone.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.payout_info']}" outcome="payout-info.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.basic_info']}" outcome="basic.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.your_photo']}" outcome="media.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.your_id']}" outcome="id.html">
+                </p:menuitem>                
+            </p:tabMenu>
+            <p:progressBar value="100" labelTemplate="" displayOnly="true" style="height:10px"/>
+            <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <div class="ui-g">
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.your_id.issue_country']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:selectOneMenu>                                    
+                                        <f:selectItem itemLabel="Vietnam" itemValue="vn"/>
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.your_id.type_id']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:selectOneRadio value="#{userSessionBean.user.card_type_id}">
+                                        <f:selectItems value="#{userSessionBean.listVerifyIdCard}" var="idcard" itemLabel="#{idcard.name}" itemValue="#{idcard.id}"/>
+                                    </p:selectOneRadio>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.your_id.id_number']}"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText required="true" value="#{userSessionBean.user.id_card}"/>
+                                </div>
+                                <div class="ui-g-4">
+                                    <h:outputText value="#{msg['page.profile.your_id.id_photo']}"/>
+                                </div> 
+                                <div class="ui-g-8">
+                                    <h:panelGrid columns="2" width="100%">
+                                        <p:graphicImage cache="false"  id="id_photo1" width="100%" value="#{userSessionBean.user.fullURL_Photo1}"/>
+                                        <p:graphicImage cache="false"  id="id_photo2" width="100%" value="#{userSessionBean.user.fullURL_Photo2}"/>
+                                    </h:panelGrid>
+                                    <p:fileUpload fileUploadListener="#{userSessionBean.handleUploadIDCard}" mode="advanced"  
+                                                  dragDropSupport="true" multiple="true"
+                                                  label="#{msg['page.profile.your_id.choose']}"
+                                                  uploadLabel="#{msg['page.profile.your_id.upload']}" 
+                                                  cancelLabel="#{msg['page.profile.your_id.cancel']}"   
+                                                  update="id_photo1,id_photo2" sizeLimit="100000000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                </div> 
+                            </div>
+                        </p:panel>
+                        <br/>
+                        <div style="float: right;">
+                            <p:messages id="id_msg" closable="true"/>
+                            <p:commandButton value="#{msg['page.profile.your_id.update']}" action="#{userSessionBean.updateIDCard}" update="id_msg"  styleClass="pink-btn"/> 
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <i class="fa fa-lightbulb-o fa-2x"/>
+                            <p>#{msg['page.profile.your_id.help']}</p>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>           
+        </h:form>
+    </ui:define>
+
+</ui:composition>

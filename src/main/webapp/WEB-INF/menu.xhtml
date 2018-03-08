@@ -1,0 +1,35 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pp="http://primefaces.org/poseidon">
+
+    <h:form id="menuform"> 
+        <div class="layout-menu-container">
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">    
+                    <pp:menu id="menu" widgetVar="me">
+                        <p:menuitem id="om_dashboard" value="#{msg['menu.host.dashboard']}" icon="fa fa-fw fa-home" outcome="/portal/dashboard.html"/>
+                        <p:menuitem id="om_calendar" value="#{msg['menu.host.calendar']}" icon="fa fa-fw fa-calendar" outcome="/portal/listing/your-listing/calendar.html?id=default-homestay"/>                        
+                        <p:menuitem id="om_yourlisting_reservation" value="#{msg['menu.host.reservations']}" icon="fa fa-fw fa-address-card" outcome="/portal/reservation/index.html"/> 
+                        <p:menuitem id="om_yourlisting_listing_new" value="#{msg['menu.host.new_listing']}" icon="fa fa-fw fa-plus" outcome="/portal/listing/become-a-host/index.html?id=new-homestay"/>
+                        <p:menuitem id="om_yourlisting" value="#{msg['menu.host.your_listing']}" icon="fa fa-fw fa-list-alt" outcome="/portal/listing/your-listing/index.html"/>
+                        <p:menuitem rendered="false" id="om_inbox" value="#{msg['menu.host.inbox']}" icon="fa fa-fw fa-inbox" outcome="/portal/inbox/index.html"/>
+                        <p:submenu id="om_payment" label="#{msg['menu.host.payment']}" icon="fa fa-fw fa-credit-card">
+                            <p:menuitem id="om_account_payout" value="#{msg['menu.host.payment.payout_preferences']}" outcome="/portal/account/payout-info.html"/>   
+                            <p:menuitem id="om_account_pay_history" value="#{msg['menu.host.payment.history']}"/>   
+                        </p:submenu>                        
+                        <p:menuitem id="om_profile" value="#{msg['menu.host.profile']}" icon="fa fa-fw fa-folder" outcome="/portal/profile/update-your-profile/email-phone.html"/>                            
+                        <p:menuitem id="om_help" value="#{msg['menu.host.help']}" icon="fa fa-fw fa-book" outcome="/portal/help/index.html"/>
+                        <p:menuitem id="om_sight_out" value="#{msg['menu.host.sign_out']}" action="#{userSessionBean.doLogout}" icon="fa fa-fw fa-sign-out"/>
+                    </pp:menu>
+                    <div class="layout-menu-footer">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

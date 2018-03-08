@@ -1,0 +1,72 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:po="http://primefaces.org/poseidon">
+
+    <div class="topbar clearfix">
+        <div class="topbar-left">            
+            <h:graphicImage value="/uploads/defaults/logo.png"/>          
+        </div>        
+        <h:form>
+            <div class="topbar-right">
+                <a id="menu-button" href="#">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+
+                <a id="topbar-menu-button" href="#">
+                    <i class="fa fa-bars"></i>
+                </a>
+
+                <ul class="topbar-items fadeInDown animated">                        
+                    <p:button icon="fa fa-check" rendered="#{userSessionBean.user.verified}" value="#{msg['general.verified']}" styleClass="green-btn"/>
+                    <p:button icon="fa fa-close" rendered="#{!userSessionBean.user.verified}" value="#{msg['general.not_verified']}" styleClass="black-btn"/>
+                    <li class="profile-item">
+                        <a href="#">         
+                            <div class="profile-image"></div>
+                            <span class="topbar-item-name">#{userSessionBean.user.fullname}</span>
+                        </a>
+
+                        <ul class="poseidon-menu animated">
+                            <li role="menuitem">
+                                <a href="#">
+                                    <i class="fa fa-fw fa-user"></i>
+                                    <span>
+                                        #{msg['general.userprofile']} 
+                                    </span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <h:commandLink   action="#{userSessionBean.doLogout}">
+                                    <i class="fa fa-fw fa-sign-out"></i>
+                                    <span>#{msg['general.logout']}</span>
+                                </h:commandLink>
+                            </li>
+                        </ul>
+                    </li> 
+                    <li>
+                        <a href="#">
+                            <i class="topbar-icon fa fa-fw fa-language"></i>
+                            <span class="topbar-item-name">Languages</span>
+                        </a>
+                        <ul class="poseidon-menu animated">
+                            <li role="menuitem">                                
+                                <h:commandLink  action="#{userSessionBean.setVietnameaseLanguage}">
+                                    <span>#{msg['menu.language.vietnamease']}</span>
+                                </h:commandLink>
+                            </li>
+                            <li role="menuitem">                                
+                                <h:commandLink  action="#{userSessionBean.setEnglishLanguage}">
+                                    <span>#{msg['menu.language.english']}</span>
+                                </h:commandLink>
+                            </li>                            
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </h:form>
+
+    </div>
+</ui:composition>

@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing13.initService}"/>    
+    </f:metadata>
+
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Become a host</ui:define>    
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12">                    
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step4.calendar']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton action="#{listingService.listing13.saveAndExist}" value="#{msg['page.become_a_host.save_and_exit']}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing13.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card">
+                        <h1>#{msg['page.become_a_host.step4.calendar.title1']}</h1>
+                        <p>#{msg['page.become_a_host.step4.calendar.content']}</p>
+                        <br/>
+                        <p:selectBooleanCheckbox value="#{listingService.listing13.understandCalendar}"/>
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{msg['page.become_a_host.step4.calendar.accept']}"/>
+                        <br/>
+                        <br/>
+                        <p:separator/>
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="#{msg['general.back']}" action="#{listingService.listing13.backPage}"  icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="#{msg['general.next']}" action="#{listingService.listing13.nextPage}" update="id_growl" styleClass="pink-btn"/> 
+                            </div>
+                        </p:outputPanel>
+                        <br/><br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step4.calendar.help']}</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

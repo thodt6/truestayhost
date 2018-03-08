@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>TrueStay Login</title>
+    </h:head>
+    <h:body styleClass="login-body">
+        <h:form>            
+            <div class="login-panel ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12 logo-container">
+                        <h:graphicImage value="/uploads/defaults/logo.png"/> 
+                    </div>
+                    <div class="ui-g-12">
+                        <p:inputText value="#{userSessionBean.email}" placeholder="Email(*)" />
+                    </div>
+                    <div class="ui-g-12">
+                        <p:password value="#{userSessionBean.password}" placeholder="Password" feedback="false"/>
+                    </div>
+                    <p:messages id="id_growl" globalOnly="true"/>
+                    <div class="ui-g-12 button-container">
+                        <p:commandButton action="#{userSessionBean.doLogin}" update="id_growl"  value="Sign In" icon="fa fa-user" styleClass="turquoise-btn"/>
+                    </div>
+                    <p:commandButton value="Login with Facebook" action="#{userSessionBean.doFacebookLogin}" styleClass="blue-btn" icon="fa fa-facebook"/>
+                    <p:spacer height="10"/>
+                    <p:commandButton value="Login with Google" action="#{userSessionBean.doGoogleLogin}" styleClass="pink-btn" icon="fa fa-google"/>
+                </div>
+            </div>
+        </h:form>
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+        <script type="text/javascript">
+            (function () {
+                var s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.async = true;
+                s.id = 'lsInitScript';
+                s.src = 'https://livesupporti.com/Scripts/clientAsync.js?acc=c31a666b-0e7d-4f0d-adad-ed0a1a64fc0c&amp;skin=Modern';
+                var scr = document.getElementsByTagName('script')[0];
+                scr.parentNode.appendChild(s, scr);
+            })();
+        </script>
+    </h:body>
+
+</html>

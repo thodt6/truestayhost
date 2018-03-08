@@ -1,0 +1,267 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView"  listener="#{userSessionBean.verifyAccessPage}"/>
+    </f:metadata>    
+    <ui:define name="title">Dashboard</ui:define>
+    <ui:define name="viewname">Dashboard</ui:define>
+
+    <ui:define name="head">        
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                updateActiveMenu();
+            });
+        </script>
+    </ui:define>
+    <ui:define name="content">
+        <div class="ui-g dashboard">          
+            <div class="ui-g-12 ui-md-9">
+                <h:form>
+                    <p:remoteCommand name="rc" update="menuform:menu" />
+                    <p:panel>
+                        <div style=" float:  left">                        
+                            <h:outputText style=" font-size: 20px" value="#{msg['page.dashboard.today']}"/>
+                        </div>                        
+                        <div style=" float: right">
+                            <p:calendar value="#{dashboardService.filterDate}">
+                                <p:ajax event="dateSelect" listener="#{dashboardService.loadObjects}" update="id_table1"/>
+                            </p:calendar>
+                        </div>
+                        <br/>
+                        <br/>
+                        <p:separator/>
+                        <p:selectOneButton value="#{dashboardService.filterMode}">
+                            <f:selectItem itemLabel="#{msg['page.dashboard.checkin']}" itemValue="0"/>
+                            <f:selectItem itemLabel="#{msg['page.dashboard.checkout']}" itemValue="1"/>
+                            <f:selectItem itemLabel="#{msg['page.dashboard.staying']}" itemValue="2"/>
+                            <p:ajax event="change" listener="#{dashboardService.loadObjects}" update="id_table1"/>
+                        </p:selectOneButton>
+                        <p:dataTable id="id_table1" reflow="true" value="#{dashboardService.objects}" var="obj">
+                            <p:column headerText="#{msg['page.dashboard.homestay']}">
+                                <h:outputText style=" font-weight: bolder" value="#{obj.homestay.title}"/>
+                                <br/>
+                                <p:graphicImage value="#{obj.homestay.coverImage}" width="90%"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.bookeduser']}">
+                                <h:outputText id="id_user" value="#{obj.requestUser.FULLNAME}"/>
+                                <p:overlayPanel showCloseIcon="true" style="width:400px"  dynamic="true" for="id_user">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{obj.requestUser.FULLNAME}"/>
+                                        </f:facet>
+                                        <h:outputText value="Picture" />
+                                        <h:graphicImage value="#{obj.requestUser.FB_AVATAR}" height="100"/>
+
+                                        <h:outputText value="Email" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.EMAIL}" />
+
+                                        <h:outputText value="Mobile" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.PHONE_NUM}" />
+                                    </h:panelGrid>
+                                </p:overlayPanel>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkin']}">
+                                <h:outputText value="#{obj.checkInDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkout']}">
+                                <h:outputText value="#{obj.checkOutDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.totalamount']}">
+                                <h:outputText value="#{obj.TOTAL_AMOUNT} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.service_fee']}">
+                                <h:outputText value="#{obj.SERVICE_FEES} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <br/>
+                    <p:panel>
+                        <h:outputText style=" font-size: 20px" value="#{msg['page.dashboard.pending_request']}"/>
+                        <p:separator/>
+                        <br/>
+                        <p:dataTable id="id_table2" reflow="true" value="#{dashboardService.pendingObjects}" var="obj" rows="5" paginator="true" paginatorPosition="bottom">
+                            <p:column headerText="#{msg['page.dashboard.homestay']}">
+                                <h:outputText style=" font-weight: bolder" value="#{obj.homestay.title}"/>
+                                <br/>
+                                <p:graphicImage value="#{obj.homestay.coverImage}" width="90%"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.bookeduser']}">
+                                <h:outputText id="id_user" value="#{obj.requestUser.FULLNAME}"/>
+                                <p:overlayPanel showCloseIcon="true" style="width:400px"  dynamic="true" for="id_user">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{obj.requestUser.FULLNAME}"/>
+                                        </f:facet>
+                                        <h:outputText value="Picture" />
+                                        <h:graphicImage value="#{obj.requestUser.FB_AVATAR}" height="100"/>
+
+                                        <h:outputText value="Email" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.EMAIL}" />
+
+                                        <h:outputText value="Mobile" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.PHONE_NUM}" />
+                                    </h:panelGrid>
+                                </p:overlayPanel>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkin']}">
+                                <h:outputText value="#{obj.checkInDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkout']}">
+                                <h:outputText value="#{obj.checkOutDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.totalamount']}">
+                                <h:outputText value="#{obj.TOTAL_AMOUNT} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.service_fee']}">
+                                <h:outputText value="#{obj.SERVICE_FEES} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton icon="fa fa-check" style="width:90%" styleClass="green-btn" rendered="#{obj.enableAccept}" action="#{dashboardService.acceptRequest}" update="id_table2"  value="#{msg['general.confirm']}">
+                                    <f:setPropertyActionListener target="#{dashboardService.selectedObject}" value="#{obj}"/>
+                                </p:commandButton>
+                                <br/><br/>
+                                <p:commandButton icon="fa fa-close" style="width:90%" styleClass="black-btn" rendered="#{obj.enableAccept}" action="#{dashboardService.rejectRequest}" update="id_table2"  value="#{msg['general.reject']}">
+                                    <f:setPropertyActionListener target="#{dashboardService.selectedObject}" value="#{obj}"/>
+                                </p:commandButton>
+                                <p:button icon="fa fa-check" style="width:90%" styleClass="pink-btn" rendered="#{obj.STATE eq 'R'}" value="#{msg['general.wait_payment']}"/>
+                            </p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+                    <br/>
+                    <p:panel>
+                        <h:outputText style=" font-size: 20px" value="#{msg['page.dashboard.recents_booking']}"/>
+                        <p:separator/>
+                        <br/>
+                        <p:dataTable id="id_table3" reflow="true" value="#{dashboardService.recentObjects}" var="obj" rows="5" paginator="true" paginatorPosition="bottom">
+                            <p:column headerText="#{msg['page.dashboard.homestay']}">
+                                <h:outputText style=" font-weight: bolder" value="#{obj.homestay.title}"/>
+                                <br/>
+                                <p:graphicImage value="#{obj.homestay.coverImage}" width="90%"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.bookeduser']}">
+                                <h:outputText id="id_user" value="#{obj.requestUser.FULLNAME}"/>
+                                <p:overlayPanel showCloseIcon="true" style="width:400px"  dynamic="true" for="id_user">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{obj.requestUser.FULLNAME}"/>
+                                        </f:facet>
+                                        <h:outputText value="Picture" />
+                                        <h:graphicImage value="#{obj.requestUser.FB_AVATAR}" height="100"/>
+
+                                        <h:outputText value="Email" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.EMAIL}" />
+
+                                        <h:outputText value="Mobile" />
+                                        <h:outputText style="word-wrap: break-word;" value="#{obj.requestUser.PHONE_NUM}" />
+                                    </h:panelGrid>
+                                </p:overlayPanel>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkin']}">
+                                <h:outputText value="#{obj.checkInDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.checkout']}">
+                                <h:outputText value="#{obj.checkOutDate}">
+                                    <f:convertDateTime type="date" timeZone="GMT+7" pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.totalamount']}">
+                                <h:outputText value="#{obj.TOTAL_AMOUNT} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                            <p:column headerText="#{msg['page.dashboard.service_fee']}">
+                                <h:outputText value="#{obj.SERVICE_FEES} #{obj.currency.CODE_A3}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <p:panel>
+                    <h2>
+                        #{msg['page.dashboard.host_summary']}
+                    </h2>
+                    <p:separator/>
+                    <div class="ui-grid ui-grid-responsive">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-6" align="left">
+                                <h:outputText value="#{dashboardService.currenEarningLabel}:" style=" font-size: 15px"/>
+                            </div>
+                            <div class="ui-grid-col-4"  align="right">
+                                <h:outputText     value="#{dashboardService.current_earning}" style=" font-size: 15px; font-weight: bolder"/>                                   
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-6" align="left">
+                                <h:outputText value="#{dashboardService.currenBookingLabel}:"  style=" font-size: 15px"/>
+                            </div>
+                            <div class="ui-grid-col-4"  align="right">
+                                <h:outputText    value="#{dashboardService.current_booking}" style=" font-size: 15px; font-weight: bolder"/>                                   
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                </p:panel>
+                <br/>
+                <p:panel>
+                    <h2>
+                        #{msg['page.dashboard.recent_guest_messages']}
+                    </h2>
+                    <p:separator/>
+                    <div class="ui-grid ui-grid-responsive">
+                        <p>
+                            #{msg['page.dashboard.recent_guest_messages.no_message']}
+                        </p>
+                    </div>
+                    <br/>
+                </p:panel>
+                <br/>
+                <p:panel>
+                    <h2>
+                        #{msg['page.dashboard.contact_us']}
+                    </h2>
+                    <p:separator/>
+                    <div class="ui-grid ui-grid-responsive">
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-3" align="left">
+                                <h:outputText value="Hotline 1" style=" font-size: 15px"/>
+                            </div>
+                            <div class="ui-grid-col-7"  align="left">
+                                <h:outputText    value="0904123456 Nguyen Mai Huong" style=" font-size: 15px"/>                                   
+                            </div>
+                        </div>
+                        <div class="ui-grid-row">
+                            <div class="ui-grid-col-3" align="left">
+                                <h:outputText value="Hotline 2" style=" font-size: 15px"/>
+                            </div>
+                            <div class="ui-grid-col-7"  align="left">
+                                <h:outputText    value="0904123456 Phung Lan Anh" style=" font-size: 15px"/>                                   
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                </p:panel>
+            </div>
+
+        </div>
+    </ui:define>
+
+</ui:composition>

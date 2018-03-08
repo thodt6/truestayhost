@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Profile</ui:define>
+    <ui:define name="viewname">Your Email and Phone Number</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:remoteCommand name="rc" update="menuform:menu" />
+            <p:tabMenu  activeIndex="0">
+                <p:menuitem value="#{msg['page.profile.email_phone']}" outcome="email-phone.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.payout_info']}" outcome="payout-info.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.basic_info']}" outcome="basic.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.your_photo']}" outcome="media.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.profile.your_id']}" outcome="id.html">
+                </p:menuitem>                
+            </p:tabMenu>
+            <p:progressBar value="20" labelTemplate="" displayOnly="true" style="height:10px"/>
+            <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel id="id_verify">
+                            <h2>#{msg['page.profile.email_phone.title1']}</h2>
+                            <div class="ui-g">                                 
+                                <div class="ui-g-3">
+                                    <h:outputText value="#{msg['page.profile.email_phone.email']}"/>
+                                </div>
+                                <h:panelGroup id="id_verify_email" class="ui-g-9" layout="block">
+                                    <p:inputText readonly="#{!userSessionBean.user.required_email}"  value="#{userSessionBean.user.email}" placeholder="#{msg['page.profile.email_phone.email']}" validatorMessage="#{msg['page.profile.email_phone.invalid_email']}">
+                                        <f:validateRegex
+                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                    </p:inputText>  
+                                    <p:spacer width="10"/>
+                                    <p:button icon="fa fa-check" rendered="#{!userSessionBean.user.required_email}" styleClass="green-btn"/>
+                                    <p:commandButton icon="fa fa-close" value="#{msg['page.profile.email_phone.verify']}" action="#{userSessionBean.verifyEmail}" update="id_verify_email" rendered="#{userSessionBean.user.required_email}"/>
+                                    <p:spacer width="10"/>
+                                    <br/><br/>
+                                    <p:outputPanel>
+                                        <p:inputText id="id_otp_email" rendered="#{userSessionBean.request_verified_email}" placeholder="#{msg['page.profile.email_phone.otp']}"/>
+                                        <p:spacer width="10"/>
+                                        <p:commandButton id="id_confirm_otp" action="#{userSessionBean.confirmEmail}" rendered="#{userSessionBean.request_verified_email}" value="#{msg['page.profile.email_phone.check']}" update="id_verify_email"/>
+                                        <p:messages id="id_otp_email_msg"/>
+                                    </p:outputPanel>
+                                </h:panelGroup>                               
+                                <div class="ui-g-3">
+                                    <h:outputText value="#{msg['page.profile.email_phone.phone']}"/>
+                                </div>
+                                <h:panelGroup id="id_verify_phone" class="ui-g-9" layout="block">
+                                    <p:inputText  maxlength="12" placeholder="#{msg['page.profile.email_phone.phone']}"  value="#{userSessionBean.user.phone_num}"/>
+                                    <p:spacer width="10"/>
+                                    <p:button icon="fa fa-check" rendered="#{!userSessionBean.user.required_phone}" styleClass="green-btn" />
+                                    <p:commandButton icon="fa fa-close" value="#{msg['page.profile.email_phone.verify']}" rendered="#{userSessionBean.user.required_phone}" action="#{userSessionBean.verifySms}" update="id_verify_phone"/>
+                                    <p:spacer width="10"/>
+                                    <br/><br/>
+                                    <p:outputPanel>
+                                        <p:inputText id="id_otp_phone" value="#{userSessionBean.otp_code}" rendered="#{userSessionBean.request_verified_phone}" placeholder="#{msg['page.profile.email_phone.otp']}"/>
+                                        <p:spacer width="10"/>
+                                        <p:commandButton id="id_confirm_otp_phone" action="#{userSessionBean.confirmSms}" rendered="#{userSessionBean.request_verified_phone}" value="#{msg['page.profile.email_phone.check']}" update="id_verify_phone"/>
+                                        <p:messages id="id_otp_phone_msg"/>
+                                    </p:outputPanel>
+                                </h:panelGroup>
+                            </div>    
+                        </p:panel>
+                        <br/>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['general.next']}" action="#{userSessionBean.updateEmailAndPhone}"  styleClass="pink-btn"/> 
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <div class="card">
+                                <i class="fa fa-lightbulb-o fa-2x"/>
+                                <p>#{msg['page.profile.email_phone.help']}</p>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>            
+        </h:form>
+    </ui:define>
+
+</ui:composition>

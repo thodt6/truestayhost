@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+
+    <ui:define name="title">Tax Policy</ui:define>
+    <ui:define name="viewname">Tax Policy</ui:define>    
+    <ui:define name="content">
+        <h:form id="frmObject">
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12">                    
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step4.tax']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="#{msg['page.become_a_host.save_and_exit']}" action="#{listingService.listing16.saveAndExist}" update="id_growl" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar id="id_progress" style="height:10px" value="#{listingService.listing16.percentComplete}" labelTemplate="" displayOnly="true"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card">
+                        <h1>#{msg['page.become_a_host.step4.tax.title1']}</h1>
+                        <p>#{msg['page.become_a_host.step4.tax.title2']}</p>
+                        <br/>
+                        <p:selectBooleanCheckbox value="#{listingService.listing16.understandTax}"/>
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{msg['page.become_a_host.step4.tax.title3']}"/>
+                        <br/>
+                        <br/>
+                        <p:panel rendered="#{listingService.listing16.understandTax and userSessionBean.user.verified and listingService.homestay.state !='A'}">
+                            <p>
+                                #{msg['page.become_a_host.step4.tax.publish_content']}
+                            </p>
+                            <p:commandButton value="#{msg['page.become_a_host.step4.tax.publish']}" action="#{listingService.listing16.publishHomeStay}" update="id_growl"/>
+
+                        </p:panel>    
+                        <p:panel rendered="#{listingService.listing16.understandTax and !userSessionBean.user.enoughVerifyInfo}">
+                            <p>
+                                #{msg['page.become_a_host.step4.tax.un_publish_content']} 
+                                <p:link value="Update your profile" outcome="/portal/profile/update-your-profile/email-phone.html"/>
+                            </p>
+                        </p:panel>    
+<!--                        <p:panel rendered="#{listingService.listing16.understandTax and !userSessionBean.user.verified and userSessionBean.user.enoughVerifyInfo} ">
+                            <p>You have finished your listing but you can not publish right now because your account is not verify. Please contact support@truestay.vn to get help 
+                            </p>
+                        </p:panel>    -->
+                        <br/><br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="#{msg['general.back']}"  action="#{listingService.listing16.backPage}"  icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="#{msg['general.finish']}" action="#{listingService.listing16.nextPage}" update="id_progress,:frmObject" styleClass="pink-btn"/> 
+                            </div>
+                        </p:outputPanel>
+                        <br/><br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step4.tax.help']}</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

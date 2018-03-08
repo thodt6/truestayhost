@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView"  listener="#{listingService.listing1.initService}"/>
+    </f:metadata>
+
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Your accommodation</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl" globalOnly="true"/>         
+            <p:tabMenu  activeIndex="1">
+                <p:menuitem value="#{msg['page.your_listing.property']}" outcome="room.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Accomodation']}" outcome="bedroom.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Location']}" outcome="location.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Amenities']}" outcome="amenities.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Your_Spaces']}" outcome="spaces.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Photos']}" outcome="photos.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Description']}" outcome="description.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.House_rule']}" outcome="house-rule.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Guest_requirements']}" outcome="guest-requirements.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.How_to_book']}" outcome="howto-book.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Datetime_setting']}" outcome="stay-setting.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Calendar']}" outcome="calendar.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Price_setting']}" outcome="price-setting.html">
+                </p:menuitem>
+            </p:tabMenu>
+            <p:progressBar value="#{listingService.listing1.percentComplete}"  style="height:10px" labelTemplate="" displayOnly="true"/>
+            <p:panel>                    
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <h1 style="font-weight: bolder">How many guests can your place accommodate?</h1>
+                            <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank lesspad">
+                                <h:outputText value="#{msg['page.become_a_host.step1.bedroom.Adults']} " style="font-size: 20px"/>
+                                <p:outputPanel>
+                                    <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.discreaseAdultNum}" update="id_adults_num,id_max_guest_num"/>
+                                    <p:inputText style="width:50px" id="id_adults_num"  value="#{listingService.homestay.adults_num}" required="true"/>                                    
+                                    <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseAdultNum}" update="id_adults_num,id_max_guest_num"/>
+                                </p:outputPanel>
+                                <h:outputText value="#{msg['page.become_a_host.step1.bedroom.Childrens']} " style="font-size: 20px"/>
+                                <p:outputPanel>                                    
+                                    <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.decreaseChildrenNum}" update="id_children_num,id_max_guest_num"/>
+                                    <p:inputText style="width:50px" id="id_children_num"  value="#{listingService.homestay.children_num}" required="true"/>
+                                    <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseChildrenNum}" update="id_children_num,id_max_guest_num"/>
+                                </p:outputPanel>
+                                <h:outputText value="#{msg['page.become_a_host.step1.bedroom.Infants']} " style="font-size: 20px"/>
+                                <p:outputPanel>                                    
+                                    <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.descreaseInfantNum}" update="id_infant_num,id_max_guest_num"/>
+                                    <p:inputText style="width:50px" id="id_infant_num"  value="#{listingService.homestay.infants_num}" required="true"/>                                    
+                                    <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseInfantNum}" update="id_infant_num,id_max_guest_num"/>
+                                </p:outputPanel>
+                                <h:outputText value="#{msg['page.become_a_host.step1.bedroom.Max_person_in_your_home']}" style="font-size: 20px"/>
+                                <p:outputPanel>
+                                    <p:inputNumber size="5"  decimalPlaces="0"  minValue="#{listingService.homestay.infants_num + listingService.homestay.children_num + listingService.homestay.adults_num}" style="width:50px" id="id_max_guest_num"  value="#{listingService.homestay.max_guest_num}" required="true"/>
+                                </p:outputPanel>
+                                <h:outputText value="#{msg['page.become_a_host.step1.bedroom.How_many_bedrooms_can_guests_use']}" style="font-size: 20px"/>
+                                <p:selectOneMenu required="true" value="#{listingService.homestay.bed_room_num}"   label="What type of property is this">
+                                    <f:selectItem itemLabel="#{msg['page.become_a_host.step1.bedroom.select_one']}" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="1 #{msg['page.become_a_host.step1.bedroom.bed_room']}" itemValue="1"/>
+                                    <f:selectItem itemLabel="2 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="2"/>
+                                    <f:selectItem itemLabel="3 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="3"/>
+                                    <f:selectItem itemLabel="4 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="4"/>
+                                    <f:selectItem itemLabel="5 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="5"/>
+                                    <f:selectItem itemLabel="6 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="6"/>
+                                    <f:selectItem itemLabel="7 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="7"/>
+                                    <f:selectItem itemLabel="8 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="8"/>
+                                    <f:selectItem itemLabel="9 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="9"/>
+                                    <f:selectItem itemLabel="10 #{msg['page.become_a_host.step1.bedroom.bed_rooms']}" itemValue="10"/>
+                                </p:selectOneMenu>
+                                <h:outputText value="#{msg['page.become_a_host.step1.bedroom.How_many_beds_can_guests_use']}" style="font-size: 20px"/>
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="#{msg['page.become_a_host.step1.bedroom.Single_bed']}"/>
+                                    <p:outputPanel>                                        
+                                        <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.descreaseSingleBedNum}" update="id_singlebed_num,id_growl"/>
+                                        <p:inputText style="width: 50px" readonly="true"   id="id_singlebed_num"  value="#{listingService.homestay.single_bed_num}" required="true"/>                                        
+                                        <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseSingleBedNum}" update="id_singlebed_num,id_growl"/>
+                                    </p:outputPanel>                                   
+                                    <h:outputText value="#{msg['page.become_a_host.step1.bedroom.Double_bed']}"/>
+                                    <p:outputPanel>
+                                        <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.descreaseDoubleBedNum}" update="id_doublebed_num"/>                                        
+                                        <p:inputText style="width: 50px"   id="id_doublebed_num" value="#{listingService.homestay.double_bed_num}" required="true"/>
+                                        <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseDoubleBedNum}" update="id_doublebed_num"/>
+                                    </p:outputPanel>
+                                </h:panelGrid>
+                                <h:outputText value="#{msg['page.become_a_host.step1.bedroom.How_many_baths_room_can_guest_use']}" style="font-size: 20px"/>
+                                <p:outputPanel>                                    
+                                    <p:commandButton icon="fa fa-minus" action="#{listingService.homestay.decreaseBathRoom}" update="id_bathroom_num"/>
+                                    <p:inputText style="width:50px" id="id_bathroom_num"  value="#{listingService.homestay.bath_room_num}" required="true"/>                                    
+                                    <p:commandButton icon="fa fa-plus" action="#{listingService.homestay.increaseBathRoom}" update="id_bathroom_num"/>
+                                </p:outputPanel>                                
+                            </p:panelGrid>   
+                            <br/>                            
+                        </p:panel>
+                        <br/>
+                        <div style="float: right;">
+                            <p:button value="#{msg['page.your_listing.Go_to_your_listing']}" outcome="/portal/listing/your-listing/index.html"/>
+                        </div>
+                        <div style="float: left;">
+                            <p:commandButton value="#{msg['general.update']}" action="#{listingService.listing1.doUpdate}" update="id_growl" styleClass="pink-btn"/>                                 
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <div class="card">
+                                <i class="fa fa-lightbulb-o fa-2x"/>
+                                <p>#{msg['page.become_a_host.step1.bedroom.help']}</p>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>  
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

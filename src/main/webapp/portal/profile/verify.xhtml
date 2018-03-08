@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Verified information</ui:define>
+    <ui:define name="viewname">Verified information</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12 ui-md-6">
+                    <p:panel header="Your account is verified" rendered="#{userSessionBean.user.verified}">
+                        Your account is verified. You can list your home and publish to all traveler anytime
+                    </p:panel> 
+                    <p:panel header="Your account is not verified" rendered="#{!userSessionBean.user.verified}">
+                        Your account is not verified. Please contact to us if verification is too long. You need verified to publish your home
+                    </p:panel> 
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <p:panel header="Needed verified information">
+                        <h:outputText style=" font-size: 15px ; font-weight:  bolder " value="Email(Confirmed)"/>
+                        <br/>
+                        <h:outputText  value="#{userSessionBean.user.email}"/>
+                        <br/>
+                        <h:outputText style=" font-size: 15px; font-weight:  bolder " value="Phone Number(Confirmed)"/>
+                        <br/>
+                        <h:outputText  value="#{userSessionBean.user.phone_num}"/>
+                        <br/>
+                        <h:outputText style=" font-size: 15px; font-weight:  bolder " value="Bank account(Confirmed)"/>
+                        <br/>
+                        <h:outputText  value="Bank account: #{userSessionBean.user.pay_acct}"/>
+                        <br/>
+                        <h:outputText  value="Acount name : #{userSessionBean.user.acct_name}"/>
+                        <br/>
+                        <h:outputText  value="Bank name   : #{userSessionBean.user.bank_name}"/>
+                        <br/>
+                        <h:outputText  value="Bank agent  : #{userSessionBean.user.agent_name}"/>
+                        <br/>
+                    </p:panel> 
+                </div>
+            </div>
+
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

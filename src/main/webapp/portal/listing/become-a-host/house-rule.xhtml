@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing9.initService}"/>    
+    </f:metadata>
+
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">House rule</ui:define>    
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12">                    
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step2.house_rule']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton action="#{listingService.listing9.saveAndExist}" value="#{msg['page.become_a_host.save_and_exit']}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing9.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card">
+                        <h1>#{msg['page.become_a_host.step2.house_rule.title1']}</h1>
+                        <ui:repeat  value="#{listingService.listing9.houseRuleService.house_rules}" var="rule">
+                            <p:panelGrid columns="2" layout="grid" style="width:80%" styleClass="ui-panelgrid-blank lesspad">
+                                <h:outputText style=" font-size: 15px" value="#{rule.name}"/>
+                                <p:inputSwitch value="#{rule.selected}"/>
+                            </p:panelGrid>
+                        </ui:repeat>
+                        <h:outputText style=" font-size: 15px;font-weight: bolder" value="#{msg['page.become_a_host.step2.house_rule.title2']}"/>
+                        <br/>
+                        <br/>
+                        <p:selectManyMenu value="#{listingService.homestay.homestay_knowabout_ids}"  showCheckbox="true" style="width:100%;">
+                            <f:selectItems value="#{listingService.listing9.houseRuleService.know_abouts}" var="k" itemLabel="#{k.name}" itemValue="#{k.id}"/>
+                        </p:selectManyMenu>
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="#{msg['general.back']}"  action="#{listingService.listing9.backPage}"  icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="#{msg['general.next']}" action="#{listingService.listing9.nextPage}" styleClass="pink-btn"/> 
+                            </div>
+                        </p:outputPanel>
+                        <br/><br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step2.house_rule.help']}</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Notification setting</ui:define>
+    <ui:define name="viewname">Notification setting</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12 ui-md-6">
+                    <p:panel header="Messages">
+                        <br/>
+                        <h:outputText value="Receive messages from hosts and guests"/>
+                        <br/><br/>
+                        <p:separator/>
+                        <br/>
+                        <p:selectBooleanCheckbox/> Email
+                        <br/><br/>
+                        <p:selectBooleanCheckbox/> Push Notification
+                        <br/><br/>
+                        <p:selectBooleanCheckbox/> Text Message
+                        <br/><br/>
+                    </p:panel> 
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <p:panel header="Contact information">
+                        <br/>
+                        This information can be edited from your profile page. <p:link value="Edit Profile" outcome="/portal/profile/update-your-profile/email-phone.html"/>
+                        <br/><br/>
+                        <p:separator/>
+                        <br/>
+                        Email: #{userSessionBean.user.email}
+                        <br/><br/>
+                        <br/>
+                        Phone number: #{userSessionBean.user.phone_num}
+                        <br/><br/>
+                    </p:panel> 
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <p:panel header="Reminder and suggesstions">
+                        <br/>
+                        <h:outputText value="Receive reservation requests, booking confirmations, helpful tips to improve your trip, and other messages specific to your activities."/>
+                        <br/><br/>
+                        <p:separator/>
+                        <br/>
+                        <p:selectBooleanCheckbox/> Email
+                        <br/><br/>
+                        <p:selectBooleanCheckbox/> Push Notification
+                        <br/><br/>
+                        <p:selectBooleanCheckbox/> Text Message
+                        <br/><br/>
+                    </p:panel> 
+                </div>
+                <div class="ui-g-12 ui-md-6">
+                    <p:panel header="Promotions and tips">
+                        <br/>
+                        <h:outputText value="RReceive coupons, promotions, surveys, product updates, and inspiration from Airbnb and its partners."/>
+                        <br/><br/>
+                        <p:separator/>
+                        <br/>
+                        <p:selectBooleanCheckbox/> Email
+                        <br/><br/>
+                        <p:selectBooleanCheckbox/> Push Notification
+                        <br/><br/>
+                        <p:selectBooleanCheckbox/> Text Message
+                        <br/><br/>
+                    </p:panel> 
+                </div>
+            </div>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Listing requirements</ui:define>
+    <ui:define name="viewname">Listing requirements</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:panel header="Identity">
+                <p>
+                    Please noted that, your account need to be verified before your listing is used for guest. 
+                </p>
+                <br/>
+                <p:selectBooleanCheckbox/>
+                <p:spacer width="20"/>
+                <h:outputText value="Require guests to go through verification"/>
+                <f:facet name="footer">
+                    <p:commandButton value="Save Reservation Requirments" style="pink-btn"/> 
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

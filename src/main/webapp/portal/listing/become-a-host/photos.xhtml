@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing5.initService}"/>   
+    </f:metadata>
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Add your photos</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <div class="ui-g">            
+                <div class="ui-g-12">
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="#{msg['page.become_a_host.step2.image']}" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton action="#{listingService.listing5.saveAndExist}"  value="#{msg['page.become_a_host.save_and_exit']}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing5.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card card-w-title">
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.image.title1']}</h1>
+                        <p:carousel headerText="#{msg['page.become_a_host.step2.image.title2']}" id="id_cover" responsive="true"  value="#{listingService.listing5.imageService.homestay_cover}" var="image">
+                            <div style="height:150px">
+                                <p:commandButton icon="fa fa-close" action="#{listingService.listing5.imageService.removeSelectCover}" update="id_cover" style="position:absolute;  z-index:10;">
+                                    <f:setPropertyActionListener target="#{listingService.listing5.imageService.selectedCover}" value="#{image}"/>
+                                </p:commandButton>
+                                <p:graphicImage value="#{image.imageurl}" width="100%" height="150"
+                                                onclick="window.open('#{url}', '_blank');">                               
+                                </p:graphicImage>
+                            </div>
+                        </p:carousel>
+                        <p:fileUpload fileUploadListener="#{listingService.listing5.handleCoverImageUpload}" mode="advanced"  dragDropSupport="true" multiple="true"
+                                      update="id_cover" sizeLimit="1000000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                      uploadLabel="#{msg['page.become_a_host.step2.image.upload']}" 
+                                      cancelLabel="#{msg['page.become_a_host.step2.image.cancel']}"
+                                      label="#{msg['page.become_a_host.step2.image.choose']}" />                    
+                        <br/>
+                        <p:carousel headerText="#{msg['page.become_a_host.step2.image.title3']}" id="id_images" responsive="true" value="#{listingService.listing5.imageService.homestay_images}" var="image">
+                            <div style="height:150px">
+                                <p:commandButton icon="fa fa-close" action="#{listingService.listing5.imageService.removeSelectImage}" update="id_images" style="position:absolute;  z-index:10;">
+                                    <f:setPropertyActionListener target="#{listingService.listing5.imageService.selectedImage}" value="#{image}"/>
+                                </p:commandButton>
+                                <p:graphicImage value="#{image.imageurl}" width="100%" height="150"
+                                                onclick="window.open('#{url}', '_blank');">                               
+                                </p:graphicImage>
+                            </div>
+                        </p:carousel>
+
+                        <p:fileUpload fileUploadListener="#{listingService.listing5.handleImageUpload}" mode="advanced"  dragDropSupport="true" multiple="true"
+                                      update="id_images" sizeLimit="1000000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                      uploadLabel="#{msg['page.become_a_host.step2.image.upload']}" 
+                                      cancelLabel="#{msg['page.become_a_host.step2.image.cancel']}"
+                                      label="#{msg['page.become_a_host.step2.image.choose']}" />
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="#{msg['general.back']}" action="#{listingService.listing5.backPage}"  icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="#{msg['general.next']}" styleClass="pink-btn" style="margin-bottom:10px;" action="#{listingService.listing5.nextPage}"/>
+                            </div>
+                        </p:outputPanel> 
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>#{msg['page.become_a_host.step2.image.help']}</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

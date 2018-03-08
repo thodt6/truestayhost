@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+    <ui:define name="title">Profile</ui:define>
+    <ui:define name="viewname">Your Email and Phone Number</ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <p:tabMenu  activeIndex="0">
+                <p:menuitem value="Email and Phone" outcome="confirm.html">
+                </p:menuitem>
+                <p:menuitem value="Payout-info" outcome="payout-info.html">
+                </p:menuitem>
+                <p:menuitem value="Basic information" outcome="basic.html">
+                </p:menuitem>
+                <p:menuitem value="Media" outcome="media.html">
+                </p:menuitem>
+                <p:menuitem value="Your Identification" outcome="id.html">
+                </p:menuitem>                
+            </p:tabMenu>
+            <p:progressBar value="20" labelTemplate="" displayOnly="true" style="height:10px"/>
+            <p:panel>
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel header="Enter your otp code you received">
+                            <div class="ui-g">                               
+                                <div class="ui-g-4">
+                                    <h:outputText value="Your received code"/>
+                                </div>
+                                <div class="ui-g-8">
+                                    <p:inputText />
+                                </div>  
+                            </div>    
+                        </p:panel>
+                        <br/>
+                        <div style="float: left;">
+                            <p:button value="Back" outcome="email-phone.html"  icon="fa fa-long-arrow-left"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="Next" action="#{userSessionBean.confirmEmailAndPhone}"  styleClass="pink-btn"/> 
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">
+                        <p:panel>
+                            <div class="card">
+                                <i class="fa fa-lightbulb-o fa-2x"/>
+                                <p>Entire place Guests will rent the entire place. Includes in-law units. Private room Guests share some spaces but they’ll have their own private room for sleeping.Shared room Guests don’t have a room to themselves.</p>
+                            </div>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>               
+        </h:form>
+    </ui:define>
+
+</ui:composition>

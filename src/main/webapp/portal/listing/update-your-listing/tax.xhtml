@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+    </f:metadata>
+
+    <ui:define name="title">Tax Policy</ui:define>
+    <ui:define name="viewname">Tax Policy</ui:define>    
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12">                    
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="Step 3: Finishing your listing" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton value="Save and exit" action="#{listingService.listing16.saveAndExist}" update="id_growl" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar id="id_progress" value="#{listingService.listing16.percentComplete}" labelTemplate="" displayOnly="true"/>
+                </div>
+
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card">                        
+                        <h1>Local and tax</h1>
+                        <p>Pricing does not include VAT. Price to guest will add 10% VAT automatically</p>
+                        <br/>
+                        <p:selectBooleanCheckbox value="#{listingService.listing16.understandTax}"/>
+                        <p:spacer width="20"/>
+                        <h:outputText value="Got it. I will finish my listing"/>                        
+                        <br/>
+                        <br/>
+                        <p:panel rendered="#{listingService.listing16.understandTax and userSessionBean.user.verified and listingService.homestay.state !='A'}">
+                            <p>
+                                You had finished your listing and you can publish your home right now 
+                            </p>
+                            <p:commandButton value="Publish" action="#{listingService.listing16.publishHomeStay}" update="id_growl"/>
+                        </p:panel>    
+                        <p:panel rendered="#{listingService.listing16.understandTax and !userSessionBean.user.enoughVerifyInfo}">
+                            <p>You have finished your listing but you can not publish right now because you do not have enough account information. 
+                                <p:link value="Update your profile" outcome="/portal/profile/update-your-profile/email-phone.html"/>
+                            </p>
+                        </p:panel>    
+                        <p:panel rendered="#{listingService.listing16.understandTax and !userSessionBean.user.verified and userSessionBean.user.enoughVerifyInfo} ">
+                            <p>You have finished your listing but you can not publish right now because your account is not verify. Please contact support@truestay.vn to get help 
+                            </p>
+                        </p:panel>   
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton value="Back"  action="#{listingService.listing16.backPage}"  icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="Finish" action="#{listingService.listing16.nextPage}"  update="id_progress, " styleClass="pink-btn"/> 
+                            </div>
+                        </p:outputPanel>
+                        <br/><br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>Entire place Guests will rent the entire place. Includes in-law units. Private room Guests share some spaces but they’ll have their own private room for sleeping.Shared room Guests don’t have a room to themselves.</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

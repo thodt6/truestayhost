@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>
+        <f:event type="preRenderView" listener="#{listingService.listing14.initService}"/>
+    </f:metadata>
+    <ui:define name="css">
+        <style type="text/css">
+            a.emp1 {
+                background: red !important;
+                border-color: #932c39!important;
+            }
+            a.emp2 {
+                background: green !important;
+                border-color: #932c39!important;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="title">Become a host</ui:define>
+    <ui:define name="viewname">Become a host</ui:define>    
+    <ui:define name="content">
+        <h:form id="frmObject">
+            <p:growl id="id_growl"/>
+            <div class="ui-g">            
+                <div class="ui-g-12">                    
+                    <p:outputPanel>
+                        <div style="float: left;">
+                            <h:outputText value="Step 3: Finishing your listing" style="font-size:25px;font-weight: bolder"/>
+                        </div>
+                        <div style="float: right;">
+                            <p:commandButton action="#{listingService.listing14.initService}" value="#{msg['page.become_a_host.save_and_exit']}" style="font-size:15px"/>
+                        </div>
+                    </p:outputPanel>
+                    <br/>
+                    <br/>
+                    <p:progressBar value="#{listingService.listing14.percentComplete}"  labelTemplate="" displayOnly="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-8">
+                    <div class="card">
+                        <h1>Update your calendar</h1>
+                        <p:commandButton value="Clear all" action="#{listingService.listing14.calenderService.clearAllEvent}" update="id_calendar"/>
+                        <p:commandButton value="Block all" action="#{listingService.listing14.calenderService.blockAll}" update="id_calendar"/>
+                        <p:commandButton value="Unblock all" action="#{listingService.listing14.calenderService.unBlockAll}" update="id_calendar"/>
+                        <p:separator/>
+                        <p:schedule     id="id_calendar" rightHeaderTemplate="agendaMonth" aspectRatio="2" showWeekends="true" 
+                                        draggable="false" resizable="false" tooltip="true"   
+                                        initialDate="#{listingService.listing14.calenderService.beginDate}"
+                                        value="#{listingService.listing14.calenderService.eventModel}"  timeZone="GMT+7">
+                            <p:ajax     event="dateSelect" listener="#{listingService.listing14.calenderService.onDateSelect}" 
+                                        update="id_panel,id_growl"/>
+                            <p:ajax     event="eventSelect" listener="#{listingService.listing14.calenderService.onEventSelect}" 
+                                        update="id_panel,id_growl"/>
+                        </p:schedule>
+                        <p:separator/>
+                        <br/>
+                        <p:outputPanel>
+                            <div style="float: left;">
+                                <p:commandButton action="#{listingService.listing14.backPage}" value="msg['general.back']"  icon="fa fa-long-arrow-left"/>
+                            </div>
+                            <div style="float: right;">
+                                <p:commandButton value="Finish" action="#{listingService.listing14.nextPage}"  styleClass="pink-btn"/> 
+                            </div>
+                        </p:outputPanel>
+                        <br/><br/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                    <div class="card">
+                        <h1>Select date range</h1>
+                        <p:panel id="id_panel">
+                            <p:outputPanel >
+                                <p:calendar  disabled="#{!listingService.listing14.calenderService.showSettingDialog}" value="#{listingService.listing14.calenderService.beginDate}" mindate="now +1">
+                                    <p:ajax event="dateSelect" listener="#{listingService.listing14.calenderService.onSelectBeginDate}" update="id_panel" />
+                                </p:calendar>
+                                <p:spacer width="10"/>
+                                <p:calendar disabled="#{!listingService.listing14.calenderService.showSettingDialog}" value="#{listingService.listing14.calenderService.endDate}" mindate="#{listingService.listing14.calenderService.endDate}">
+                                    <p:ajax event="dateSelect" update="id_panel" />
+                                </p:calendar>   
+                                <br/><br/>                                
+                                <p:selectOneButton disabled="#{!listingService.listing14.calenderService.showSettingDialog}" value="#{listingService.listing14.calenderService.state}">
+                                    <f:selectItem itemLabel="Block" itemValue="B"/>
+                                    <f:selectItem itemLabel="Un block" itemValue="U"/>      
+                                </p:selectOneButton>
+                                <p:separator/>
+                                <p:commandButton disabled="#{!listingService.listing14.calenderService.showSettingDialog}" value="Update" action="#{listingService.listing14.calenderService.updateCalendar}" update=":frmObject:id_calendar"/> 
+                            </p:outputPanel>
+                        </p:panel>
+                    </div>
+                    <div class="card">
+                        <i class="fa fa-lightbulb-o fa-2x"/>
+                        <p>Select date range in calendar. Set block or unblock state for the range</p>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

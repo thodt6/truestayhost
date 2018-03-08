@@ -1,0 +1,170 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>        
+        <f:event type="preRenderView" listener="#{userSessionBean.verifyAccessPage}"/>   
+        <f:event type="preRenderView" listener="#{listingService.listing14.initService}"/>   
+    </f:metadata>
+    <ui:define name="head">
+        <h:outputStylesheet library="fullcalendar" name="fullcalendar.min.css"/>  
+        <h:outputStylesheet library="fullcalendar-scheduler" name="scheduler.min.css"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />        
+        <h:outputScript library="fullcalendar/lib" name="moment.min.js" target="head"/>
+        <h:outputScript library="fullcalendar" name="fullcalendar.min.js" target="head"/>
+        <h:outputScript library="fullcalendar-scheduler" name="scheduler.min.js" target="head"/>
+        <script type="text/javascript">
+            var lastEvent;
+            function updateCalendar() {
+                $('#mycalendar').fullCalendar('refetchEvents');
+            }
+            function clearTempEvent() {
+                if (lastEvent) {
+                    $("#mycalendar").fullCalendar('removeEventSource', lastEvent);
+                    $('#calendar').fullCalendar('today');
+                }
+            }
+            function calendarFunction() {
+                $('#mycalendar').fullCalendar({
+                    // put your options and callbacks here
+                    defaultDate: moment('#{listingService.listing14.calendarService.beginDateInStr}'),
+                    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+                    defaultView: 'month',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: ''
+                    },
+                    selectable: true,
+                    selectHelper: true,
+                    height: 'auto',
+                    eventConstraint: {
+                        start: moment().format('YYYY-MM-DD'),
+                        end: '2100-01-01' // hard coded goodness unfortunately
+                    },
+                    select: function (start, end) {
+                        var check = $.fullCalendar.formatDate(start, 'YYYY-MM-DD');
+                        var today = $.fullCalendar.formatDate(moment(), 'YYYY-MM-DD');
+                        console.log(today);
+                        if (check >= today) {
+                            if (lastEvent) {
+                                $("#mycalendar").fullCalendar('removeEventSource', lastEvent);
+                            }
+                            eventSource = [{
+                                    start: start,
+                                    end: end,
+                                    rendering: 'background',
+                                    backgroundColor: '#E8F5F7',
+                                    color: '#E8F5F7',
+                                    block: true}];
+                            $("#mycalendar").fullCalendar('addEventSource', eventSource);
+                            lastEvent = eventSource;
+                            dateRange([{name: 'begin_date', value: $.fullCalendar.formatDate(start, 'YYYY-MM-DD')}, {name: 'end_date', value: $.fullCalendar.formatDate(end, "YYYY-MM-DD")}]);
+                        } else {
+                            $('#mycalendar').fullCalendar('unselect');
+                        }
+                    },
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: #{listingService.listing14.calendarService.eventString}
+                });
+            }
+            $(document).ready(function () {
+                calendarFunction();
+            });
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+            td.fc-day.fc-past {
+                background-color: #EEEEEE;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="title">Update your listing</ui:define>
+    <ui:define name="viewname">Update your calendar</ui:define>    
+    <ui:define name="content">
+        <h:form id="frmObject">
+            <p:growl id="id_growl"/>   
+            <p:remoteCommand name="dateRange" update="id_growl,id_panel" actionListener="#{listingService.listing14.calendarService.updateStartEndDate}"/>
+            <p:tabMenu  activeIndex="11">
+                <p:menuitem value="#{msg['page.your_listing.property']}" outcome="room.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Accomodation']}" outcome="bedroom.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Location']}" outcome="location.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Amenities']}" outcome="amenities.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Your_Spaces']}" outcome="spaces.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Photos']}" outcome="photos.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Description']}" outcome="description.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.House_rule']}" outcome="house-rule.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Guest_requirements']}" outcome="guest-requirements.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.How_to_book']}" outcome="howto-book.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Datetime_setting']}" outcome="stay-setting.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Calendar']}" outcome="calendar.html">
+                </p:menuitem>
+                <p:menuitem value="#{msg['page.your_listing.Price_setting']}" outcome="price-setting.html">
+                </p:menuitem>
+            </p:tabMenu>
+            <p:progressBar value="#{listingService.listing14.percentComplete}"  style="height:10px" labelTemplate="" displayOnly="true"/>
+            <p:panel>                                               
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-lg-8">
+                        <p:panel>
+                            <h1>
+                                #{msg['page.calendar.update']}
+                                <div style="float:right">    
+                                    <p:button styleClass="pink-btn" value="#{msg['general.clear']}" onclick="clearTempEvent(); return false;"/>
+                                    <p:commandButton styleClass="pink-btn" value="#{msg['page.calendar.block_all']}" action="#{listingService.listing14.calendarService.blockAll}" ajax="false" />
+                                    <p:commandButton styleClass="pink-btn" value="#{msg['page.calendar.unblock_all']}" action="#{listingService.listing14.calendarService.unBlockAll}" ajax="false" />
+                                </div>
+                            </h1>                           
+                            <p:outputPanel id="id_calendar">
+                                <div id='mycalendar'/>
+                            </p:outputPanel>
+                        </p:panel>
+                        <br/>                        
+                        <div style="float: right;">
+                            <p:button styleClass="pink-btn" value="#{msg['page.your_listing.Go_to_your_listing']}" outcome="/portal/listing/your-listing/index.html"/>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-4">                       
+                        <p:panel id="id_panel">
+                            <h1>#{msg['page.calendar.select_date_range']}</h1>
+                            <p:outputPanel >
+                                <p:calendar   value="#{listingService.listing14.calendarService.beginDate}" mindate="now +1">
+                                    <p:ajax event="dateSelect" listener="#{listingService.listing14.calendarService.onSelectBeginDate}" update="id_panel" />
+                                </p:calendar>
+                                <p:spacer width="10"/>
+                                <p:calendar  value="#{listingService.listing14.calendarService.endDate}" mindate="#{listingService.listing14.calendarService.endDate}">
+                                    <p:ajax event="dateSelect" update="id_panel" />
+                                </p:calendar>   
+                                <br/><br/>                                
+                                <p:selectOneButton  value="#{listingService.listing14.calendarService.state}">
+                                    <f:selectItem itemLabel="#{msg['page.calendar.block']}" itemValue="B"/>
+                                    <f:selectItem itemLabel="#{msg['page.calendar.unblock']}" itemValue="U"/>      
+                                </p:selectOneButton>
+                                <p:separator/>
+                                <p:commandButton styleClass="pink-btn" ajax="false" value="#{msg['general.update']}" action="#{listingService.listing14.calendarService.updateCalendar}"/> 
+                            </p:outputPanel>
+                        </p:panel>
+                    </div>
+                </div>
+            </p:panel>                  
+        </h:form>
+    </ui:define>
+
+</ui:composition>
