@@ -6,6 +6,7 @@
 package com.unibro.service.addlisting;
 
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import java.io.IOException;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -21,7 +22,7 @@ public abstract class AbstractListingService {
 
     private Homestay homestay;
     private int percentComplete = 0;
-    private String username;
+    private User user;
     final int num_step=14;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
@@ -33,6 +34,8 @@ public abstract class AbstractListingService {
     public abstract void nextPage();
 
     public abstract void backPage();
+    
+    public abstract String getBackpage();
 
     public void doUpdate(){
         if(!this.doService()){
@@ -55,9 +58,9 @@ public abstract class AbstractListingService {
 
     }
 
-    public AbstractListingService(Homestay homestay, String username) {
+    public AbstractListingService(Homestay homestay, User user) {
         this.homestay = homestay;
-        this.username = username;
+        this.user = user;
     }
 
     public void showMessage(String message, Severity type) {
@@ -105,15 +108,15 @@ public abstract class AbstractListingService {
     /**
      * @return the username
      */
-    public String getUsername() {
-        return username;
+    public User getUser() {
+        return user;
     }
 
     /**
-     * @param username the username to set
+     * @param user the user to set
      */
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public void publishHomeStay(){

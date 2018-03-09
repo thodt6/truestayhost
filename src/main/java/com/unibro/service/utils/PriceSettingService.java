@@ -10,9 +10,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.unibro.api.Listing;
+import com.unibro.api.Utils;
 import com.unibro.model.ExtraCharge;
 import com.unibro.model.Homestay;
-import com.unibro.service.UserSessionBean;
+import com.unibro.model.User;
 import com.unibro.utils.Global;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,31 +26,31 @@ import java.util.List;
 public class PriceSettingService {
 
     private Homestay homestay;
+    User user;
 
     org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(this.getClass().getName());
 
-    public PriceSettingService() {
-
+    public PriceSettingService(User user) {
+        this.user = user;
     }
 
-    public List<ExtraCharge> getExtraChargeList(String homestay_id) {
-        String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
-        String path = "util/get_homestay_extra_charges";
-        String[] params = {"homestay_id"};
-        String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
-        if (ret != null) {
-            Gson gson = Global.getGsonObject();
-            JsonObject obj = gson.fromJson(ret, JsonObject.class);
-            if (obj.get("message").getAsString().equals("200")) {
-                JsonElement data = obj.get("data").getAsJsonObject().get("homestay_extra_charges");
-                return getExtraChargeList(data);
-            }
-        }
-        return new ArrayList();
-    }
-
+//    public List<ExtraCharge> getExtraChargeList(String homestay_id) {
+//        String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String path = "util/get_homestay_extra_charges";
+//        String[] params = {"homestay_id"};
+//        String[] values = {homestay_id};
+//        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+//        if (ret != null) {
+//            Gson gson = Global.getGsonObject();
+//            JsonObject obj = gson.fromJson(ret, JsonObject.class);
+//            if (obj.get("message").getAsString().equals("200")) {
+//                JsonElement data = obj.get("data").getAsJsonObject().get("homestay_extra_charges");
+//                return getExtraChargeList(data);
+//            }
+//        }
+//        return new ArrayList();
+//    }
     public List<ExtraCharge> getExtraChargeList(JsonElement obj) {
         if (obj != null) {
             Gson gson = Global.getGsonObject();
@@ -76,10 +77,10 @@ public class PriceSettingService {
                 if (list_extra_charge != null && !list_extra_charge.toString().equals("null")) {
                     homestay.setList_extra_charges(this.getExtraChargeList(list_extra_charge));
                 } else {
-                    homestay.setList_extra_charges(this.getExtraChargeList(this.homestay.getHomestay_id()));
+                    homestay.setList_extra_charges(Utils.getExtraChargeList(this.homestay.getHomestay_id()));
                 }
             } else {
-                homestay.setList_extra_charges(this.getExtraChargeList(this.homestay.getHomestay_id()));
+                homestay.setList_extra_charges(Utils.getExtraChargeList(this.homestay.getHomestay_id()));
             }
         }
     }
@@ -98,7 +99,5 @@ public class PriceSettingService {
         this.homestay = homestay;
 
     }
-
-    
 
 }

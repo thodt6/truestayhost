@@ -12,7 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.CalendarItem;
-import com.unibro.service.UserSessionBean;
+import com.unibro.model.User;
 import com.unibro.utils.Global;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,13 +45,16 @@ public class CalendarService {
     private String eventString;
 
     org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(this.getClass().getName());
+    
+    User user;
 
-    public CalendarService() {
+    public CalendarService(User user) {
 //        this.blockPast();
+        this.user = user;
     }
 
     public void loadObject() {
-        JsonObject obj = Listing.getHomestayBlockCalendar(UserSessionBean.getUserSession().getUser().getUsername(), homestay_id);
+        JsonObject obj = Listing.getHomestayBlockCalendar(user.getUsername(), homestay_id);
         if (obj.get("message").getAsString().equals("200")) {
             JsonElement element = obj.get("data").getAsJsonObject().get("homestay_calendar_block");
             if (element != null && !element.toString().equals("null")) {
@@ -303,7 +306,7 @@ public class CalendarService {
     }
 
     private void updateCalendar(Date begindate, Date enddate, String state) {
-        JsonObject obj = Listing.updateHomestayCalendar(UserSessionBean.getUserSession().getUser().getUsername(), homestay_id, begindate, enddate, state);
+        JsonObject obj = Listing.updateHomestayCalendar(user.getUsername(), homestay_id, begindate, enddate, state);
         if (obj.get("message").getAsString().equals("200")) {
             logger.info("Has data");
             if (obj.get("data").getAsJsonObject().get("is_success").getAsString().equals("true")) {

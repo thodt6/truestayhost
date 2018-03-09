@@ -16,12 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 
 @SuppressWarnings("serial")
 @ManagedBean
 @ViewScoped
 
-public class SpaceUsesService implements Serializable {
+public class SpaceUsesService implements Serializable,Converter {
 
     private String homestay_id = "";
     private List<SpaceUse> spaceuses;
@@ -48,11 +51,11 @@ public class SpaceUsesService implements Serializable {
         this.homestay_id = homestay_id;
     }
 
-    public List<String> getSelectedSpaceUses() {
-        List<String> ret = new ArrayList();
+    public List<SpaceUse> getSelectedSpaceUses() {
+        List<SpaceUse> ret = new ArrayList();
         for (SpaceUse a : this.spaceuses) {
             if (a.getSelected()) {
-                ret.add(a.getId());
+                ret.add(a);
             }
         }
         return ret;
@@ -70,6 +73,34 @@ public class SpaceUsesService implements Serializable {
      */
     public void setSpaceuses(List<SpaceUse> spaceuses) {
         this.spaceuses = spaceuses;
+    }
+    
+    public Object getAsObject(FacesContext fc, UIComponent uic, String submittedValue) {
+        if (submittedValue.trim().equals("")) {
+            return null;
+        }
+        String id;
+        try {
+            id = String.valueOf(submittedValue);
+        } catch (Exception ex) {
+            id = null;
+        }
+        for(SpaceUse s:this.spaceuses){
+            if(s.getId().equals(id)){
+                return s;
+            }
+        }
+        return null;
+    }
+    
+    public String getAsString(FacesContext facesContext, UIComponent component, Object value) {
+        if (value == null) {
+            return "";
+        }
+        if (value.equals("")) {
+            return "";
+        }
+        return String.valueOf(((SpaceUse) value).getId());
     }
 
 }

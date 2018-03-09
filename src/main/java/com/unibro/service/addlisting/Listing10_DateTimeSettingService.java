@@ -8,7 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
-import com.unibro.service.UserSessionBean;
+import com.unibro.model.User;
 import com.unibro.service.utils.DatetimeSettingService;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -21,15 +21,15 @@ public class Listing10_DateTimeSettingService extends AbstractListingService {
 
     DatetimeSettingService dateTimeSettingService = new DatetimeSettingService();
 
-    public Listing10_DateTimeSettingService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing10_DateTimeSettingService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
         this.getHomestay().setStay_max(this.getHomestay().getStay_max_week() * 7);
-        JsonObject ret = Listing.updateHomestayDateTime(UserSessionBean.getUserSession().getUser().getUsername(), this.getHomestay().getHomestay_id(), getHomestay().getBefore_time(), getHomestay().getFar_time(),
-                getHomestay().getStay_max(), getHomestay().getStay_min(), this.getHomestay().getCheckin(), this.getHomestay().getCheckout(),this.getHomestay().getIs_longturn(),this.getHomestay().getIs_lastminute());
+        JsonObject ret = Listing.updateHomestayDateTime(this.getUser().getUsername(), this.getHomestay().getHomestay_id(), getHomestay().getBefore_time(), getHomestay().getFar_time(),
+                getHomestay().getStay_max(), getHomestay().getStay_min(), this.getHomestay().getCheckin(), this.getHomestay().getCheckout(), this.getHomestay().getIs_longturn(), this.getHomestay().getIs_lastminute());
         if (ret.get("message").getAsString().equals("200")) {
             if (ret.get("data").getAsJsonObject().get("is_success").getAsString().equals("true")) {
                 return true;
@@ -64,6 +64,11 @@ public class Listing10_DateTimeSettingService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/howto-book.html");
+    }
+
+    @Override
+    public String getBackpage() {
+        return "howto-book.html";
     }
 
 }

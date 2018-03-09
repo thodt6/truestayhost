@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
 import com.unibro.model.Image;
+import com.unibro.model.User;
 import com.unibro.service.UserSessionBean;
 import com.unibro.service.utils.ImageService;
 import com.unibro.utils.Global;
@@ -29,15 +30,15 @@ public class Listing5_ImageService extends AbstractListingService {
 
     private ImageService imageService = new ImageService();
 
-    public Listing5_ImageService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing5_ImageService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
         this.getHomestay().setHomestay_cover_url(this.getImageService().getCoverImageList());
         this.getHomestay().setHomestay_image_url(this.getImageService().getImageList());
-        JsonObject ret = Listing.updateHomeStayImages(UserSessionBean.getUserSession().getUser().getUsername(), getHomestay().getHomestay_id(), getHomestay().getHomestay_cover_url(), getHomestay().getHomestay_image_url());
+        JsonObject ret = Listing.updateHomeStayImages(this.getUser().getUsername(), getHomestay().getHomestay_id(), getHomestay().getHomestay_cover_url(), getHomestay().getHomestay_image_url());
         return ret.get("message").getAsString().equals("200");
     }
 
@@ -64,6 +65,11 @@ public class Listing5_ImageService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/spaces.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "spaces.html";
     }
 
     public void handleCoverImageUpload(FileUploadEvent event) {

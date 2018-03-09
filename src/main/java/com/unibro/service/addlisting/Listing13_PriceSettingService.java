@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.utils.PriceSettingService;
 import javax.faces.application.FacesMessage;
 
@@ -17,15 +18,15 @@ import javax.faces.application.FacesMessage;
  */
 public class Listing13_PriceSettingService extends AbstractListingService {
 
-    private PriceSettingService priceSettingService = new PriceSettingService();
+    private PriceSettingService priceSettingService = new PriceSettingService(this.getUser());
 
-    public Listing13_PriceSettingService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing13_PriceSettingService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
-        JsonObject ret = Listing.updateHomestayPrice(this.getUsername(), this.getHomestay().getHomestay_id(), getHomestay().getWas_price(), getHomestay().getLastminute_price(),
+        JsonObject ret = Listing.updateHomestayPrice(this.getUser().getUsername(), this.getHomestay().getHomestay_id(), getHomestay().getWas_price(), getHomestay().getLastminute_price(),
                 getHomestay().getCurrency(), getHomestay().getLongturn_discount(), getHomestay().getWeekly_discount(), getHomestay().getMonthly_discount(), getHomestay().getList_extra_charges());
         return ret.get("data").getAsJsonObject().get("is_success").getAsString().equals("true");
     }
@@ -53,6 +54,11 @@ public class Listing13_PriceSettingService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/calendar.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "calendar.html";
     }
 
     /**

@@ -16,13 +16,13 @@ import javax.faces.application.FacesMessage;
  */
 public class Listing7_UpdateContactService extends AbstractListingService {
 
-    public Listing7_UpdateContactService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing7_UpdateContactService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
-//        JsonObject ret = Profile.updateContact(UserSessionBean.getUserSession().getUser().getUsername(), getHomestay().getHomestay_id(), UserSessionBean.getUserSession().getUser().getPhone_num(),
+//        JsonObject ret = Profile.updateContact(this.getUser().getUsername(), getHomestay().getHomestay_id(), UserSessionBean.getUserSession().getUser().getPhone_num(),
 //                UserSessionBean.getUserSession().getEmail(), UserSessionBean.getUserSession().getUser().getAddress(), UserSessionBean.getUserSession().getUser().getPay_acct(),
 //                UserSessionBean.getUserSession().getUser().getAcct_name(), UserSessionBean.getUserSession().getUser().getBank_name(), UserSessionBean.getUserSession().getUser().getAgent_name());
         User user=UserSessionBean.getUserSession().getUser();
@@ -55,6 +55,11 @@ public class Listing7_UpdateContactService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/description.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "description.html";
     }
 
 }

@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
 import com.unibro.model.HomestayList;
+import com.unibro.model.User;
 import com.unibro.service.UserSessionBean;
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 /**
@@ -50,7 +52,16 @@ public class ListingService implements Serializable {
     private Listing12_CalendarService listing14;
     private Listing13_PriceSettingService listing15;
     private Listing14_TaxService listing16;
-    private int step=0;
+    private int step = 0;
+    private User user;
+
+    public ListingService(User user) {
+        this.user = user;
+    }
+
+    public ListingService() {
+        this.user = UserSessionBean.getUserSession().getUser();
+    }
 
     private void initHomestayService() {
         logger.info("Init homestay:" + this.getHomestayid());
@@ -63,11 +74,11 @@ public class ListingService implements Serializable {
             this.homestay.setHomestay_cover_url(new ArrayList());
         } else {
             if (this.homestayid.equals("default-homestay")) {
-                List<HomestayList> objects = Listing.getHomestayList(UserSessionBean.getUserSession().getUser().getUsername(), "");
+                List<HomestayList> objects = Listing.getHomestayList(user.getUsername(), "");
                 if (objects != null && !objects.isEmpty()) {
                     for (HomestayList home : objects) {
                         if (home.getState().equals("A")) {
-                            this.homestay = Listing.getHomestayDetail(home.getHomestay_id(), UserSessionBean.getUserSession().getUser().getLanguage_code());
+                            this.homestay = Listing.getHomestayDetail(home.getHomestay_id(), user.getLanguage_code());
                             if (homestay != null) {
                                 this.homestay.setIsNewHomeStay(false);
                                 break;
@@ -78,11 +89,11 @@ public class ListingService implements Serializable {
             } else {
                 logger.info("Load homestay from server:" + homestayid);
                 //Load home stay from server
-                this.homestay = Listing.getHomestayDetail(this.getHomestayid(), UserSessionBean.getUserSession().getUser().getLanguage_code());
+                this.homestay = Listing.getHomestayDetail(this.getHomestayid(), user.getLanguage_code());
                 if (this.homestay != null) {
                     this.homestay.setIsNewHomeStay(false);
                     this.homestay.setStep_num(step);
-                    this.homestay.setStay_max_week(this.homestay.getStay_max()/7);
+                    this.homestay.setStay_max_week(this.homestay.getStay_max() / 7);
                 } else {
                     logger.info("Homestay null");
                     this.homestay = null;
@@ -93,112 +104,112 @@ public class ListingService implements Serializable {
             return;
         }
         if (getListing0() == null) {
-            setListing0(new Listing0_HomestayTypeService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing0(new Listing0_HomestayTypeService(homestay, user));
         } else {
             getListing0().setHomestay(this.getHomestay());
-            getListing0().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing0().setUser(user);
         }
         if (getListing1() == null) {
-            setListing1(new Listing1_BedroomService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing1(new Listing1_BedroomService(homestay,user));
         } else {
             getListing1().setHomestay(this.getHomestay());
-            getListing1().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing1().setUser(user);
         }
         if (getListing2() == null) {
-            setListing2(new Listing2_LocationService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing2(new Listing2_LocationService(homestay,user));
         } else {
             getListing2().setHomestay(this.getHomestay());
-            getListing2().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing2().setUser(user);
         }
         if (getListing3() == null) {
-            setListing3(new Listing3_AmenitiesService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing3(new Listing3_AmenitiesService(homestay,user));
         } else {
             getListing3().setHomestay(this.getHomestay());
-            getListing3().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing3().setUser(user);
         }
         if (getListing4() == null) {
-            setListing4(new Listing4_SpacesService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing4(new Listing4_SpacesService(homestay,user));
         } else {
             getListing4().setHomestay(this.getHomestay());
-            getListing4().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing4().setUser(user);
         }
         if (getListing5() == null) {
-            setListing5(new Listing5_ImageService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing5(new Listing5_ImageService(homestay,user));
         } else {
             getListing5().setHomestay(this.getHomestay());
-            getListing5().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing5().setUser(user);
         }
         if (getListing6() == null) {
-            setListing6(new Listing6_DescriptionService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing6(new Listing6_DescriptionService(homestay,user));
         } else {
             getListing6().setHomestay(this.getHomestay());
-            getListing6().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing6().setUser(user);
         }
 //        if (getListing7() == null) {
-//            setListing7(new Listing7_UpdateContactService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+//            setListing7(new Listing7_UpdateContactService(homestay,user));
 //        } else {
 //            getListing7().setHomestay(this.getHomestay());
-//            getListing7().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+//            getListing7().setUsername(user.getUsername());
 //        }
 //        if (getListing8() == null) {
-//            setListing8(new Listing8_ConfirmContactService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+//            setListing8(new Listing8_ConfirmContactService(homestay,user));
 //        } else {
 //            getListing8().setHomestay(this.getHomestay());
-//            getListing8().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+//            getListing8().setUsername(user.getUsername());
 //        }
         if (getListing9() == null) {
-            setListing9(new Listing7_HouseRuleService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing9(new Listing7_HouseRuleService(homestay,user));
         } else {
             getListing9().setHomestay(this.getHomestay());
-            getListing9().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing9().setUser(user);
         }
         if (getListing10() == null) {
-            setListing10(new Listing8_GuestRequirementsService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing10(new Listing8_GuestRequirementsService(homestay,user));
         } else {
             getListing10().setHomestay(this.getHomestay());
-            getListing10().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing10().setUser(user);
         }
         if (getListing11() == null) {
-            setListing11(new Listing9_HowToBookService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing11(new Listing9_HowToBookService(homestay,user));
         } else {
             getListing11().setHomestay(this.getHomestay());
-            getListing11().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing11().setUser(user);
         }
         if (getListing12() == null) {
-            setListing12(new Listing10_DateTimeSettingService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing12(new Listing10_DateTimeSettingService(homestay,user));
         } else {
             getListing12().setHomestay(this.getHomestay());
-            getListing12().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing12().setUser(user);
         }
         if (getListing13() == null) {
-            setListing13(new Listing11_CalendarIntroService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing13(new Listing11_CalendarIntroService(homestay,user));
         } else {
             getListing13().setHomestay(this.getHomestay());
-            getListing13().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing13().setUser(user);
         }
         if (getListing14() == null) {
-            setListing14(new Listing12_CalendarService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing14(new Listing12_CalendarService(homestay,user));
         } else {
             getListing14().setHomestay(this.getHomestay());
-            getListing14().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing14().setUser(user);
         }
         if (getListing15() == null) {
-            setListing15(new Listing13_PriceSettingService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing15(new Listing13_PriceSettingService(homestay,user));
         } else {
             getListing15().setHomestay(this.getHomestay());
-            getListing15().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing15().setUser(user);
         }
         if (getListing16() == null) {
-            setListing16(new Listing14_TaxService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing16(new Listing14_TaxService(homestay,user));
         } else {
             getListing16().setHomestay(this.getHomestay());
-            getListing16().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing16().setUser(user);
         }
         if (getListing1() == null) {
-            setListing1(new Listing1_BedroomService(homestay, UserSessionBean.getUserSession().getUser().getUsername()));
+            setListing1(new Listing1_BedroomService(homestay,user));
         } else {
             getListing1().setHomestay(this.getHomestay());
-            getListing1().setUsername(UserSessionBean.getUserSession().getUser().getUsername());
+            getListing1().setUser(user);
         }
     }
 
@@ -553,7 +564,7 @@ public class ListingService implements Serializable {
 
     public void initCalendar() {
         this.initHomestayService();
-        if (this.listing14 != null && this.listing14.getHomestay()!=null &&  !this.listing14.getHomestay().getIsNewHomeStay()) {
+        if (this.listing14 != null && this.listing14.getHomestay() != null && !this.listing14.getHomestay().getIsNewHomeStay()) {
             this.listing14.initService();
         }
     }
@@ -571,8 +582,30 @@ public class ListingService implements Serializable {
     public void setStep(int step) {
         this.step = step;
     }
-    
-    
-   
+
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUsername(User user) {
+        this.user = user;
+    }
+
+    public static ListingService getListingSession() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if (session != null) {
+            ListingService listing = (ListingService) session.getAttribute("listingService");
+            //log.info("UserBean:" + user.toString());
+            //log.info(user.getUser());
+            return listing;
+        }
+        return null;
+    }
 
 }

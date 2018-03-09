@@ -31,13 +31,23 @@
                 <div class="ui-g-12 ui-md-8">
                     <div class="card card-w-title">
                         <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.spaces.title1']}</h1>
-                        <p:selectManyMenu value="#{listingService.homestay.spaceuse_ids}" id="grid" showCheckbox="true" style="width:100%;">
-                            <f:selectItems value="#{listingService.listing4.spaceUsesService.spaceuses}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
-                        </p:selectManyMenu>                    
+<!--                        <p:selectManyMenu value="#{listingService.homestay.spaceuse_ids}" id="grid" var="t" converter="spaceuse" showCheckbox="true" style="width:100%;">
+                            <f:selectItems value="#{listingService.listing4.spaceUsesService.spaceuses}" var="a" itemLabel="#{a.name}" itemValue="#{a}"/>
+                            <p:column  style=" text-align: left;">                               
+                                <h:outputText style=" text-align: left" value="#{t.name}" />
+                            </p:column>
+                        </p:selectManyMenu>   -->
+                        <p:dataTable  id="id_table1" value="#{listingService.listing4.spaceUsesService.spaceuses}" selection="#{listingService.homestay.spaceuse_ids}"
+                                     var="t" rowKey="#{t.id}" reflow="true">
+                            <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                            <p:column style=" text-align: left;" headerText="#{msg['page.become_a_host.step2.spaces.title1']}">
+                                <h:outputText value="#{t.name}"/>
+                            </p:column>
+                        </p:dataTable>  
                         <br/>
                         <p:outputPanel>
                             <div style="float: left;">
-                                <p:commandButton value="#{msg['general.back']}" icon="fa fa-long-arrow-left" action="#{listingService.listing4.backPage}"/>
+                                <p:button value="#{msg['general.back']}" icon="fa fa-long-arrow-left" outcome="#{listingService.listing4.backpage}"/>
                             </div>
                             <div style="float: right;">
                                 <p:commandButton value="#{msg['general.next']}" styleClass="pink-btn" style="margin-bottom:10px;" action="#{listingService.listing4.nextPage}"/>

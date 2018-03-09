@@ -86,8 +86,8 @@
                                             <h:inputHidden id="txt1" value="#{listingService.homestay.weekly_discount}" />
                                             <p:slider  minValue="0" for="txt1" display="output1" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.weekly_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.weekly_discount.1']}" />
                                             <h:outputText id="output2" rendered="#{listingService.homestay.is_longturn}" value="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} #{listingService.homestay.longturn_discount} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount']}" />
-                                            <h:inputHidden id="txt2" value="#{listingService.homestay.longturn_discount}" />
-                                            <p:slider minValue="1" for="txt2" display="output2" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount.1']}" />
+                                            <h:inputHidden id="txt2" rendered="#{listingService.homestay.is_longturn}" value="#{listingService.homestay.longturn_discount}" />
+                                            <p:slider minValue="1" rendered="#{listingService.homestay.is_longturn}" for="txt2" display="output2" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount.1']}" />
                                         </h:panelGrid>                                  
                                     </div>
                                 </div>

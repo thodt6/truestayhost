@@ -63,11 +63,11 @@ public class GuestRequirementService implements Serializable {
         this.homestay_id = homestay_id;
     }
 
-    public List<String> getSelectedId() {
+    public List<GuestRequirement> getSelectedId() {
         List ret = new ArrayList();
         for (GuestRequirement g : this.objects) {
             if (g.getSelected()) {
-                ret.add(g.getId());
+                ret.add(g);
             }
         }
         return ret;

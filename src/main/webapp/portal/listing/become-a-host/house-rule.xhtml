@@ -37,19 +37,26 @@
                         <ui:repeat  value="#{listingService.listing9.houseRuleService.house_rules}" var="rule">
                             <p:panelGrid columns="2" layout="grid" style="width:80%" styleClass="ui-panelgrid-blank lesspad">
                                 <h:outputText style=" font-size: 15px" value="#{rule.name}"/>
-                                <p:inputSwitch value="#{rule.selected}"/>
+                                <p:inputSwitch onLabel="#{msg['general.yes']}" offLabel="#{msg['general.no']}" value="#{rule.selected}"/>
                             </p:panelGrid>
                         </ui:repeat>
-                        <h:outputText style=" font-size: 15px;font-weight: bolder" value="#{msg['page.become_a_host.step2.house_rule.title2']}"/>
+                        <!--<h:outputText style=" font-size: 15px;font-weight: bolder" value="#{msg['page.become_a_host.step2.house_rule.title2']}"/>-->
                         <br/>
                         <br/>
-                        <p:selectManyMenu value="#{listingService.homestay.homestay_knowabout_ids}"  showCheckbox="true" style="width:100%;">
+                        <p:dataTable  styleClass="borderless" id="id_table2" value="#{listingService.listing9.houseRuleService.know_abouts}" selection="#{listingService.homestay.homestay_knowabout_ids}"
+                                      var="t" rowKey="#{t.id}" reflow="true">
+                            <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                            <p:column style=" text-align: left" headerText="#{msg['page.become_a_host.step2.house_rule.title2']}">
+                                <h:outputText value="#{t.name}"/>
+                            </p:column>
+                        </p:dataTable> 
+<!--                        <p:selectManyMenu value="#{listingService.homestay.homestay_knowabout_ids}"  showCheckbox="true" style="width:100%;">
                             <f:selectItems value="#{listingService.listing9.houseRuleService.know_abouts}" var="k" itemLabel="#{k.name}" itemValue="#{k.id}"/>
-                        </p:selectManyMenu>
+                        </p:selectManyMenu>-->
                         <br/>
                         <p:outputPanel>
                             <div style="float: left;">
-                                <p:commandButton value="#{msg['general.back']}"  action="#{listingService.listing9.backPage}"  icon="fa fa-long-arrow-left"/>
+                                <p:button value="#{msg['general.back']}"  outcome="#{listingService.listing9.backpage}"  icon="fa fa-long-arrow-left"/>
                             </div>
                             <div style="float: right;">
                                 <p:commandButton value="#{msg['general.next']}" action="#{listingService.listing9.nextPage}" styleClass="pink-btn"/> 

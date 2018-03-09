@@ -40,10 +40,10 @@
                                 <ui:repeat value="#{listingService.listing11.bookTypeService.booktype_list}" var="booktype">
                                     <div class="ui-grid-row">
                                         <h:panelGroup id="id_group1" layout="block" class="ui-grid-col-6">
-                                            <p:commandButton style="width:90%"  action="#{listingService.listing11.bookTypeService.setBookType}" update=":frmObject,id_group2 " value="#{booktype.name}" rendered="#{booktype.selected}"  styleClass="pink-btn">
+                                            <p:commandButton icon="fa fa-check" style="width:90%"  action="#{listingService.listing11.bookTypeService.setBookType}" update=":frmObject,id_group2 " value="#{booktype.name}" rendered="#{booktype.selected}"  styleClass="green-btn">
                                                 <f:setPropertyActionListener value="#{booktype}" target="#{listingService.listing11.bookTypeService.selectedBookType}"/>
                                             </p:commandButton> 
-                                            <p:commandButton style="width:90%; background: #778087 "  action="#{listingService.listing11.bookTypeService.setBookType}" update=":frmObject,id_group2" value="#{booktype.name}" rendered="#{!booktype.selected}"  styleClass="black-btn">
+                                            <p:commandButton icon="fa fa-close" style="width:90%; background: #778087 "  action="#{listingService.listing11.bookTypeService.setBookType}" update=":frmObject,id_group2" value="#{booktype.name}" rendered="#{!booktype.selected}"  styleClass="black-btn">
                                                 <f:setPropertyActionListener value="#{booktype}" target="#{listingService.listing11.bookTypeService.selectedBookType}"/>
                                             </p:commandButton> 
                                         </h:panelGroup>
@@ -63,7 +63,7 @@
                         <br/>
                         <p:outputPanel>
                             <div style="float: left;">
-                                <p:commandButton value="#{msg['general.back']}" action="#{listingService.listing11.backPage}" icon="fa fa-long-arrow-left"/>
+                                <p:button value="#{msg['general.back']}" outcome="#{listingService.listing11.backpage}" icon="fa fa-long-arrow-left"/>
                             </div>
                             <div style="float: right;">
                                 <p:commandButton value="#{msg['general.next']}" action="#{listingService.listing11.nextPage}" styleClass="pink-btn" style="margin-bottom:10px;"/>

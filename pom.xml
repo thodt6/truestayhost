@@ -219,7 +219,7 @@
     </dependencies>
     <properties>
         <jsf.version>2.2.10</jsf.version>
-        <primefaces.version>6.1</primefaces.version>        
+        <primefaces.version>6.2</primefaces.version>        
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

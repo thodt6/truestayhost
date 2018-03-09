@@ -49,9 +49,16 @@
                     <div class="ui-g-12 ui-lg-8">
                         <p:panel>
                             <h1>#{msg['page.become_a_host.step4.guest_requirements']}</h1>
-                            <p:selectManyMenu value="#{listingService.homestay.guest_requirement_ids}" showCheckbox="true" style="width:100%;">
+<!--                            <p:selectManyMenu value="#{listingService.homestay.guest_requirement_ids}" showCheckbox="true" style="width:100%;">
                                 <f:selectItems value="#{listingService.listing10.guestRequirementService.objects}" var="g" itemLabel="#{g.name}" itemValue="#{g.id}"/>
-                            </p:selectManyMenu>
+                            </p:selectManyMenu>-->
+                            <p:dataTable  id="id_table1" value="#{listingService.listing10.guestRequirementService.objects}" selection="#{listingService.homestay.guest_requirement_ids}"
+                                     var="t" rowKey="#{t.id}" reflow="true">
+                            <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                            <p:column>
+                                <h:outputText value="#{t.name}"/>
+                            </p:column>
+                        </p:dataTable> 
                             <br/>
                         </p:panel>
                         <br/>

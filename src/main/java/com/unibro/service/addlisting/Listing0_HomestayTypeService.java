@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.utils.PropertyService;
 import com.unibro.service.utils.RoomTypeService;
 import javax.faces.application.FacesMessage;
@@ -21,18 +22,18 @@ public class Listing0_HomestayTypeService extends AbstractListingService {
     private RoomTypeService roomTypeService;
     private PropertyService propertyService;
 
-    public Listing0_HomestayTypeService(){
-        
+    public Listing0_HomestayTypeService() {
+
     }
-    
-    public Listing0_HomestayTypeService(Homestay homestay, String username) {
-        super(homestay, username);
+
+    public Listing0_HomestayTypeService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
         if (this.getHomestay().getIsNewHomeStay()) {
-            JsonObject ret = Listing.createHomeStay(this.getUsername(), this.getHomestay().getPropertytypeid(), this.getHomestay().getRoomtypeid());
+            JsonObject ret = Listing.createHomeStay(this.getUser().getUsername(), this.getHomestay().getPropertytypeid(), this.getHomestay().getRoomtypeid());
             if (ret.get("message").getAsString().equals("200")) {
                 this.getHomestay().setHomestay_id(ret.get("data").getAsJsonObject().get("homestay_id").getAsString());
                 this.getHomestay().setIsNewHomeStay(false);
@@ -43,7 +44,7 @@ public class Listing0_HomestayTypeService extends AbstractListingService {
                 return false;
             }
         } else {
-            JsonObject ret = Listing.updateHomeStay(this.getUsername(), this.getHomestay().getHomestay_id(), this.getHomestay().getPropertytypeid(), this.getHomestay().getRoomtypeid());
+            JsonObject ret = Listing.updateHomeStay(this.getUser().getUsername(), this.getHomestay().getHomestay_id(), this.getHomestay().getPropertytypeid(), this.getHomestay().getRoomtypeid());
             if (ret.get("message").getAsString().equals("200")) {
                 this.getHomestay().setHomestay_id(ret.get("data").getAsJsonObject().get("homestay_id").getAsString());
 //                this.houseRuleService.loadObject();
@@ -75,6 +76,11 @@ public class Listing0_HomestayTypeService extends AbstractListingService {
     @Override
     public void backPage() {
 
+    }
+
+    @Override
+    public String getBackpage() {
+        return "";
     }
 
     /**

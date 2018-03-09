@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.utils.BookTypeService;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -20,14 +21,14 @@ public class Listing9_HowToBookService extends AbstractListingService {
 
     private BookTypeService bookTypeService = new BookTypeService();
 
-    public Listing9_HowToBookService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing9_HowToBookService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
         this.getHomestay().setBook_type_id(this.getBookTypeService().getSelectedBookType().getId());
-        JsonObject ret = Listing.updateHomestayBookType(this.getUsername(), this.getHomestay().getHomestay_id(), getHomestay().getBook_type_id(), getHomestay().getCancel_policy_id());
+        JsonObject ret = Listing.updateHomestayBookType(this.getUser().getUsername(), this.getHomestay().getHomestay_id(), getHomestay().getBook_type_id(), getHomestay().getCancel_policy_id());
         return ret.get("message").getAsString().equals("200");
     }
 
@@ -59,6 +60,11 @@ public class Listing9_HowToBookService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/guest-requirements.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "guest-requirements.html";
     }
 
     /**

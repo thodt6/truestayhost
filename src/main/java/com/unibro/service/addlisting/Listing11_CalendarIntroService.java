@@ -6,6 +6,7 @@
 package com.unibro.service.addlisting;
 
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import javax.faces.application.FacesMessage;
 
 /**
@@ -16,8 +17,8 @@ public class Listing11_CalendarIntroService extends AbstractListingService {
 
     private Boolean understandCalendar = false;
 
-    public Listing11_CalendarIntroService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing11_CalendarIntroService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
@@ -40,13 +41,18 @@ public class Listing11_CalendarIntroService extends AbstractListingService {
         if (this.doService()) {
             this.redirectToPage("/portal/listing/become-a-host/calendar.html");
         } else {
-            this.showMessage("Server is down", FacesMessage.SEVERITY_ERROR);
+            this.showMessage("Please read to understand calendar tool", FacesMessage.SEVERITY_ERROR);
         }
     }
 
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/stay-setting.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "stay-setting.html";
     }
 
     /**

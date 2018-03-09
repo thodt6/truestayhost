@@ -54,9 +54,17 @@
                             <p:inputTextarea required="true" value="#{listingService.homestay.description}" style="width: 80%" rows="8" />          
                             <br/>
                             <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.description.title3']}</h1>
-                            <p:selectManyMenu id="grid" showCheckbox="true" value="#{listingService.homestay.great_for_ids}" style="width:81%;">
+<!--                            <p:selectManyMenu id="grid" showCheckbox="true" value="#{listingService.homestay.great_for_ids}" style="width:81%;">
                                 <f:selectItems value="#{listingService.listing6.greatForService.objects}" var="g" itemLabel="#{g.name}" itemValue="#{g.id}"/>               
-                            </p:selectManyMenu>
+                            </p:selectManyMenu>-->
+                            <p:dataTable  styleClass="borderless" id="id_table2" value="#{listingService.listing6.greatForService.objects}" 
+                                          selection="#{listingService.homestay.great_for_ids}"
+                                          var="t" rowKey="#{t.id}" reflow="true">
+                                <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                                <p:column style=" text-align: left" headerText="#{msg['page.become_a_host.step2.description.title3']}">
+                                    <h:outputText value="#{t.name}"/>
+                                </p:column>
+                            </p:dataTable> 
                             <br/>
                         </p:panel>
                         <br/>

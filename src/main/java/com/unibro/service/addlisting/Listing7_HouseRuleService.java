@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.utils.HouseRuleService;
 import javax.faces.application.FacesMessage;
 
@@ -19,14 +20,14 @@ public class Listing7_HouseRuleService extends AbstractListingService {
 
     private HouseRuleService houseRuleService = new HouseRuleService();
 
-    public Listing7_HouseRuleService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing7_HouseRuleService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
         this.getHomestay().setHomestay_house_rule_ids(this.houseRuleService.getSelectedHouseRuleIds());
-        JsonObject ret = Listing.updateHomeStayHouseRule(this.getUsername(), this.getHomestay().getHomestay_id(), this.getHomestay().getHomestay_house_rule_ids(), this.getHomestay().getHomestay_knowabout_ids());
+        JsonObject ret = Listing.updateHomeStayHouseRule(this.getUser().getUsername(), this.getHomestay().getHomestay_id(), this.getHomestay().getHomestay_house_rule_ids(), this.getHomestay().getHomestay_knowabout_ids());
         return ret.get("message").getAsString().equals("200");
     }
 
@@ -55,6 +56,11 @@ public class Listing7_HouseRuleService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/description.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "description.html";
     }
 
     /**

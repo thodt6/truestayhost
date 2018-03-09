@@ -15,19 +15,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.unibro.api.Utils;
 import com.unibro.model.Amenity;
+import com.unibro.service.addlisting.ListingService;
 import com.unibro.utils.Global;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 
 @SuppressWarnings("serial")
-@ManagedBean
-@ViewScoped
 
-public class AmenityService implements Serializable {
+public class AmenityService implements Serializable, Converter {
 
     private String homestay_id = "";
     private List<Amenity> offer_amenities;
@@ -45,13 +45,13 @@ public class AmenityService implements Serializable {
             Type listType = new TypeToken<List<Amenity>>() {
             }.getType();
             offer_amenities = gson.fromJson(data1, listType);
-            
+
             JsonElement data2 = obj.get("data").getAsJsonObject().get("safety_amenities").getAsJsonArray();
             safety_amenities = gson.fromJson(data2, listType);
         } else {
             offer_amenities = new ArrayList();
             safety_amenities = new ArrayList();
-        }        
+        }
     }
 
     /**
@@ -96,24 +96,57 @@ public class AmenityService implements Serializable {
         this.safety_amenities = safety_amenities;
     }
 
-    public List<String> getSelectedOfferAmenitiesId() {
-        List<String> ret = new ArrayList();
+    public List<Amenity> getSelectedOfferAmenitiesId() {
+        List<Amenity> ret = new ArrayList();
         for (Amenity a : this.offer_amenities) {
             if (a.getSelected()) {
-                ret.add(a.getId());
+                ret.add(a);
             }
         }
         return ret;
     }
 
-    public List<String> getSelectedSafetyAmenitiesId() {
-        List<String> ret = new ArrayList();
+    public List<Amenity> getSelectedSafetyAmenitiesId() {
+        List<Amenity> ret = new ArrayList();
         for (Amenity a : this.safety_amenities) {
             if (a.getSelected()) {
-                ret.add(a.getId());
+                ret.add(a);
             }
         }
         return ret;
     }
 
+    public Object getAsObject(FacesContext fc, UIComponent uic, String submittedValue) {
+        if (submittedValue.trim().equals("")) {
+            return null;
+        }
+        String id;
+        try {
+            id = String.valueOf(submittedValue);
+        } catch (Exception ex) {
+            id = null;
+        }
+        ListingService listing = ListingService.getListingSession();
+        for (Amenity a : listing.getListing3().getAmenityService().getOffer_amenities()) {
+            if (a.getId().equals(id)) {
+                return a;
+            }
+        }
+        for (Amenity a : listing.getListing3().getAmenityService().getSafety_amenities()) {
+            if (a.getId().equals(id)) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public String getAsString(FacesContext facesContext, UIComponent component, Object value) {
+        if (value == null) {
+            return "";
+        }
+        if (value.equals("")) {
+            return "";
+        }
+        return String.valueOf(((Amenity) value).getId());
+    }
 }

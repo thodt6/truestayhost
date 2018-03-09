@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.UserSessionBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -20,8 +21,8 @@ public class Listing14_TaxService extends AbstractListingService {
 
     private Boolean understandTax = false;
 
-    public Listing14_TaxService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing14_TaxService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class Listing14_TaxService extends AbstractListingService {
     public void nextPage() {
         if (this.getUnderstandTax()) {
             this.showMessage("Successfully listing", FacesMessage.SEVERITY_INFO);
-            JsonObject obj = Listing.updateHomeStayListingStep(UserSessionBean.getUserSession().getUser().getUsername(), this.getHomestay().getHomestay_id(), this.num_step, "Listing_finished");
+            JsonObject obj = Listing.updateHomeStayListingStep(this.getUser().getUsername(), this.getHomestay().getHomestay_id(), this.num_step, "Listing_finished");
             if (obj.get("message").getAsString().equals("200")) {
                 if (obj.get("data").getAsJsonObject().get("is_success").getAsString().equals("true")) {
                     this.setPercentComplete(100);
@@ -72,6 +73,11 @@ public class Listing14_TaxService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/price-setting.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "price-setting.html";
     }
 
     /**

@@ -36,15 +36,15 @@ public class Homestay implements Serializable {
     private String ward_id;
     private int standard_guest_num = 0;
     private int max_guest_num = 0;
-    private List<String> amenity_ids;
-    private List<String> safety_amenity_ids;
-    private List<String> spaceuse_ids;
-    private List<String> homestay_cover_url;
-    private List<String> homestay_image_url;
+    private List<Amenity> amenity_ids;
+    private List<Amenity> safety_amenity_ids;
+    private List<SpaceUse> spaceuse_ids;
+    private List<Image> homestay_cover_url;
+    private List<Image> homestay_image_url;
 
-    private List<String> homestay_house_rule_ids;
-    private List<String> homestay_knowabout_ids;
-    private List<String> guest_requirement_ids;
+    private List<HouseRule> homestay_house_rule_ids;
+    private List<KnowAbout> homestay_knowabout_ids;
+    private List<GuestRequirement> guest_requirement_ids;
 
     private String book_type_id;
     private String cancel_policy_id;
@@ -58,7 +58,7 @@ public class Homestay implements Serializable {
 
     private String title;
     private String description;
-    private List<String> great_for_ids;
+    private List<GreatFor> great_for_ids;
 
     private Double was_price = 0.0;
     private Double lastminute_price = 0.0;
@@ -279,42 +279,42 @@ public class Homestay implements Serializable {
     /**
      * @return the amenities
      */
-    public List<String> getAmenity_ids() {
+    public List<Amenity> getAmenity_ids() {
         return amenity_ids;
     }
 
     /**
      * @param amenity_ids the amenities to set
      */
-    public void setAmenity_ids(List<String> amenity_ids) {
+    public void setAmenity_ids(List<Amenity> amenity_ids) {
         this.amenity_ids = amenity_ids;
     }
 
     /**
      * @return the spaceuse_ids
      */
-    public List<String> getSpaceuse_ids() {
+    public List<SpaceUse> getSpaceuse_ids() {
         return spaceuse_ids;
     }
 
     /**
      * @param spaceuse_ids the spaceuse_ids to set
      */
-    public void setSpaceuse_ids(List<String> spaceuse_ids) {
+    public void setSpaceuse_ids(List<SpaceUse> spaceuse_ids) {
         this.spaceuse_ids = spaceuse_ids;
     }
 
     /**
      * @return the homestay_image_ids
      */
-    public List<String> getHomestay_image_url() {
+    public List<Image> getHomestay_image_url() {
         return homestay_image_url;
     }
 
     /**
      * @param homestay_image_url the homestay_image_url to set
      */
-    public void setHomestay_image_url(List<String> homestay_image_url) {
+    public void setHomestay_image_url(List<Image> homestay_image_url) {
         this.homestay_image_url = homestay_image_url;
     }
 
@@ -349,84 +349,84 @@ public class Homestay implements Serializable {
     /**
      * @return the great_fors
      */
-    public List<String> getGreat_for_ids() {
+    public List<GreatFor> getGreat_for_ids() {
         return great_for_ids;
     }
 
     /**
      * @param great_for_ids the great_for_ids to set
      */
-    public void setGreat_for_ids(List<String> great_for_ids) {
+    public void setGreat_for_ids(List<GreatFor> great_for_ids) {
         this.great_for_ids = great_for_ids;
     }
 
     /**
      * @return the safety_amenity_ids
      */
-    public List<String> getSafety_amenity_ids() {
+    public List<Amenity> getSafety_amenity_ids() {
         return safety_amenity_ids;
     }
 
     /**
      * @param safety_amenity_ids the safety_amenity_ids to set
      */
-    public void setSafety_amenity_ids(List<String> safety_amenity_ids) {
+    public void setSafety_amenity_ids(List<Amenity> safety_amenity_ids) {
         this.safety_amenity_ids = safety_amenity_ids;
     }
 
     /**
      * @return the homestay_cover_url
      */
-    public List<String> getHomestay_cover_url() {
+    public List<Image> getHomestay_cover_url() {
         return homestay_cover_url;
     }
 
     /**
      * @param homestay_cover_url the homestay_cover_url to set
      */
-    public void setHomestay_cover_url(List<String> homestay_cover_url) {
+    public void setHomestay_cover_url(List<Image> homestay_cover_url) {
         this.homestay_cover_url = homestay_cover_url;
     }
 
     /**
      * @return the homestay_house_rule_ids
      */
-    public List<String> getHomestay_house_rule_ids() {
+    public List<HouseRule> getHomestay_house_rule_ids() {
         return homestay_house_rule_ids;
     }
 
     /**
      * @param homestay_house_rule_ids the homestay_house_rule_ids to set
      */
-    public void setHomestay_house_rule_ids(List<String> homestay_house_rule_ids) {
+    public void setHomestay_house_rule_ids(List<HouseRule> homestay_house_rule_ids) {
         this.homestay_house_rule_ids = homestay_house_rule_ids;
     }
 
     /**
      * @return the homestay_knowabout_ids
      */
-    public List<String> getHomestay_knowabout_ids() {
+    public List<KnowAbout> getHomestay_knowabout_ids() {
         return homestay_knowabout_ids;
     }
 
     /**
      * @param homestay_knowabout_ids the homestay_knowabout_ids to set
      */
-    public void setHomestay_knowabout_ids(List<String> homestay_knowabout_ids) {
+    public void setHomestay_knowabout_ids(List<KnowAbout> homestay_knowabout_ids) {
         this.homestay_knowabout_ids = homestay_knowabout_ids;
     }
 
     /**
      * @return the guest_requirement_ids
      */
-    public List<String> getGuest_requirement_ids() {
+    public List<GuestRequirement> getGuest_requirement_ids() {
         return guest_requirement_ids;
     }
 
     /**
      * @param guest_requirement_ids the guest_requirement_ids to set
      */
-    public void setGuest_requirement_ids(List<String> guest_requirement_ids) {
+    public void setGuest_requirement_ids(List<GuestRequirement> guest_requirement_ids) {
         this.guest_requirement_ids = guest_requirement_ids;
     }
 
@@ -956,8 +956,8 @@ public class Homestay implements Serializable {
 
     public void discreaseStayMaxWeek() {
         this.stay_max_week--;
-        if (this.stay_max_week < 0) {
-            this.stay_max_week = 0;
+        if (this.stay_max_week < 1) {
+            this.stay_max_week = 1;
         }
     }
 

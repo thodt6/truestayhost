@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.utils.ProvinceService;
 import javax.faces.application.FacesMessage;
 
@@ -19,13 +20,13 @@ public class Listing2_LocationService extends AbstractListingService {
 
     private ProvinceService provinceService = new ProvinceService();
     
-    public Listing2_LocationService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing2_LocationService(Homestay homestay, User user) {
+        super(homestay, user);
     }
     
     @Override
     public boolean doService() {
-        JsonObject ret = Listing.updateHomeStayAddress(getUsername(), this.getHomestay().getHomestay_id(),
+        JsonObject ret = Listing.updateHomeStayAddress(this.getUser().getUsername(), this.getHomestay().getHomestay_id(),
                 String.valueOf(this.getHomestay().getLatitude()), String.valueOf(this.getHomestay().getLongitude()),
                 String.valueOf(this.getHomestay().getAddress_full()), String.valueOf(this.getHomestay().getProvince_id()),
                 String.valueOf(this.getHomestay().getDistrict_id()), String.valueOf(this.getHomestay().getWard_id()));
@@ -60,6 +61,11 @@ public class Listing2_LocationService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/bedroom.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "bedroom.html";
     }
 
     /**

@@ -117,26 +117,28 @@ public class ImageService implements Serializable {
         this.homestay_images = homestay_images;
     }
 
-    public List<String> getCoverImageList() {
+    public List<Image> getCoverImageList() {
         if (this.homestay_cover == null || this.homestay_cover.isEmpty()) {
             return new ArrayList();
         }
-        List<String> ret = new ArrayList();
+//        List<String> ret = new ArrayList();
         for (Image img : this.homestay_cover) {
-            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
+            img.setImageurl(img.getImageurl().replace(getRoot_url() + "/", ""));
+//            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
         }
-        return ret;
+        return this.homestay_cover;
     }
 
-    public List<String> getImageList() {
+    public List<Image> getImageList() {
         if (this.homestay_images == null || this.homestay_images.isEmpty()) {
             return new ArrayList();
         }
-        List<String> ret = new ArrayList();
+//        List<String> ret = new ArrayList();
         for (Image img : this.homestay_images) {
-            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
+            img.setImageurl(img.getImageurl().replace(getRoot_url() + "/", ""));
+//            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
         }
-        return ret;
+        return homestay_images;
     }
 
     /**

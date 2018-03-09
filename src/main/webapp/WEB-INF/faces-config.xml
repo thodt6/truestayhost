@@ -63,5 +63,15 @@
         <converter-id>roomtype</converter-id>
         <converter-class>com.unibro.service.utils.RoomTypeService</converter-class>
     </converter>
+    <converter>
+        <description>A Converter for Amenity</description>
+        <converter-id>amenity</converter-id>
+        <converter-class>com.unibro.service.utils.AmenityService</converter-class>
+    </converter>
+    <converter>
+        <description>A Converter for SpaceUse</description>
+        <converter-id>spaceuse</converter-id>
+        <converter-class>com.unibro.service.utils.SpaceUsesService</converter-class>
+    </converter>
     
 </faces-config>

@@ -9,9 +9,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.unibro.model.Amenity;
 import com.unibro.model.ExtraCharge;
+import com.unibro.model.GreatFor;
+import com.unibro.model.GuestRequirement;
 import com.unibro.model.Homestay;
 import com.unibro.model.HomestayList;
+import com.unibro.model.HouseRule;
+import com.unibro.model.Image;
+import com.unibro.model.KnowAbout;
+import com.unibro.model.SpaceUse;
 import com.unibro.service.UserSessionBean;
 import com.unibro.utils.Global;
 import java.lang.reflect.Type;
@@ -29,10 +36,11 @@ import org.apache.log4j.Logger;
 public class Listing {
 
     static final Logger logger = Logger.getLogger(Listing.class.getName());
-
+    static String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+    
     public static JsonObject createHomeStay(String username, String propertytypeid, String roomtypeid) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/create_new_homestay";
         String[] params = {"username", "propertytypeid", "roomtypeid"};
         String[] values = {username, propertytypeid, roomtypeid};
@@ -47,7 +55,7 @@ public class Listing {
 
     public static JsonObject updateHomeStay(String username, String homestay_id, String propertytypeid, String roomtypeid) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_type";
         String[] params = {"username", "homestay_id", "propertytypeid", "roomtypeid"};
         String[] values = {username, homestay_id, propertytypeid, roomtypeid};
@@ -62,7 +70,7 @@ public class Listing {
 
     public static JsonObject updateHomeStayGuest(String username, String homestay_id, int adults_num, int children_num, int infants_num, int bath_room_num, int bed_room_num, int single_bed_num, int double_bed_num, int standard_guest_num, int max_guest_num) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_guests";
         String[] params = {"username", "homestay_id", "adults_num", "children_num", "infants_num", "bath_room_num", "bed_room_num", "single_bed_num", "double_bed_num", "standard_guest_num", "max_guest_num"};
         String[] values = {username, homestay_id, String.valueOf(adults_num), String.valueOf(children_num), String.valueOf(infants_num), String.valueOf(bath_room_num), String.valueOf(bed_room_num), String.valueOf(single_bed_num), String.valueOf(double_bed_num), String.valueOf(standard_guest_num), String.valueOf(max_guest_num)};
@@ -77,7 +85,7 @@ public class Listing {
 
     public static JsonObject updateHomeStayAddress(String username, String homestay_id, String latitude, String logitude, String address_full, String province_id, String district_id, String ward_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_address";
         String[] params = {"username", "homestay_id", "latitude", "logitude", "address_full", "province_id", "district_id", "ward_id"};
         String[] values = {username, homestay_id, latitude, logitude, address_full, province_id, district_id, ward_id};
@@ -90,15 +98,15 @@ public class Listing {
         return null;
     }
 
-    public static JsonObject updateHomeStayTitleDesc(String username, String homestay_id, String title, String description, List<String> list_great_for, String language_code) {
+    public static JsonObject updateHomeStayTitleDesc(String username, String homestay_id, String title, String description, List<GreatFor> list_great_for, String language_code) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_title_desc";
         String[] params = {"username", "homestay_id", "title", "description", "list_great_for", "language_code"};
 
         String great_for_selected = "";
-        for (String a : list_great_for) {
-            great_for_selected += "|" + a;
+        for (GreatFor a : list_great_for) {
+            great_for_selected += "|" + a.getId();
         }
         if (great_for_selected.length() > 0) {
             great_for_selected = great_for_selected.substring(1);
@@ -114,18 +122,18 @@ public class Listing {
         return null;
     }
 
-    public static JsonObject updateHomeStayAmenities(String username, String homestay_id, List<String> offer_amenities, List<String> safety_amenities) {
+    public static JsonObject updateHomeStayAmenities(String username, String homestay_id, List<Amenity> offer_amenities, List<Amenity> safety_amenities) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_amenities";
         String[] params = {"username", "homestay_id", "amenities_selected"};
         String amenities_selected = "";
-        for (String a : offer_amenities) {
-            amenities_selected += "|" + a;
+        for (Amenity a : offer_amenities) {
+            amenities_selected += "|" + a.getId();
         }
 
-        for (String a : safety_amenities) {
-            amenities_selected += "|" + a;
+        for (Amenity a : safety_amenities) {
+            amenities_selected += "|" + a.getId();
         }
         if (amenities_selected.length() > 0) {
             amenities_selected = amenities_selected.substring(1);
@@ -140,14 +148,14 @@ public class Listing {
         return null;
     }
 
-    public static JsonObject updateHomeStaySpaceUse(String username, String homestay_id, List<String> spaceuses) {
+    public static JsonObject updateHomeStaySpaceUse(String username, String homestay_id, List<SpaceUse> spaceuses) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_spacesuse";
         String[] params = {"username", "homestay_id", "spacesuse_selected"};
         String spaceuse_selected = "";
-        for (String a : spaceuses) {
-            spaceuse_selected += "|" + a;
+        for (SpaceUse a : spaceuses) {
+            spaceuse_selected += "|" + a.getId();
         }
 
         if (spaceuse_selected.length() > 0) {
@@ -163,19 +171,19 @@ public class Listing {
         return null;
     }
 
-    public static JsonObject updateHomeStayImages(String username, String homestay_id, List<String> list_cover_url, List<String> list_images_url) {
+    public static JsonObject updateHomeStayImages(String username, String homestay_id, List<Image> list_cover_url, List<Image> list_images_url) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_images";
         String[] params = {"username", "homestay_id", "list_cover_url", "list_images_url"};
         String cover_url = "";
         String image_url = "";
-        for (String a : list_cover_url) {
-            cover_url += "|" + a;
+        for (Image a : list_cover_url) {
+            cover_url += "|" + a.getId();
         }
 
-        for (String a : list_images_url) {
-            image_url += "|" + a;
+        for (Image a : list_images_url) {
+            image_url += "|" + a.getId();
         }
         if (cover_url.length() > 0) {
             cover_url = cover_url.substring(1);
@@ -193,19 +201,19 @@ public class Listing {
         return null;
     }
 
-    public static JsonObject updateHomeStayHouseRule(String username, String homestay_id, List<String> hourse_rule_ids, List<String> hourse_knowabout_ids) {
+    public static JsonObject updateHomeStayHouseRule(String username, String homestay_id, List<HouseRule> hourse_rule_ids, List<KnowAbout> hourse_knowabout_ids) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_rules";
         String[] params = {"username", "homestay_id", "list_house_rules", "list_know_about"};
         String house_rule = "";
         String know_about = "";
-        for (String a : hourse_rule_ids) {
-            house_rule += "|" + a;
+        for (HouseRule a : hourse_rule_ids) {
+            house_rule += "|" + a.getId();
         }
 
-        for (String a : hourse_knowabout_ids) {
-            know_about += "|" + a;
+        for (KnowAbout a : hourse_knowabout_ids) {
+            know_about += "|" + a.getId();
         }
         if (house_rule.length() > 0) {
             house_rule = house_rule.substring(1);
@@ -223,13 +231,13 @@ public class Listing {
         return null;
     }
 
-    public static JsonObject updateHomeStayGuestRequirement(String username, String homestay_id, List<String> guest_requirement_list) {
+    public static JsonObject updateHomeStayGuestRequirement(String username, String homestay_id, List<GuestRequirement> guest_requirement_list) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_guest_requirement";
         String[] params = {"username", "homestay_id", "list_guest_req"};
         String guest_requirement = "";
-        for (String a : guest_requirement_list) {
+        for (GuestRequirement a : guest_requirement_list) {
             guest_requirement += "|" + a;
         }
 
@@ -248,7 +256,7 @@ public class Listing {
 
     public static List<HomestayList> getHomestayList(String username, String state) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/get_homestay_your_listing";
         String[] params = {"username", "state"};
         String[] values = {username, state};
@@ -271,7 +279,7 @@ public class Listing {
 
     public static JsonObject confirmHomestayContact(String trans_id, String otp_code) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/homestay_confirm_contact";
         String[] params = {"trans_id", "otp_code"};
         String[] values = {trans_id, otp_code};
@@ -286,7 +294,7 @@ public class Listing {
 
     public static JsonObject updateHomestayBookType(String username, String homestay_id, String book_type_id, String cancel_policy_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_booktype";
         String[] params = {"username", "homestay_id", "book_type_id", "cancel_policy_id"};
         String[] values = {username, homestay_id, book_type_id, cancel_policy_id};
@@ -301,7 +309,7 @@ public class Listing {
 
     public static JsonObject updateHomestayDateTime(String username, String homestay_id, int before_time, int far_time, int stay_max, int stay_min, Date checkin, Date checkout, Boolean is_longturn, Boolean is_lastminute) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_datetime_setting";
         String[] params = {"username", "homestay_id", "before_time", "far_time", "stay_max", "stay_min", "checkin", "checkout", "is_longturn", "is_lastminute"};
         Calendar cal = Calendar.getInstance();
@@ -321,7 +329,7 @@ public class Listing {
 
     public static JsonObject updateHomestayCalendar(String username, String homestay_id, Date begindate, Date enddate, String state) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_calendar";
         String[] params = {"username", "homestay_id", "begindate", "enddate", "state"};
         SimpleDateFormat f = new SimpleDateFormat("yyyyMMdd");
@@ -337,7 +345,7 @@ public class Listing {
 
     public static JsonObject getHomestayBlockCalendar(String username, String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/get_homestay_calendar_block";
         String[] params = {"username", "homestay_id"};
         String[] values = {username, homestay_id};
@@ -352,7 +360,7 @@ public class Listing {
 
     public static JsonObject updateHomestayPrice(String username, String homestay_id, Double was_price, Double lastminute_price, String currency, Integer longturn_discount, Integer weekly_discount, Integer monthly_discount, List<ExtraCharge> list_extra_charges) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_price_setting";
         String[] params = {"username", "homestay_id", "was_price", "lastminute_price", "currency", "longturn_discount", "weekly_discount", "monthly_discount", "list_extra_charges"};
         String list_extras = "";
@@ -374,7 +382,7 @@ public class Listing {
 
     public static Homestay getHomestayDetail(String homestay_id, String language_code) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/get_homestay_listing_detail";
         String[] params = {"homestay_id", "language_code"};
         String[] values = {homestay_id, language_code};
@@ -409,7 +417,7 @@ public class Listing {
 
     public static JsonObject getHomeStayDateTimeSetting(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/get_homestay_datetime_setting";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
@@ -424,7 +432,7 @@ public class Listing {
 
     public static JsonObject getHomeStayPriceSetting(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/get_homestay_price_setting";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
@@ -439,7 +447,7 @@ public class Listing {
 
     public static JsonObject updateHomeStayListingStep(String username, String homestay_id, Integer step_num, String step_name) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_listing_step";
         String[] params = {"username", "homestay_id", "step_num", "step_name"};
         String[] values = {username, homestay_id, String.valueOf(step_num), step_name};
@@ -454,7 +462,7 @@ public class Listing {
 
     public static JsonObject update_homestay_state(String token_key, String homestay_id, String new_state) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+//        String secure_code = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_state";
         String[] params = {"token_key", "homestay_id", "new_state"};
         String[] values = {token_key, homestay_id, new_state};

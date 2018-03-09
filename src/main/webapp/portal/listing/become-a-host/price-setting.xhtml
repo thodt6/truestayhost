@@ -67,12 +67,14 @@
                                 </div>
                                 <div class="ui-grid-col-6">
                                     <h:panelGrid columns="1" style="margin-bottom: 10px">
-                                        <h:outputText rendered="false" id="output1" value="#{msg['page.become_a_host.step4.price_setting.weekly_discount']} #{listingService.homestay.weekly_discount} % #{msg['page.become_a_host.step4.price_setting.weekly_discount.1']}" />
-                                        <h:inputHidden rendered="false" id="txt1" value="#{listingService.homestay.weekly_discount}" />
-                                        <p:slider for="txt1" minValue="0" display="output1" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.weekly_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.weekly_discount.1']}" />
-                                        <h:outputText id="output2" rendered="#{listingService.homestay.is_longturn}" value="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} #{listingService.homestay.longturn_discount} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount']}" />
-                                        <h:inputHidden id="txt2" value="#{listingService.homestay.longturn_discount}" />
-                                        <p:slider for="txt2" minValue="1" display="output2" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount.1']}" />
+                                        <h:panelGrid columns="1" style="margin-bottom: 10px">
+                                            <h:outputText id="output1" value="#{msg['page.become_a_host.step4.price_setting.weekly_discount']} #{listingService.homestay.weekly_discount} % #{msg['page.become_a_host.step4.price_setting.weekly_discount.1']}" />
+                                            <h:inputHidden id="txt1" value="#{listingService.homestay.weekly_discount}" />
+                                            <p:slider  minValue="0" for="txt1" display="output1" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.weekly_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.weekly_discount.1']}" />
+                                            <h:outputText id="output2" rendered="#{listingService.homestay.is_longturn}" value="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} #{listingService.homestay.longturn_discount} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount']}" />
+                                            <h:inputHidden id="txt2" rendered="#{listingService.homestay.is_longturn}" value="#{listingService.homestay.longturn_discount}" />
+                                            <p:slider minValue="1" rendered="#{listingService.homestay.is_longturn}" for="txt2" display="output2" style="width: 200px" displayTemplate="#{msg['page.become_a_host.step4.price_setting.long_rent_discount']} {value} % #{msg['page.become_a_host.step4.price_setting.long_rent_discount.1']}" />
+                                        </h:panelGrid>  
                                     </h:panelGrid>                                  
                                 </div>
                             </div>
@@ -100,7 +102,7 @@
                         <br/>
                         <p:outputPanel>
                             <div style="float: left;">
-                                <p:commandButton value="#{msg['general.back']}" action="#{listingService.listing15.backPage}" icon="fa fa-long-arrow-left"/>
+                                <p:button value="#{msg['general.back']}" outcome="#{listingService.listing15.backpage}" icon="fa fa-long-arrow-left"/>
                             </div>
                             <div style="float: right;">
                                 <p:commandButton value="#{msg['general.next']}" action="#{listingService.listing15.nextPage}" update="id_growl"   styleClass="pink-btn"/> 

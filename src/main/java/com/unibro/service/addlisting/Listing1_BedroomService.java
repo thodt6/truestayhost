@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import javax.faces.application.FacesMessage;
 
 /**
@@ -16,14 +17,14 @@ import javax.faces.application.FacesMessage;
  */
 public class Listing1_BedroomService extends AbstractListingService {
 
-    public Listing1_BedroomService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing1_BedroomService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
     public boolean doService() {
         this.getHomestay().setStandard_guest_num(this.getHomestay().getAdults_num() + this.getHomestay().getChildren_num() + this.getHomestay().getInfants_num());
-        JsonObject ret = Listing.updateHomeStayGuest(this.getUsername(), this.getHomestay().getHomestay_id(),
+        JsonObject ret = Listing.updateHomeStayGuest(this.getUser().getUsername(), this.getHomestay().getHomestay_id(),
                 this.getHomestay().getAdults_num(), this.getHomestay().getChildren_num(), this.getHomestay().getInfants_num(), this.getHomestay().getBed_room_num(),
                 this.getHomestay().getBath_room_num(), this.getHomestay().getSingle_bed_num(),this.getHomestay().getStandard_guest_num(),this.getHomestay().getMax_guest_num(),
                 this.getHomestay().getDouble_bed_num());
@@ -52,5 +53,11 @@ public class Listing1_BedroomService extends AbstractListingService {
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/room.html");
     }
+    
+    @Override
+    public String getBackpage() {
+        return "room.html";
+    }
+    
 
 }

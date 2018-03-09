@@ -29,19 +29,48 @@
                     <p:progressBar value="#{listingService.listing3.percentComplete}" style="height:10px" labelTemplate="" displayOnly="true"/>
                 </div>
                 <div class="ui-g-12 ui-md-8">
-                    <div class="card card-w-title">
-                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.amenities.title1']}</h1>
-                        <p:selectManyMenu value="#{listingService.homestay.amenity_ids}" id="grid" showCheckbox="true" style="width:100%;">
-                            <f:selectItems value="#{listingService.listing3.amenityService.offer_amenities}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
-                        </p:selectManyMenu>
+                    <div class="card card-w-title" style=" text-align: left">
+                        <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.amenities.title1']}</h1>    
+                        <p:dataTable id="id_table1" value="#{listingService.listing3.amenityService.offer_amenities}" selection="#{listingService.homestay.amenity_ids}"
+                                     var="t" rowKey="#{t.id}" reflow="true">
+                            <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                            <p:column style=" text-align: left" headerText="#{msg['page.become_a_host.step2.amenities.title1']}">
+                                <h:graphicImage value="#{t.icon}" width="20"/>
+                                <p:spacer width="10"/>
+                                <h:outputText value="#{t.name}"/>
+                            </p:column>
+                        </p:dataTable>   
+<!--                        <p:selectManyMenu  value="#{listingService.homestay.amenity_ids}" id="grid"  showCheckbox="true" var="t" converter="amenity" style="  text-align: left; width:100%">
+                            <f:selectItems value="#{listingService.listing3.amenityService.offer_amenities}" var="a" itemLabel="#{a.name}" itemValue="#{a}"/>
+                            <p:column  style=" text-align: left;">                               
+                                <h:graphicImage value="#{t.icon}" width="20"/>
+                                <p:spacer width="20"/>
+                                <h:outputText style=" text-align: left" value="#{t.name}" />
+                            </p:column>
+                        </p:selectManyMenu>-->
                         <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.amenities.title2']}</h1>
-                        <p:selectManyMenu value="#{listingService.homestay.safety_amenity_ids}" id="grid1" showCheckbox="true" style="width:100%;">
-                            <f:selectItems value="#{listingService.listing3.amenityService.safety_amenities}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
-                        </p:selectManyMenu>
+                        
+                        <p:dataTable  styleClass="borderless" id="id_table2" value="#{listingService.listing3.amenityService.safety_amenities}" selection="#{listingService.homestay.safety_amenity_ids}"
+                                      var="t" rowKey="#{t.id}" reflow="true">
+                            <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                            <p:column style=" text-align: left" headerText="#{msg['page.become_a_host.step2.amenities.title2']}">
+                                <h:graphicImage value="#{t.icon}" width="20"/>
+                                <p:spacer width="10"/>
+                                <h:outputText value="#{t.name}"/>
+                            </p:column>
+                        </p:dataTable>   
+<!--                        <p:selectManyMenu value="#{listingService.homestay.safety_amenity_ids}" var="t" id="grid1" showCheckbox="true"  style="  text-align: left; width:100%">
+                            <f:selectItems value="#{listingService.listing3.amenityService.safety_amenities}" var="a" itemLabel="#{a.name}" itemValue="#{a}"/>                            
+                            <p:column  style=" text-align: left;">                               
+                                <h:graphicImage value="#{t.icon}" width="20"/>
+                                <p:spacer width="20"/>
+                                <h:outputText style=" text-align: left" value="#{t.name}" />
+                            </p:column>
+                        </p:selectManyMenu>-->
                         <br/>
                         <p:outputPanel>
                             <div style="float: left;">
-                                <p:commandButton value="#{msg['general.back']}" action="#{listingService.listing3.backPage}" icon="fa fa-long-arrow-left"/>
+                                <p:button value="#{msg['general.back']}" outcome="#{listingService.listing3.backpage}" icon="fa fa-long-arrow-left"/>
                             </div>
                             <div style="float: right;">
                                 <p:commandButton action="#{listingService.listing3.nextPage}" value="#{msg['general.next']}" styleClass="pink-btn" style="margin-bottom:10px;"/>

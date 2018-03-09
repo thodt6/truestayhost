@@ -14,6 +14,7 @@ public class Amenity {
     private String name;
     private String description;
     private Boolean selected;
+    private String icon;
 
     /**
      * @return the id
@@ -69,5 +70,19 @@ public class Amenity {
      */
     public void setSelected(Boolean selected) {
         this.selected = selected;
+    }
+
+    /**
+     * @return the icon
+     */
+    public String getIcon() {
+        return icon;
+    }
+
+    /**
+     * @param icon the icon to set
+     */
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

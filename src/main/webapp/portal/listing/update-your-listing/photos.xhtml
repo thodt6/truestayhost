@@ -59,10 +59,10 @@
                                     </p:graphicImage>
                                 </div>
                             </p:carousel>
-                            <p:fileUpload fileUploadListener="#{listingService.listing5.handleCoverImageUpload}" mode="advanced"  dragDropSupport="true" multiple="true"
+                            <p:fileUpload fileUploadListener="#{listingService.listing5.handleCoverImageUpload}" auto="true" mode="advanced"  dragDropSupport="true" multiple="true"
                                           update="id_cover" sizeLimit="1000000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                                           uploadLabel="#{msg['page.become_a_host.step2.image.upload']}" 
-                                          cancelLabel="#{msg['page.become_a_host.step2.image.cancel']}"
+                                          cancelLabel="#{msg['page.become_a_host.step2.image.cancel']}"                                            
                                           label="#{msg['page.become_a_host.step2.image.choose']}" />   
                             <br/>
                             <p:carousel headerText="#{msg['page.become_a_host.step2.image.title3']}" id="id_images" responsive="true" value="#{listingService.listing5.imageService.homestay_images}" var="image">
@@ -76,7 +76,7 @@
                                 </div>
                             </p:carousel>
 
-                            <p:fileUpload fileUploadListener="#{listingService.listing5.handleImageUpload}" mode="advanced"  dragDropSupport="true" multiple="true"
+                            <p:fileUpload fileUploadListener="#{listingService.listing5.handleImageUpload}" auto="true" mode="advanced"  dragDropSupport="true" multiple="true"
                                           update="id_images" sizeLimit="1000000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
                                           uploadLabel="#{msg['page.become_a_host.step2.image.upload']}" 
                                           cancelLabel="#{msg['page.become_a_host.step2.image.cancel']}"

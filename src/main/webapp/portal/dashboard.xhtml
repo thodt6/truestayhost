@@ -26,12 +26,13 @@
         <div class="ui-g dashboard">          
             <div class="ui-g-12 ui-md-9">
                 <h:form>
-                    <p:remoteCommand name="rc" update="menuform:menu" />
-                    <p:panel>
+                    <p:remoteCommand name="rc" update="menuform:menu" />                   
+                    <p:panel>                        
                         <div style=" float:  left">                        
-                            <h:outputText style=" font-size: 20px" value="#{msg['page.dashboard.today']}"/>
+                            <p:button icon="fa fa-plus" styleClass="pink-btn" value="#{msg['menu.host.new_listing']}" outcome="/portal/listing/become-a-host/index.html?id=new-homestay"/>                                             
                         </div>                        
                         <div style=" float: right">
+                            <h:outputText style=" font-size: 20px" value="#{msg['page.dashboard.today']}"/>         
                             <p:calendar value="#{dashboardService.filterDate}">
                                 <p:ajax event="dateSelect" listener="#{dashboardService.loadObjects}" update="id_table1"/>
                             </p:calendar>

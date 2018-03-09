@@ -6,6 +6,7 @@
 package com.unibro.service.addlisting;
 
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.utils.CalendarService;
 import javax.faces.application.FacesMessage;
 
@@ -15,10 +16,10 @@ import javax.faces.application.FacesMessage;
  */
 public class Listing12_CalendarService extends AbstractListingService {
 
-    private CalendarService calendarService = new CalendarService();
+    private CalendarService calendarService = new CalendarService(this.getUser());
 
-    public Listing12_CalendarService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing12_CalendarService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     @Override
@@ -50,6 +51,11 @@ public class Listing12_CalendarService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/calendar-intro.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "calendar-intro.html";
     }
 
 

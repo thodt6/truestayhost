@@ -93,27 +93,27 @@ public class HouseRuleService {
         this.know_abouts = know_abouts;
     }
 
-    public List<String> getSelectedHouseRuleIds() {
+    public List<HouseRule> getSelectedHouseRuleIds() {
         if (this.house_rules == null || this.house_rules.isEmpty()) {
             return new ArrayList();
         }
-        List<String> ret = new ArrayList();
+        List<HouseRule> ret = new ArrayList();
         for (HouseRule rule : this.house_rules) {
             if (rule.getSelected()) {
-                ret.add(rule.getId());
+                ret.add(rule);
             }
         }
         return ret;
     }
     
-    public List<String> getSelectedKnowAboutIds() {
+    public List<KnowAbout> getSelectedKnowAboutIds() {
         if (this.know_abouts == null || this.know_abouts.isEmpty()) {
             return new ArrayList();
         }
-        List<String> ret = new ArrayList();
+        List<KnowAbout> ret = new ArrayList();
         for (KnowAbout about : this.know_abouts) {
             if (about.getSelected()) {
-                ret.add(about.getId());
+                ret.add(about);
             }
         }
         return ret;

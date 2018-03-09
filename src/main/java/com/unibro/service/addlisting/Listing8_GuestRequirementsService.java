@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.utils.GuestRequirementService;
 import javax.faces.application.FacesMessage;
 
@@ -19,13 +20,13 @@ public class Listing8_GuestRequirementsService extends AbstractListingService {
 
     private GuestRequirementService guestRequirementService = new GuestRequirementService();
 
-    public Listing8_GuestRequirementsService(Homestay homestay,String username){
-        super(homestay,username);
+    public Listing8_GuestRequirementsService(Homestay homestay,User user){
+        super(homestay,user);
     }
     
     @Override
     public boolean doService() {
-        JsonObject ret = Listing.updateHomeStayGuestRequirement(this.getUsername(), this.getHomestay().getHomestay_id(), this.getHomestay().getGuest_requirement_ids());
+        JsonObject ret = Listing.updateHomeStayGuestRequirement(this.getUser().getUsername(), this.getHomestay().getHomestay_id(), this.getHomestay().getGuest_requirement_ids());
         return ret.get("message").getAsString().equals("200");
     }
 
@@ -53,6 +54,11 @@ public class Listing8_GuestRequirementsService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/house-rule.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "house-rule.html";
     }
 
     /**

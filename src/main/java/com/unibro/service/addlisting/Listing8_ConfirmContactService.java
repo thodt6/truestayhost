@@ -8,6 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Profile;
 import com.unibro.model.Homestay;
+import com.unibro.model.User;
 import com.unibro.service.UserSessionBean;
 import javax.faces.application.FacesMessage;
 
@@ -17,8 +18,8 @@ import javax.faces.application.FacesMessage;
  */
 public class Listing8_ConfirmContactService extends AbstractListingService {
 
-    public Listing8_ConfirmContactService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing8_ConfirmContactService(Homestay homestay, User user) {
+        super(homestay, user);
     }
 
     private String otp_code;
@@ -55,6 +56,11 @@ public class Listing8_ConfirmContactService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/contact-info.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "contact-info.html";
     }
 
     /**

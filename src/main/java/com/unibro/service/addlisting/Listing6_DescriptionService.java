@@ -8,7 +8,7 @@ package com.unibro.service.addlisting;
 import com.google.gson.JsonObject;
 import com.unibro.api.Listing;
 import com.unibro.model.Homestay;
-import com.unibro.service.UserSessionBean;
+import com.unibro.model.User;
 import com.unibro.service.utils.GreatForService;
 import javax.faces.application.FacesMessage;
 
@@ -20,13 +20,13 @@ public class Listing6_DescriptionService extends AbstractListingService {
 
     private GreatForService greatForService;
     
-    public Listing6_DescriptionService(Homestay homestay, String username) {
-        super(homestay, username);
+    public Listing6_DescriptionService(Homestay homestay, User user) {
+        super(homestay, user);
     }
     
     @Override
     public boolean doService() {
-        JsonObject ret = Listing.updateHomeStayTitleDesc(this.getUsername(), getHomestay().getHomestay_id(), getHomestay().getTitle(), getHomestay().getDescription(), getHomestay().getGreat_for_ids(), UserSessionBean.getUserSession().getUser().getLanguage_code());
+        JsonObject ret = Listing.updateHomeStayTitleDesc(this.getUser().getUsername(), getHomestay().getHomestay_id(), getHomestay().getTitle(), getHomestay().getDescription(), getHomestay().getGreat_for_ids(), this.getUser().getLanguage_code());
         return ret.get("message").getAsString().equals("200");
     }
 
@@ -63,6 +63,11 @@ public class Listing6_DescriptionService extends AbstractListingService {
     @Override
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/photos.html");
+    }
+    
+    @Override
+    public String getBackpage() {
+        return "photos.html";
     }
 
     /**

@@ -11,7 +11,6 @@ package com.unibro.service.utils;
  */
 import com.unibro.api.Utils;
 import com.unibro.model.GreatFor;
-import com.unibro.model.SpaceUse;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +61,14 @@ public class GreatForService implements Serializable {
         this.homestay_id = homestay_id;
     }
     
-    public List<String> getSelectedGreatFor() {
+    public List<GreatFor> getSelectedGreatFor() {
         if(this.objects==null||this.objects.isEmpty()){
             return new ArrayList();
         }
-        List<String> ret = new ArrayList();
+        List<GreatFor> ret = new ArrayList();
         for (GreatFor gf : this.objects) {
             if (gf.getSelected()) {
-                ret.add(gf.getId());
+                ret.add(gf);
             }
         }
         return ret;

@@ -49,9 +49,16 @@
                     <div class="ui-g-12 ui-lg-8">
                         <p:panel>
                             <h1 style="font-weight: bolder">#{msg['page.become_a_host.step2.spaces.title1']}</h1>
-                            <p:selectManyMenu value="#{listingService.homestay.spaceuse_ids}" id="grid" showCheckbox="true" style="width:100%;">
-                                <f:selectItems value="#{listingService.listing4.spaceUsesService.spaceuses}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
-                            </p:selectManyMenu>                    
+                            <p:dataTable id="id_table1" value="#{listingService.listing4.spaceUsesService.spaceuses}" selection="#{listingService.homestay.spaceuse_ids}"
+                                         var="t" rowKey="#{t.id}" reflow="true">
+                                <p:column selectionMode="multiple" style="width:30px;text-align:center"/>
+                                <p:column style=" text-align: left" headerText="#{msg['page.become_a_host.step2.spaces.title1']}">
+                                    <h:outputText value="#{t.name}"/>
+                                </p:column>
+                            </p:dataTable>  
+    <!--                            <p:selectManyMenu value="#{listingService.homestay.spaceuse_ids}" id="grid" showCheckbox="true" style="width:100%;">
+                                    <f:selectItems value="#{listingService.listing4.spaceUsesService.spaceuses}" var="a" itemLabel="#{a.name}" itemValue="#{a.id}"/>
+                                </p:selectManyMenu>                    -->
                             <br/>
                         </p:panel>
                         <br/>
