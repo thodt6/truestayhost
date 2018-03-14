@@ -36,15 +36,17 @@ public class Utils {
 
     static final Logger logger = Logger.getLogger(Utils.class.getName());
 
-    static String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+    public static String getSecureCode() {
+        return UserSessionBean.getUserSession().getSecurityCode();
+    }
 
     public static List<Property> getPropertyType(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_property_type";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -61,11 +63,11 @@ public class Utils {
 
     public static List<RoomType> getRoomType(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_room_type";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -82,11 +84,11 @@ public class Utils {
 
     public static List<GreatFor> getGreatFor(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_great_for";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -103,11 +105,11 @@ public class Utils {
 
     public static JsonObject getAmenities(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_amenities";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -118,11 +120,11 @@ public class Utils {
 
     public static List<Province> getProvinces(String get_value) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_list_provinces";
         String[] params = {"get_value"};
         String[] values = {get_value};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -139,11 +141,11 @@ public class Utils {
 
     public static List<District> getDistricts(String province_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_list_districts";
         String[] params = {"province_id"};
         String[] values = {province_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -160,11 +162,11 @@ public class Utils {
 
     public static List<Ward> getWards(String district_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_list_wards";
         String[] params = {"district_id"};
         String[] values = {district_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -181,11 +183,11 @@ public class Utils {
 
     public static List<SpaceUse> getSpaceUse(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_spacesuse";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -202,11 +204,11 @@ public class Utils {
 
     public static List<GuestRequirement> getGuestRequirementList(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_list_guest_requirements";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -223,11 +225,11 @@ public class Utils {
 
     public static JsonObject getHomeStayImages(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_images";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -238,11 +240,11 @@ public class Utils {
 
     public static JsonObject getHouseRule(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_rules";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -253,11 +255,11 @@ public class Utils {
 
     public static JsonObject getBookType(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_book_type";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -268,11 +270,11 @@ public class Utils {
 
     public static List<ExtraCharge> getExtraChargeList(String homestay_id) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_extra_charges";
         String[] params = {"homestay_id"};
         String[] values = {homestay_id};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -289,11 +291,11 @@ public class Utils {
 
     public static List<Language> getHomestayLanguage(String username) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_languages";
         String[] params = {"username"};
         String[] values = {username};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -310,11 +312,11 @@ public class Utils {
 
     public static List<Currency> getHomestayCurrency(String username) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_currency";
         String[] params = {"username"};
         String[] values = {username};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -331,11 +333,11 @@ public class Utils {
 
     public static List<VerifyIdCard> getVerifyIdCard(String username) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
-        //String secure_code = UserSessionBean.getUserSession().getSecurityCode();
+        //String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "util/get_homestay_verify_card";
         String[] params = {"username"};
         String[] values = {username};
-        String ret = Global.getDataByPost(url, path, secure_code, params, values);
+        String ret = Global.getDataByPost(url, path, getSecureCode(), params, values);
         if (ret != null) {
             Gson gson = Global.getGsonObject();
             JsonObject obj = gson.fromJson(ret, JsonObject.class);
@@ -349,6 +351,5 @@ public class Utils {
         }
         return new ArrayList();
     }
- 
 
 }
