@@ -117,28 +117,27 @@ public class ImageService implements Serializable {
         this.homestay_images = homestay_images;
     }
 
-    public List<Image> getCoverImageList() {
+    public List<String> getCoverImageList() {
         if (this.homestay_cover == null || this.homestay_cover.isEmpty()) {
             return new ArrayList();
         }
-//        List<String> ret = new ArrayList();
+        List<String> ret = new ArrayList();
         for (Image img : this.homestay_cover) {
-            img.setImageurl(img.getImageurl().replace(getRoot_url() + "/", ""));
-//            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
+            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
         }
-        return this.homestay_cover;
+        return ret;
     }
 
-    public List<Image> getImageList() {
+    public List<String> getImageList() {
         if (this.homestay_images == null || this.homestay_images.isEmpty()) {
             return new ArrayList();
         }
-//        List<String> ret = new ArrayList();
+        List<String> ret = new ArrayList();
         for (Image img : this.homestay_images) {
-            img.setImageurl(img.getImageurl().replace(getRoot_url() + "/", ""));
-//            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
+            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
+//            img.setImageurl(img.getImageurl().replace(getRoot_url() + "/", ""));/            ret.add(img.getImageurl().replace(getRoot_url() + "/", ""));
         }
-        return homestay_images;
+        return ret;
     }
 
     /**

@@ -26,8 +26,7 @@ public class Listing1_BedroomService extends AbstractListingService {
         this.getHomestay().setStandard_guest_num(this.getHomestay().getAdults_num() + this.getHomestay().getChildren_num() + this.getHomestay().getInfants_num());
         JsonObject ret = Listing.updateHomeStayGuest(this.getUser().getUsername(), this.getHomestay().getHomestay_id(),
                 this.getHomestay().getAdults_num(), this.getHomestay().getChildren_num(), this.getHomestay().getInfants_num(), this.getHomestay().getBed_room_num(),
-                this.getHomestay().getBath_room_num(), this.getHomestay().getSingle_bed_num(),this.getHomestay().getStandard_guest_num(),this.getHomestay().getMax_guest_num(),
-                this.getHomestay().getDouble_bed_num());
+                this.getHomestay().getBath_room_num(), this.getHomestay().getSingle_bed_num(), this.getHomestay().getDouble_bed_num(), this.getHomestay().getStandard_guest_num(), this.getHomestay().getMax_guest_num());
         return ret.get("message").getAsString().equals("200");
     }
 
@@ -53,11 +52,10 @@ public class Listing1_BedroomService extends AbstractListingService {
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/room.html");
     }
-    
+
     @Override
     public String getBackpage() {
         return "room.html";
     }
-    
 
 }

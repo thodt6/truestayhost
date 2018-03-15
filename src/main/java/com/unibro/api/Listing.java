@@ -16,7 +16,6 @@ import com.unibro.model.GuestRequirement;
 import com.unibro.model.Homestay;
 import com.unibro.model.HomestayList;
 import com.unibro.model.HouseRule;
-import com.unibro.model.Image;
 import com.unibro.model.KnowAbout;
 import com.unibro.model.SpaceUse;
 import com.unibro.service.UserSessionBean;
@@ -36,10 +35,11 @@ import org.apache.log4j.Logger;
 public class Listing {
 
     static final Logger logger = Logger.getLogger(Listing.class.getName());
+
     public static String getSecureCode() {
         return UserSessionBean.getUserSession().getSecurityCode();
     }
-    
+
     public static JsonObject createHomeStay(String username, String propertytypeid, String roomtypeid) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
 //        String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
@@ -173,19 +173,19 @@ public class Listing {
         return null;
     }
 
-    public static JsonObject updateHomeStayImages(String username, String homestay_id, List<Image> list_cover_url, List<Image> list_images_url) {
+    public static JsonObject updateHomeStayImages(String username, String homestay_id, List<String> list_cover_url, List<String> list_images_url) {
         String url = Global.getConfigValue("APP_INTERNAL_WS_URL");
 //        String getSecureCode() = UserSessionBean.getUserSession().getSecurityCode();
         String path = "hosting/update_homestay_images";
         String[] params = {"username", "homestay_id", "list_cover_url", "list_images_url"};
         String cover_url = "";
         String image_url = "";
-        for (Image a : list_cover_url) {
-            cover_url += "|" + a.getId();
+        for (String a : list_cover_url) {
+            cover_url += "|" + a;
         }
 
-        for (Image a : list_images_url) {
-            image_url += "|" + a.getId();
+        for (String a : list_images_url) {
+            image_url += "|" + a;
         }
         if (cover_url.length() > 0) {
             cover_url = cover_url.substring(1);

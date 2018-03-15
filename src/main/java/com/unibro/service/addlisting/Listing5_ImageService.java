@@ -36,9 +36,9 @@ public class Listing5_ImageService extends AbstractListingService {
 
     @Override
     public boolean doService() {
-        this.getHomestay().setHomestay_cover_url(this.getImageService().getCoverImageList());
-        this.getHomestay().setHomestay_image_url(this.getImageService().getImageList());
-        JsonObject ret = Listing.updateHomeStayImages(this.getUser().getUsername(), getHomestay().getHomestay_id(), getHomestay().getHomestay_cover_url(), getHomestay().getHomestay_image_url());
+        this.getHomestay().setHomestay_cover_url(this.getImageService().getHomestay_cover());
+        this.getHomestay().setHomestay_image_url(this.getImageService().getHomestay_images());
+        JsonObject ret = Listing.updateHomeStayImages(this.getUser().getUsername(), getHomestay().getHomestay_id(), this.getImageService().getCoverImageList(), this.getImageService().getImageList());
         return ret.get("message").getAsString().equals("200");
     }
 
@@ -66,7 +66,7 @@ public class Listing5_ImageService extends AbstractListingService {
     public void backPage() {
         this.redirectToPage("/portal/listing/become-a-host/spaces.html");
     }
-    
+
     @Override
     public String getBackpage() {
         return "spaces.html";
